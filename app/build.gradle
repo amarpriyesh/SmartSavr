@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.allowancetracker'
+    namespace 'com.example.smartsavr'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.allowancetracker"
+        applicationId "com.example.smartsavr"
         minSdk 24
         targetSdk 33
         versionCode 1

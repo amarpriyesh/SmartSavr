@@ -1,4 +1,4 @@
-package com.example.allowancetracker;
+package com.example.smartsavr;
 
 import android.os.Bundle;
 

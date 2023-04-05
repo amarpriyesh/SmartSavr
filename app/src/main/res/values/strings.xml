@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Allowance Tracker</string>
+    <string name="app_name">Smartsavr</string>
     <string name="action_about">About</string>
     <string name="activity_about">About</string>
     <string name="author_text">Created by Aaron Pradhan, Jackson Schilling, FNU Priyesh, Jiayi Ning, and Parth Khaladkar for CS 5520 at Northeastern University</string>
