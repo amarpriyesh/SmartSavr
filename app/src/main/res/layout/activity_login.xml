@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,51 +11,46 @@
         android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/logo"
-
-        />
+        android:src="@drawable/logo" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SmartSavr"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:layout_marginBottom="20dp"/>
 
     <EditText
-
         android:id="@+id/email"
-        android:padding="10dp"
+        style="@style/EditTextStandard"
         android:layout_marginTop="10dp"
-        android:hint="email (Parent Login)"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+        android:inputType="textEmailAddress"
+        android:hint="E-mail address"
+        android:layout_width="match_parent"/>
 
     <EditText
         android:id="@+id/password"
-        android:padding="10dp"
+        style="@style/EditTextStandard"
         android:layout_marginTop="10dp"
-        android:hint="password"
+        android:hint="Password"
         android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="50dp"/>
 
-
     <Button
         android:id="@+id/login"
+        style="@style/Button.Standard"
         android:layout_marginTop="10dp"
-        android:text="Login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:text="Log In"/>
 
     <TextView
         android:id="@+id/resetpassword"
         android:textColor="@color/black"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:text="Reset Password"
+        android:text="@string/reset_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
@@ -65,7 +59,7 @@
         android:textColor="@color/black"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:text="Sign Up"
+        android:text="@string/sign_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

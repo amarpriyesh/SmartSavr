@@ -18,38 +18,36 @@
 
 
     <TextView
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="You haven't added any children yet."
-        android:textSize="30dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="100dp"
+        android:textSize="24sp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:textColor="@color/black"
-        android:textStyle="bold"
         android:layout_marginBottom="0dp"/>
 
     <TextView
         android:id="@+id/add_a_child_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="300dp"
-        android:gravity="left"
-        android:layout_marginLeft="10dp"
+        android:gravity="start"
+        android:layout_marginStart="10dp"
         android:text="@string/Add_a_Child"
         android:textColor="@color/blue"
         android:clickable="true"
-        android:textSize="30dp"
-        android:textStyle="bold" />
+        android:textSize="24sp" />
+
+    <Space
+        android:layout_weight="1"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp">
+    </Space>
 
     <Button
         android:id="@+id/allowance_summary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:layout_gravity="center_vertical|center_horizontal"
+        style="@style/Button.Standard"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="8dp"
         android:text="Allowance Summary" />
-
-
 </LinearLayout>

@@ -20,5 +20,8 @@
     <string name="save_action">Save</string>
     <string name="reward_field_label">Reward <font color="#909090">(optional)</font></string>
     <string name="acc_calendar">Calendar</string>
-    <string name="Add_a_Child"><u>Add a Child</u> </string>
+    <string name="Add_a_Child"><u>Add a child</u> </string>
+    <string name="reset_password"><u>Reset Password</u></string>
+    <string name="sign_up"><u>Sign Up</u></string>
+    <string name="log_in_small"><u>Log in</u></string>
 </resources>
