@@ -1,6 +1,7 @@
 package com.example.smartsavr;
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
@@ -8,19 +9,33 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.smartsavr.databinding.FragmentAddChildBinding;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
+
 
 public class AddChildActivity extends AppCompatActivity {
 
     private FragmentAddChildBinding binding;
+    FirebaseAuth firebaseAuth;
+    FirebaseFirestore firebaseFirestore;
+
+
+    String fk,;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = FragmentAddChildBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        Random random = new Random();
+
+
 
         // up button
         ActionBar actionBar = getSupportActionBar();
@@ -29,11 +44,31 @@ public class AddChildActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        String p_userid = firebaseAuth.getCurrentUser().getUid();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        firebaseFirestore.collection("User").document(p_userid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                fk = documentSnapshot.getString("userid");
+
+            }
+        });
+
+
+
+
         //setClickListeners();
 
         binding.saveChildButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String child_name = binding.nameFieldEditText.getText().toString();
+                Editable weekly_allowance = binding.weeklyAllowanceFieldEditText.getText();
+                int temp = 0+ random.nextInt(100);
+                String child_id = child_name + temp;
+
+
 
             }
         });
