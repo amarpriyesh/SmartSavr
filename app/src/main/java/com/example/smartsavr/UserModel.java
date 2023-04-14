@@ -2,7 +2,7 @@ package com.example.smartsavr;
 
 public class UserModel {
     private String name, email;
-    private int userid;
+    private String userid;
 
 
     public UserModel()
@@ -10,15 +10,15 @@ public class UserModel {
 
     }
 
-    public UserModel(int userid,String name, String email) {
+    public UserModel(String userid,String name, String email) {
         this.userid = userid;
         this.name = name;
         this.email = email;
     }
 
-    public void setUserid(int userid){this.userid=userid;}
+    public void setUserid(String userid){this.userid=userid;}
 
-    public int getUserid(){
+    public String getUserid(){
         return userid;
     }
 
