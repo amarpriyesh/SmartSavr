@@ -2,7 +2,7 @@ package com.example.smartsavr;
 
 public class Child {
 
-    private String name,parent_id,password;
+    private String name,parent_id,password,username;
     private int account_balance;
     private int weekly_allowance;
 
@@ -10,21 +10,25 @@ public class Child {
 
     }
 
-    public Child(String child_id, String name, String parent_id, String password, int account_balance, int weekly_allowance) {
+    public Child(String child_id, String name, String parent_id, String password, int account_balance, int weekly_allowance,String username) {
 
         this.name = name;
         this.parent_id = parent_id;
         this.password = password;
         this.account_balance = account_balance;
         this.weekly_allowance = weekly_allowance;
+        this.username = username;
     }
 
     // as currently account balance and password is not implemented
-    public Child(String name, String parent_id,int weekly_allowance) {
+    public Child(String name, String parent_id,int weekly_allowance,String username,String password,int account_balance) {
 
         this.name = name;
         this.parent_id = parent_id;
         this.weekly_allowance = weekly_allowance;
+        this.username = username;
+        this.password = password;
+        this.account_balance=account_balance;
     }
 
     public String getName() {
@@ -65,5 +69,15 @@ public class Child {
 
     public void setWeekly_allowance(int weekly_allowance) {
         this.weekly_allowance = weekly_allowance;
+    }
+
+
+    public void setUsername(String username)
+    {
+        this.username=username;
+    }
+
+    public String getusername(){
+        return username;
     }
 }

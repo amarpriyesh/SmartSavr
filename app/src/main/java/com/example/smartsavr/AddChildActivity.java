@@ -82,6 +82,9 @@ public class AddChildActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String child_name = binding.nameFieldEditText.getText().toString();
                 int weekly_allowance = Integer.parseInt(binding.weeklyAllowanceFieldEditText.getText().toString());
+                String username = binding.usernameFieldLabelTextView.getText().toString();
+                String password = binding.passwordFieldEditText.getText().toString();
+                int account_bal = weekly_allowance;
 
                 Random random = new Random();
                 int temp = 0 + random.nextInt(100);
@@ -135,7 +138,7 @@ public class AddChildActivity extends AppCompatActivity {
 
 
 
-                Child child = new Child(child_name,fk,weekly_allowance);
+                Child child = new Child(child_name,fk,weekly_allowance,username,password,account_bal);
 
               //  firebaseFirestore.collection("Children").document(doc_id).set(child);
 
