@@ -32,6 +32,13 @@ public class ActivityZero extends AppCompatActivity {
                 startActivity(new Intent(ActivityZero.this,LoginActivity.class));
             }
         });
+
+        binding.csignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ActivityZero.this,ChildloginScreen.class));
+            }
+        });
     }
 
 

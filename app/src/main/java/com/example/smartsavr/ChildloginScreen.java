@@ -4,11 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.example.smartsavr.databinding.ActivityChildloginScreenBinding;
+import com.example.smartsavr.databinding.ActivityLoginBinding;
+
 public class ChildloginScreen extends AppCompatActivity {
+
+    ActivityChildloginScreenBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_childlogin_screen);
+        binding = ActivityChildloginScreenBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
     }
 }

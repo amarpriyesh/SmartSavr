@@ -1,6 +1,7 @@
 package com.example.smartsavr;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,7 +29,16 @@ public class AddChildActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        setClickListeners();
+        //setClickListeners();
+
+        binding.saveChildButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
 
         initializeProfilePicturesRecyclerView();
     }
@@ -58,4 +68,12 @@ public class AddChildActivity extends AppCompatActivity {
         adapter.submitList(profilePictures);
         adapter.notifyItemRangeInserted(0, profilePictures.size());
     }
+
+
+
+
+
+
+
+
 }
