@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/profile_picture_card"
@@ -17,6 +18,7 @@
             android:id="@+id/profile_picture_image_view"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:importantForAccessibility="no" />
+            android:importantForAccessibility="no"
+            tools:src="@drawable/asset_4" />
     </com.google.android.material.card.MaterialCardView>
 </layout>
