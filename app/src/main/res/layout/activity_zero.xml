@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".ActivityZero">
+
 
     <ImageView
         android:id="@+id/logo"
@@ -18,54 +19,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SmartSavr"
-        android:textSize="30dp"
+        android:textSize="40dp"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:layout_marginBottom="20dp"/>
 
 
-    <EditText
-        android:id="@+id/username"
-        android:padding="10dp"
-        android:hint="username"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
-
-    <EditText
-        android:id="@+id/email"
-        android:padding="10dp"
-        android:layout_marginTop="10dp"
-        android:hint="email (Parent Login)"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
-
-    <EditText
-        android:id="@+id/password"
-        android:padding="10dp"
-        android:layout_marginTop="10dp"
-        android:hint="password"
-        android:inputType="textPassword"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
-
-    <Button
-        android:id="@+id/signup"
-        android:layout_marginTop="10dp"
-        android:text="Sign up"
+    <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="The Smart Allowance App For Kids"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_marginBottom="20dp"/>
+
 
     <TextView
-        android:id="@+id/gotologin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start As"
+        android:textSize="15dp"
         android:textColor="@color/black"
-        android:layout_gravity="center"
+        android:layout_marginBottom="20dp"/>
+
+    <Button
+        android:id="@+id/psignup"
         android:layout_marginTop="10dp"
-        android:text="Log in"
+        android:text="Parent "
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-   
+    <Button
+        android:id="@+id/csignup"
+        android:layout_marginTop="10dp"
+        android:text="Child "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
-   
 
 </LinearLayout>

@@ -12,7 +12,16 @@
         android:theme="@style/Theme.Smartsavr"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".ChildProfile_parentlogin"
+            android:exported="false" />
+        <activity
+            android:name=".AddedChildrenview"
+            android:exported="false" />
+        <activity
+            android:name=".Parent_HomeScreenZero"
+            android:exported="false" />
+        <activity
+            android:name=".ActivityZero"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,6 +29,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
         <activity
             android:name=".SettingsActivity"
             android:parentActivityName=".MainActivity" />
