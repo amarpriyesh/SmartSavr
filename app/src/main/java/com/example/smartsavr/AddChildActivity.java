@@ -193,7 +193,16 @@ public class AddChildActivity extends AppCompatActivity {
                 new ProfilePictureItem(R.drawable.asset_5),
                 new ProfilePictureItem(R.drawable.asset_6),
                 new ProfilePictureItem(R.drawable.asset_7),
-                new ProfilePictureItem(R.drawable.asset_8));
+                new ProfilePictureItem(R.drawable.asset_8),
+                new ProfilePictureItem(R.drawable.asset_9),
+                new ProfilePictureItem(R.drawable.asset_10),
+                new ProfilePictureItem(R.drawable.asset_11),
+                new ProfilePictureItem(R.drawable.asset_12),
+                new ProfilePictureItem(R.drawable.asset_13),
+                new ProfilePictureItem(R.drawable.asset_14),
+                new ProfilePictureItem(R.drawable.asset_15),
+                new ProfilePictureItem(R.drawable.asset_16));
+
         adapter.submitList(profilePictures);
         adapter.notifyItemRangeInserted(0, profilePictures.size());
     }

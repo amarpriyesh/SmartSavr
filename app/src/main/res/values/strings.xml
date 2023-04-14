@@ -24,4 +24,6 @@
     <string name="reset_password"><u>Reset Password</u></string>
     <string name="sign_up"><u>Sign Up</u></string>
     <string name="log_in_small"><u>Log in</u></string>
+    <string name="username_field_label">Username</string>
+    <string name="password_field_label">Password</string>
 </resources>
