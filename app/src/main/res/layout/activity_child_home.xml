@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChildHome">
+
+    <TextView
+        android:id="@+id/upcomingActivitiesText"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:textColor="@color/black"
+        android:layout_gravity="start"
+        android:textSize="20sp"
+        android:text="Upcoming Activities"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/recentlyCompletedText"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_gravity="start"
+        android:text="Recently Completed"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linkUpcomingActivities" />
+
+    <TextView
+        android:id="@+id/linkUpcomingActivities"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="See More"
+        android:textColor="@color/blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragmentUpcomingActivities"
+        tools:layout_editor_absoluteY="236dp" />
+
+    <TextView
+        android:id="@+id/linkCompletedActivities"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="See More"
+        android:textColor="@color/blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragmentCompletedActivities"
+        tools:layout_editor_absoluteY="236dp" />
+
+    <TextView
+        android:id="@+id/linkSeeGraphs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="See Graphs"
+        android:textColor="@color/blue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableStats"
+        tools:layout_editor_absoluteY="236dp" />
+    <TextView
+        android:id="@+id/earningStatsText"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_gravity="start"
+        android:text="Earning Stats:"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linkCompletedActivities" />
+
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentUpcomingActivities"
+
+        android:name="com.example.smartsavr.UpcomingActivitiesFragment"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        tools:layout_editor_absoluteX="55dp"
+        tools:layout_editor_absoluteY="134dp"
+        app:layout_constraintTop_toBottomOf="@+id/upcomingActivitiesText"
+        app:layout_constraintBottom_toTopOf="@+id/linkUpcomingActivities"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout="@layout/fragment_upcoming_activities" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentCompletedActivities"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        tools:layout_editor_absoluteX="55dp"
+        tools:layout_editor_absoluteY="134dp"
+        app:layout_constraintTop_toBottomOf="@+id/recentlyCompletedText"
+
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout="@layout/fragment_upcoming_activities" />
+
+    <TableLayout
+        android:id="@+id/tableStats"
+        android:layout_width="413dp"
+        android:layout_height="162dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/earningStatsText"
+
+        >
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </TableLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
