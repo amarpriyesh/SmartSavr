@@ -50,8 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 String name = binding.username.getText().toString();
                 String email = binding.email.getText().toString().trim();
                 String password = binding.password.getText().toString();
-                temp = 0+ random.nextInt(100);
-                userid = name + temp;
+
 
                 progressDialog.show();
 
@@ -64,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 firebaseFirestore.collection("User")
                                         .document(FirebaseAuth.getInstance().getUid())
-                                        .set(new UserModel(userid,name,email));
+                                        .set(new UserModel(name,email));
 
                             }
                         })

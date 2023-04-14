@@ -1,21 +1,39 @@
 package com.example.smartsavr;
 
+import android.app.ProgressDialog;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.smartsavr.databinding.FragmentAddChildBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 
@@ -25,8 +43,15 @@ public class AddChildActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firebaseFirestore;
 
+    List<String>names = new ArrayList<String>();
 
-    String fk,;
+
+
+
+
+    String fk;
+
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +59,7 @@ public class AddChildActivity extends AppCompatActivity {
         binding = FragmentAddChildBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         Random random = new Random();
+        progressDialog = new ProgressDialog(this);
 
 
 
@@ -44,16 +70,7 @@ public class AddChildActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        String p_userid = firebaseAuth.getCurrentUser().getUid();
-        firebaseFirestore = FirebaseFirestore.getInstance();
-        firebaseFirestore.collection("User").document(p_userid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                fk = documentSnapshot.getString("userid");
 
-            }
-        });
 
 
 
@@ -64,9 +81,86 @@ public class AddChildActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String child_name = binding.nameFieldEditText.getText().toString();
-                Editable weekly_allowance = binding.weeklyAllowanceFieldEditText.getText();
-                int temp = 0+ random.nextInt(100);
-                String child_id = child_name + temp;
+                int weekly_allowance = Integer.parseInt(binding.weeklyAllowanceFieldEditText.getText().toString());
+
+                Random random = new Random();
+                int temp = 0 + random.nextInt(100);
+                String doc_id = child_name + temp;
+
+
+                firebaseAuth = FirebaseAuth.getInstance();
+                firebaseFirestore = FirebaseFirestore.getInstance();
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if(user!=null)
+                {
+                  fk=user.getEmail();
+                }
+
+
+
+
+
+
+            // CHECK FROM HERE ------------------------------------------
+            // get the child name into an string list and check before registering new children whether name is unique
+
+               //CollectionReference childrenref = firebaseFirestore.collection("children");
+
+                firebaseFirestore.collection("Children").whereNotEqualTo("name",null).get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if(task.isSuccessful())
+                                {
+
+                                    for(QueryDocumentSnapshot document : task.getResult())
+                                    {
+
+                                        Log.d("Tag", document.getId() + " => " + document.getData());
+
+
+
+
+
+                                    }
+                                }
+
+                            }
+                        });
+
+
+
+
+
+
+
+
+                Child child = new Child(child_name,fk,weekly_allowance);
+
+              //  firebaseFirestore.collection("Children").document(doc_id).set(child);
+
+                firebaseFirestore.collection("children")
+                        .add(child)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Toast.makeText(AddChildActivity.this,"Child Added Successfully", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(AddChildActivity.this,e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
+
+
+
+
+
+
 
 
 
