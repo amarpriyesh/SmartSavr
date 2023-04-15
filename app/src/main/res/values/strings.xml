@@ -26,4 +26,7 @@
     <string name="log_in_small"><u>Log in</u></string>
     <string name="username_field_label">Username</string>
     <string name="password_field_label">Password</string>
+    <string name="add">Add</string>
+    <string name="subtract">Subtract</string>
+    <string name="amount">Amount</string>
 </resources>

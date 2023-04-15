@@ -34,12 +34,12 @@
                 android:id="@+id/add_balance_radio_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add" />
+                android:text="@string/add" />
             <RadioButton
                 android:id="@+id/subtract_balance_radio_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Subtract" />
+                android:text="@string/subtract" />
         </RadioGroup>
 
         <TextView
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
             android:labelFor="@id/amount_field_edit_text"
-            android:text="Amount"
+            android:text="@string/amount"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/radio_group"/>
