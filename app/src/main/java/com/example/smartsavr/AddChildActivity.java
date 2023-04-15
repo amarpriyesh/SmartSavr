@@ -109,7 +109,7 @@ public class AddChildActivity extends AppCompatActivity {
 
                //CollectionReference childrenref = firebaseFirestore.collection("children");
 
-                firebaseFirestore.collection("Children").whereNotEqualTo("username",null).get()
+                firebaseFirestore.collection("children").whereNotEqualTo("username",null).get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
