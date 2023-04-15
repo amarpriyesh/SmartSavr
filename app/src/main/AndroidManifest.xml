@@ -12,6 +12,9 @@
         android:theme="@style/Theme.Smartsavr"
         tools:targetApi="31">
         <activity
+            android:name=".ParentTaskView"
+            android:exported="false" />
+        <activity
             android:name=".ChildHome"
             android:exported="false" />
         <activity

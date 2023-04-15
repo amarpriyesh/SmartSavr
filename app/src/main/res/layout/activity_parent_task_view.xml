@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ParentTaskView">
+
+    <TextView
+        android:id="@+id/requireApprovalText"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:textColor="@color/black"
+        android:layout_gravity="start"
+        android:textSize="20sp"
+        android:text="Completed Chores Need Approval"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/notCompletedText"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_gravity="start"
+        android:text="To Do"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragmentNeedApproval" />
+
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentNeedApproval"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/requireApprovalText"
+        tools:layout="@layout/fragment_upcoming_activities" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentCompletedActivities"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notCompletedText"
+        tools:layout="@layout/fragment_upcoming_activities" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/fragmentNeedApproval"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/tooltip" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

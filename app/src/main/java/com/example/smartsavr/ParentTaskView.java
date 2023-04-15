@@ -7,37 +7,30 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
-import com.example.smartsavr.databinding.ActivityChildHomeBinding;
+import com.example.smartsavr.databinding.ActivityParentTaskViewBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ChildHome extends AppCompatActivity {
+public class ParentTaskView extends AppCompatActivity {
 
-    ActivityChildHomeBinding binding;
     List<Chore> chores;
 
+    ActivityParentTaskViewBinding binding;
+
     FirebaseFirestore firebaseFirestore;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityChildHomeBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        chores = new ArrayList<>();
+        setContentView(R.layout.activity_parent_task_view);
+        binding = ActivityParentTaskViewBinding.inflate(getLayoutInflater());
         firebaseFirestore = FirebaseFirestore.getInstance();
-        for(int i = 0; i<20; i++) {
-            Chore chore = new Chore(Integer.toString(i), System.currentTimeMillis(),System.currentTimeMillis()-1000000,"Wash Dishes",i,false,System.currentTimeMillis()-1000000);
-            chores.add(chore);
-            firebaseFirestore.collection("chores").add(chore);
-        }
-
-
-        setContentView(R.layout.activity_child_home);
+        setFragment(R.id.fragmentNeedApproval,new CompletedActivitiesFragment(chores));
         setFragment(R.id.fragmentCompletedActivities,new CompletedActivitiesFragment(chores));
-        setFragment(R.id.fragmentUpcomingActivities,new CompletedActivitiesFragment(chores));
+
     }
 
     private void setFragment(int id, Fragment fragment) {
@@ -46,4 +39,6 @@ public class ChildHome extends AppCompatActivity {
         fragmentTransaction.replace(id, fragment);
         fragmentTransaction.commit();
     }
+
+
 }

@@ -74,7 +74,7 @@ public class CompletedActivitiesFragment extends Fragment {
         RecyclerView choresRecyclerView = binding.recyclerView;
         choresRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        adapter = new ChoresAdapter(chores, requireActivity());
+        adapter = new ChoresAdapter(chores, requireActivity(),"child");
         // Associates the adapter with the RecyclerView
         choresRecyclerView.setAdapter(adapter);
     }

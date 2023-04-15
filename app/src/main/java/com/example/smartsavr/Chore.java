@@ -1,7 +1,7 @@
 package com.example.smartsavr;
 
 public class Chore {
-    private String uuid;
+
     private String childID;
     private long assignedTimestamp;
     private long deadline;
@@ -10,8 +10,7 @@ public class Chore {
     private boolean isComplete;
     private long completedTimestamp;
 
-    public Chore(String uuid, String childID, long assignedTimestamp, long deadline, String taskName, int rewardCents, boolean isComplete, long completedTimestamp) {
-        this.uuid = uuid;
+    public Chore( String childID, long assignedTimestamp, long deadline, String taskName, int rewardCents, boolean isComplete, long completedTimestamp) {
         this.childID = childID;
         this.assignedTimestamp = assignedTimestamp;
         this.deadline = deadline;
@@ -22,13 +21,9 @@ public class Chore {
     }
 
 
-    public String getUuid() {
-        return uuid;
-    }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
+
+
 
     public String getChildID() {
         return childID;

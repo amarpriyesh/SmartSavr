@@ -7,7 +7,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/activityCard"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="5dp"
@@ -24,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:text="Wash the dishes"
                 android:textColor="@color/black"
                 android:textSize="15sp"
@@ -33,29 +33,70 @@
 
             <ImageView
                 android:id="@+id/done"
+                android:visibility="invisible"
                 android:layout_width="56dp"
                 android:layout_height="27dp"
                 android:layout_marginEnd="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textDone"
+                app:layout_constraintVertical_bias="0.625"
                 tools:srcCompat="@drawable/tick" />
 
             <ImageView
-                android:id="@+id/circle"
+                android:id="@+id/delete"
+                android:visibility="visible"
                 android:layout_width="56dp"
+                android:layout_height="27dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0.625"
+                tools:srcCompat="@drawable/thrash" />
+
+            <ImageView
+                android:id="@+id/edit"
+                android:visibility="visible"
+                android:layout_width="56dp"
+                android:layout_height="27dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/delete"
+                app:layout_constraintVertical_bias="0.625"
+                tools:srcCompat="@drawable/pencil" />
+
+            <ImageView
+                android:id="@+id/taskDone"
+                android:visibility="visible"
+                android:layout_width="56dp"
+                android:layout_height="27dp"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/edit"
+                app:layout_constraintVertical_bias="0.625"
+                tools:srcCompat="@drawable/check" />
+
+            <ImageView
+                android:id="@+id/circle"
+                android:layout_width="60dp"
                 android:layout_height="30dp"
 
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="3dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/activityName"
                 tools:srcCompat="@drawable/circle" />
 
             <TextView
                 android:id="@+id/textDone"
+                android:visibility="invisible"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginEnd="16dp"
                 android:text="Done"
                 android:textColor="@color/black"
@@ -65,16 +106,18 @@
 
             <TextView
                 android:id="@+id/reward"
-                android:layout_width="24dp"
-                android:layout_height="12dp"
+                android:layout_width="31dp"
+                android:layout_height="16dp"
                 android:text="$300"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="10sp"
                 app:layout_constraintBottom_toBottomOf="@+id/circle"
                 app:layout_constraintEnd_toEndOf="@+id/circle"
+                app:layout_constraintHorizontal_bias="0.551"
                 app:layout_constraintStart_toStartOf="@+id/circle"
-                app:layout_constraintTop_toTopOf="@+id/circle" />
+                app:layout_constraintTop_toTopOf="@+id/circle"
+                app:layout_constraintVertical_bias="0.571" />
 
             <TextView
                 android:id="@+id/dueDateText"
