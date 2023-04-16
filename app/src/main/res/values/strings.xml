@@ -29,4 +29,6 @@
     <string name="add">Add</string>
     <string name="subtract">Subtract</string>
     <string name="amount">Amount</string>
+    <string name="you_haven_t_added_any_children_yet">You haven\'t added any children yet.</string>
+    <string name="allowance_summary">Allowance Summary</string>
 </resources>

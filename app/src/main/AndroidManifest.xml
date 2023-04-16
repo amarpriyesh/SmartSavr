@@ -18,9 +18,6 @@
             android:name=".ChildProfile_parentlogin"
             android:exported="false" />
         <activity
-            android:name=".AddedChildrenview"
-            android:exported="false" />
-        <activity
             android:name=".Parent_HomeScreenZero"
             android:exported="false" />
         <activity

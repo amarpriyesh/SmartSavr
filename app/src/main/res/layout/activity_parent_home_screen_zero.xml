@@ -20,7 +20,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="You haven't added any children yet."
+        android:text="@string/you_haven_t_added_any_children_yet"
         android:textSize="24sp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
@@ -49,5 +49,5 @@
         style="@style/Button.Standard"
         android:layout_gravity="bottom"
         android:layout_marginBottom="8dp"
-        android:text="Allowance Summary" />
+        android:text="@string/allowance_summary" />
 </LinearLayout>
