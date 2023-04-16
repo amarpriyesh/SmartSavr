@@ -52,29 +52,6 @@ public class Parent_HomeScreen extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         assert user != null;
         String parentID = user.getEmail();
-        Toast.makeText(this, parentID, Toast.LENGTH_SHORT).show();
-//        firebaseFirestore.collection("children").whereEqualTo("parent_id", parentID).get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                Log.d("TAG", document.getId() + " => " + document.getData());
-//                                String name = document.getString("name");
-//                                String username = document.getString("username");
-//                                String password = document.getString("password");
-//                                int weekly_allowance = document.getLong("weekly_allowance").intValue();
-//                                int account_bal = document.getLong("account_balance").intValue();
-//                                //int profilePictureID = document.getLong("profilePictureID").intValue();
-//                                String parent_id = document.getString("parent_id");
-//                                childList.add(new Child(name, parent_id, weekly_allowance, username, password, account_bal, 1));
-//                                childAdapter.notifyDataSetChanged();
-//                            }
-//                        } else {
-//                            Log.d("TAG", "Error getting documents: ", task.getException());
-//                        }
-//                    }
-//                });
 
         firebaseFirestore.collection("children").whereEqualTo("parent_id", parentID).addSnapshotListener(this, new EventListener<QuerySnapshot>() {
             @Override
@@ -95,12 +72,14 @@ public class Parent_HomeScreen extends AppCompatActivity {
                     switch (dc.getType()) {
                         case ADDED:
                             childList.add(child);
+                            childAdapter.notifyItemChanged(childList.size() - 1);
                             break;
                         case MODIFIED:
                             //TODO: add logic for updating child info
                             break;
                         case REMOVED:
                             childList.remove(child);
+                            childAdapter.notifyDataSetChanged();
                             break;
                     }
                 }
@@ -113,11 +92,11 @@ public class Parent_HomeScreen extends AppCompatActivity {
     private void setVisibility() {
         if (childList.size() == 0) {
             findViewById(R.id.no_children_message).setVisibility(android.view.View.VISIBLE);
-            findViewById(R.id.add_a_child_text_view).setVisibility(android.view.View.VISIBLE);
+            findViewById(R.id.add_a_child_text_view).setVisibility(android.view.View.GONE);
             findViewById(R.id.view_added_children).setVisibility(android.view.View.GONE);
         } else {
             findViewById(R.id.no_children_message).setVisibility(android.view.View.GONE);
-            findViewById(R.id.add_a_child_text_view).setVisibility(android.view.View.GONE);
+            findViewById(R.id.add_a_child_text_view).setVisibility(android.view.View.VISIBLE);
             findViewById(R.id.view_added_children).setVisibility(android.view.View.VISIBLE);
         }
     }
