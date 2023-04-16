@@ -21,7 +21,7 @@ public class ChildViewHolder extends RecyclerView.ViewHolder implements View.OnC
 
     public void bindThisData(Child child) {
         this.name.setText(child.getName());
-        this.image.setImageResource(child.getProfilePicture().getResourceId());
+        //this.image.setImageResource(child.getProfilePicture().getResourceId());
     }
 
     @Override

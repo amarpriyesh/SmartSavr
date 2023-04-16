@@ -6,10 +6,10 @@ public class Child {
     private int account_balance;
     private int weekly_allowance;
 
-    private ProfilePictureItem profilePicture;
+    private int profilePictureID;
 
     // as currently account balance and password is not implemented
-    public Child(String name, String parent_id,int weekly_allowance,String username,String password,int account_balance, ProfilePictureItem profilePicture) {
+    public Child(String name, String parent_id,int weekly_allowance,String username,String password,int account_balance, int profilePictureID) {
 
         this.name = name;
         this.parent_id = parent_id;
@@ -17,7 +17,7 @@ public class Child {
         this.username = username;
         this.password = password;
         this.account_balance=account_balance;
-        this.profilePicture = profilePicture;
+        this.profilePictureID = profilePictureID;
     }
 
     public String getName() {
@@ -69,12 +69,12 @@ public class Child {
         return username;
     }
 
-    public ProfilePictureItem getProfilePicture() {
-        return profilePicture;
+    public int getProfilePicture() {
+        return profilePictureID;
     }
 
-    public void setProfilePicture(ProfilePictureItem profilePicture) {
-        this.profilePicture = profilePicture;
+    public void setProfilePicture(int profilePictureID) {
+        this.profilePictureID = profilePictureID;
     }
 
 }

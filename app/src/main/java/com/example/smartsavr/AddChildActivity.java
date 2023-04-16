@@ -1,39 +1,37 @@
 package com.example.smartsavr;
 
 import android.app.ProgressDialog;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartsavr.databinding.FragmentAddChildBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Random;
 
 
@@ -42,16 +40,9 @@ public class AddChildActivity extends AppCompatActivity {
     private FragmentAddChildBinding binding;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firebaseFirestore;
-
-    List<String>cnames = new ArrayList<String>();
+    List<String> cnames = new ArrayList<>();
     boolean flag = false;
-
-
-
-
-
-    String fk;
-
+    String parentID;
     ProgressDialog progressDialog;
 
     @Override
@@ -59,10 +50,7 @@ public class AddChildActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = FragmentAddChildBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        Random random = new Random();
         progressDialog = new ProgressDialog(this);
-
-
 
 
         // up button
@@ -72,13 +60,6 @@ public class AddChildActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-
-
-
-
-
-        //setClickListeners();
-
         binding.saveChildButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,24 +67,19 @@ public class AddChildActivity extends AppCompatActivity {
                 int weekly_allowance = Integer.parseInt(binding.weeklyAllowanceFieldEditText.getText().toString());
                 String username = binding.usernameFieldEditText.getText().toString();
                 String password = binding.passwordFieldEditText.getText().toString();
-                int account_bal = weekly_allowance;
 
-                Random random = new Random();
-                int temp = 0 + random.nextInt(100);
-                String doc_id = child_name + temp;
+                //TODO: get id from recycler view
+                int profilePictureID = 1;
 
+                int account_bal = 0;
 
                 firebaseAuth = FirebaseAuth.getInstance();
                 firebaseFirestore = FirebaseFirestore.getInstance();
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if(user!=null)
                 {
-                  fk=user.getEmail();
+                  parentID =user.getEmail();
                 }
-
-
-
-
 
 
             // CHECK FROM HERE ------------------------------------------
@@ -124,13 +100,6 @@ public class AddChildActivity extends AppCompatActivity {
                                         //Log.d("Tag", document.getId() + " => " + document.getData());
                                         cnames.add(document.getData().get("username").toString());
 
-
-
-
-
-
-
-
                                     }
                                     flag = true;
                                 }
@@ -139,7 +108,7 @@ public class AddChildActivity extends AppCompatActivity {
                         });
 
                 // to do -- > toast message not visible when duplicate usernames
-                if(flag== true)
+                if(flag)
                 {
                     if(cnames.contains(username))
                     {
@@ -150,7 +119,7 @@ public class AddChildActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        Child child = new Child(child_name,fk,weekly_allowance,username,password,account_bal);
+                        Child child = new Child(child_name, parentID,weekly_allowance,username,password,account_bal, profilePictureID);
 
                         //  firebaseFirestore.collection("Children").document(doc_id).set(child);
 
@@ -172,33 +141,8 @@ public class AddChildActivity extends AppCompatActivity {
                     }
 
                 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             }
         });
-
-
-
         initializeProfilePicturesRecyclerView();
     }
 
