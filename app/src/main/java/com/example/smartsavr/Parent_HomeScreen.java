@@ -53,28 +53,28 @@ public class Parent_HomeScreen extends AppCompatActivity {
         assert user != null;
         String parentID = user.getEmail();
         Toast.makeText(this, parentID, Toast.LENGTH_SHORT).show();
-        firebaseFirestore.collection("children").whereEqualTo("parent_id", parentID).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("TAG", document.getId() + " => " + document.getData());
-                                String name = document.getString("name");
-                                String username = document.getString("username");
-                                String password = document.getString("password");
-                                int weekly_allowance = document.getLong("weekly_allowance").intValue();
-                                int account_bal = document.getLong("account_balance").intValue();
-                                //int profilePictureID = document.getLong("profilePictureID").intValue();
-                                String parent_id = document.getString("parent_id");
-                                childList.add(new Child(name, parent_id, weekly_allowance, username, password, account_bal, 1));
-                                childAdapter.notifyDataSetChanged();
-                            }
-                        } else {
-                            Log.d("TAG", "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
+//        firebaseFirestore.collection("children").whereEqualTo("parent_id", parentID).get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Log.d("TAG", document.getId() + " => " + document.getData());
+//                                String name = document.getString("name");
+//                                String username = document.getString("username");
+//                                String password = document.getString("password");
+//                                int weekly_allowance = document.getLong("weekly_allowance").intValue();
+//                                int account_bal = document.getLong("account_balance").intValue();
+//                                //int profilePictureID = document.getLong("profilePictureID").intValue();
+//                                String parent_id = document.getString("parent_id");
+//                                childList.add(new Child(name, parent_id, weekly_allowance, username, password, account_bal, 1));
+//                                childAdapter.notifyDataSetChanged();
+//                            }
+//                        } else {
+//                            Log.d("TAG", "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                });
 
         firebaseFirestore.collection("children").whereEqualTo("parent_id", parentID).addSnapshotListener(this, new EventListener<QuerySnapshot>() {
             @Override
