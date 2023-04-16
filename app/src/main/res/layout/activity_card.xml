@@ -45,37 +45,53 @@
 
             <ImageView
                 android:id="@+id/delete"
-                android:visibility="visible"
                 android:layout_width="56dp"
                 android:layout_height="27dp"
                 android:layout_marginEnd="4dp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginBottom="16dp"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.625"
                 tools:srcCompat="@drawable/thrash" />
 
             <ImageView
                 android:id="@+id/edit"
-                android:visibility="visible"
                 android:layout_width="56dp"
                 android:layout_height="27dp"
                 android:layout_marginEnd="4dp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginBottom="16dp"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/delete"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.625"
                 tools:srcCompat="@drawable/pencil" />
 
             <ImageView
-                android:id="@+id/taskDone"
+                android:id="@+id/undo"
+                android:layout_width="56dp"
+                android:layout_height="27dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginBottom="16dp"
                 android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/taskDone"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.666"
+                tools:srcCompat="@drawable/undo" />
+
+            <ImageView
+                android:id="@+id/taskDone"
                 android:layout_width="56dp"
                 android:layout_height="27dp"
                 android:layout_marginEnd="4dp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginBottom="16dp"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/edit"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.625"
                 tools:srcCompat="@drawable/check" />
 
@@ -120,7 +136,7 @@
                 app:layout_constraintVertical_bias="0.571" />
 
             <TextView
-                android:id="@+id/dueDateText"
+                android:id="@+id/dateText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"

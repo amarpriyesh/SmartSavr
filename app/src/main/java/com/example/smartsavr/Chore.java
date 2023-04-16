@@ -1,23 +1,43 @@
 package com.example.smartsavr;
 
+import com.google.firebase.firestore.DocumentId;
+import com.google.firebase.firestore.Exclude;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class Chore {
 
+    @DocumentId
+    private String id;
     private String childID;
     private long assignedTimestamp;
     private long deadline;
     private String taskName;
     private int rewardCents;
     private boolean isComplete;
+
+    private boolean isApproved;
     private long completedTimestamp;
 
-    public Chore( String childID, long assignedTimestamp, long deadline, String taskName, int rewardCents, boolean isComplete, long completedTimestamp) {
+    private long approvedTimestamp;
+
+    public Chore( String childID, long deadline, String taskName, int rewardCents) {
         this.childID = childID;
-        this.assignedTimestamp = assignedTimestamp;
+        this.assignedTimestamp = System.currentTimeMillis();
         this.deadline = deadline;
         this.taskName = taskName;
         this.rewardCents = rewardCents;
-        this.isComplete = isComplete;
-        this.completedTimestamp = completedTimestamp;
+        this.isComplete = false;
+        this.completedTimestamp = Integer.MAX_VALUE;
+        this.isApproved = false;
+        this.approvedTimestamp = Integer.MAX_VALUE;
+
+    }
+
+    public Chore(){
+
     }
 
 
@@ -79,5 +99,37 @@ public class Chore {
 
     public void setCompletedTimestamp(long completedTimestamp) {
         this.completedTimestamp = completedTimestamp;
+    }
+
+    @Override
+    public String toString(){
+        return this.taskName;
+
+    }
+
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public boolean isApproved() {
+        return isApproved;
+    }
+
+    public void setApproved(boolean approved) {
+        isApproved = approved;
+    }
+
+    public long getApprovedTimestamp() {
+        return approvedTimestamp;
+    }
+
+    public void setApprovedTimestamp(long approvedTimestamp) {
+        this.approvedTimestamp = approvedTimestamp;
     }
 }
