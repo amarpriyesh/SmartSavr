@@ -1,5 +1,6 @@
 package com.example.smartsavr;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
@@ -36,8 +37,11 @@ public class AddChildActivity extends AppCompatActivity {
     private void setClickListeners() {
         // todo: move this functionality to the child chore management screen when it's implemented
         binding.saveChildButton.setOnClickListener(view -> {
-            ChoreBottomSheetDialog bottomSheet = new ChoreBottomSheetDialog();
-            bottomSheet.show(getSupportFragmentManager(), ChoreBottomSheetDialog.TAG);
+           /* ChoreBottomSheetDialog bottomSheet = new ChoreBottomSheetDialog();
+            bottomSheet.show(getSupportFragmentManager(), ChoreBottomSheetDialog.TAG);*/
+            Intent startParentTaskView = new Intent(this, ParentTaskView.class);
+            startParentTaskView.putExtra("child", binding.nameFieldEditText.getText().toString());
+            startActivity(startParentTaskView);
         });
     }
 
