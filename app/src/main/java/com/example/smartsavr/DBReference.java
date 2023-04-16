@@ -24,7 +24,7 @@ public class DBReference {
 
     FirebaseFirestore firebaseFirestore;
 
-    CollectionReference collectionReference;
+    public CollectionReference collectionReference;
 
     Query query;
 

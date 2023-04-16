@@ -62,9 +62,9 @@ public class ChildHome extends AppCompatActivity {
          choresCompletedDBReference = new DBReference(collectionReference,firebaseFirestore);
          toDoCompletedDBReference = new DBReference(collectionReference,firebaseFirestore);
 
-         Query queryChoresCompleted = collectionReference.whereEqualTo("childID", "12").whereEqualTo("complete",true).orderBy("deadline", Query.Direction.DESCENDING);
+         Query queryChoresCompleted = collectionReference.whereEqualTo("childID", "sam").whereEqualTo("complete",true).orderBy("completedTimestamp", Query.Direction.ASCENDING);
         choresCompletedDBReference.setQuery(queryChoresCompleted);
-        Query queryChoresToDo = collectionReference.whereEqualTo("childID", "12").whereEqualTo("complete",false).orderBy("completedTimestamp", Query.Direction.ASCENDING);
+        Query queryChoresToDo = collectionReference.whereEqualTo("childID", "sam").whereEqualTo("complete",false).orderBy("deadline", Query.Direction.ASCENDING);
         toDoCompletedDBReference.setQuery(queryChoresToDo);
         completedActivityFragmnet = CompletedActivitiesFragment.newInstance("childChoresCompleted");
        toDoActivityFragmnet = CompletedActivitiesFragment.newInstance("childChoresToDo");

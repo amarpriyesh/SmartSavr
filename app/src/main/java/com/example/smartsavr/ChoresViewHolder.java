@@ -26,6 +26,8 @@ public class ChoresViewHolder extends RecyclerView.ViewHolder {
 
     public CardView taskCardview;
 
+    public TextView dollar;
+
     public ChoresViewHolder(@NonNull View itemView) {
         super(itemView);
         this.taskName = itemView.findViewById(R.id.activityName);
@@ -39,6 +41,7 @@ public class ChoresViewHolder extends RecyclerView.ViewHolder {
         this.undo = itemView.findViewById(R.id.undo);
         this.taskCompleted = itemView.findViewById(R.id.taskDone);
         this.taskCardview = itemView.findViewById(R.id.activityCard);
+        this.dollar = itemView.findViewById(R.id.dollar);
 
     }
 }

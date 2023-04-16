@@ -27,7 +27,7 @@ public class ChoresPoller implements Runnable{
         while(!exit) {
 
             try {
-                Thread.sleep(1000);
+                Thread.sleep(60000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
