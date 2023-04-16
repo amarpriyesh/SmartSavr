@@ -19,17 +19,23 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firebaseFirestore;
 
-    public static int userid = 0;
+    String userid;
+    int temp;
+
+
 
     ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Random random = new Random();
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -44,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
                 String name = binding.username.getText().toString();
                 String email = binding.email.getText().toString().trim();
                 String password = binding.password.getText().toString();
-                userid = userid+1;
+                temp = 0+ random.nextInt(100);
+                userid = name + temp;
 
                 progressDialog.show();
 
