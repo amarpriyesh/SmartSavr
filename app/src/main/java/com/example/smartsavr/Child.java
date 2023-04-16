@@ -1,6 +1,8 @@
 package com.example.smartsavr;
 
-public class Child {
+import java.io.Serializable;
+
+public class Child implements Serializable {
 
     private String name,parent_id,password,username;
     private int account_balance;
@@ -65,7 +67,7 @@ public class Child {
         this.username=username;
     }
 
-    public String getusername(){
+    public String getUsername(){
         return username;
     }
 

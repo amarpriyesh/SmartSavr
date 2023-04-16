@@ -1,5 +1,8 @@
 package com.example.smartsavr;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,6 +14,7 @@ public class ChildViewHolder extends RecyclerView.ViewHolder implements View.OnC
 
     public TextView name;
     public ImageView image;
+    public Child child;
 
     public ChildViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -20,6 +24,7 @@ public class ChildViewHolder extends RecyclerView.ViewHolder implements View.OnC
     }
 
     public void bindThisData(Child child) {
+        this.child = child;
         this.name.setText(child.getName());
         this.image.setImageResource(child.getProfilePicture());
     }
@@ -27,5 +32,9 @@ public class ChildViewHolder extends RecyclerView.ViewHolder implements View.OnC
     @Override
     public void onClick(View view) {
         //TODO: Navigate to child's page
+        Intent intent = new Intent(view.getContext(), ChildProfile_parentlogin.class);
+        startActivity(view.getContext(), intent, null);
+        //Pass child object to child profile page
+        intent.putExtra("child", child);
     }
 }

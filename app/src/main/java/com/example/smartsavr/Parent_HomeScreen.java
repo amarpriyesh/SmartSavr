@@ -34,7 +34,6 @@ public class Parent_HomeScreen extends AppCompatActivity {
     List<Child> childList;
     FirebaseFirestore firebaseFirestore;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
