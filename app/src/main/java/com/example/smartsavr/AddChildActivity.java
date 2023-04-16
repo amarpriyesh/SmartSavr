@@ -43,7 +43,8 @@ public class AddChildActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firebaseFirestore;
 
-    List<String>names = new ArrayList<String>();
+    List<String>cnames = new ArrayList<String>();
+    boolean flag = false;
 
 
 
@@ -60,6 +61,7 @@ public class AddChildActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         Random random = new Random();
         progressDialog = new ProgressDialog(this);
+
 
 
 
@@ -82,7 +84,7 @@ public class AddChildActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String child_name = binding.nameFieldEditText.getText().toString();
                 int weekly_allowance = Integer.parseInt(binding.weeklyAllowanceFieldEditText.getText().toString());
-                String username = binding.usernameFieldLabelTextView.getText().toString();
+                String username = binding.usernameFieldEditText.getText().toString();
                 String password = binding.passwordFieldEditText.getText().toString();
                 int account_bal = weekly_allowance;
 
@@ -119,18 +121,57 @@ public class AddChildActivity extends AppCompatActivity {
                                     for(QueryDocumentSnapshot document : task.getResult())
                                     {
 
-                                        Log.d("Tag", document.getId() + " => " + document.getData());
+                                        //Log.d("Tag", document.getId() + " => " + document.getData());
+                                        cnames.add(document.getData().get("username").toString());
+
+
+
 
 
 
 
 
                                     }
+                                    flag = true;
                                 }
 
                             }
                         });
 
+                // to do -- > toast message not visible when duplicate usernames
+                if(flag== true)
+                {
+                    if(cnames.contains(username))
+                    {
+                        Log.d("Tag",cnames.toString());
+
+                        Toast.makeText(AddChildActivity.this,"UserName exists already", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    else
+                    {
+                        Child child = new Child(child_name,fk,weekly_allowance,username,password,account_bal);
+
+                        //  firebaseFirestore.collection("Children").document(doc_id).set(child);
+
+                        firebaseFirestore.collection("children")
+                                .add(child)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        Toast.makeText(AddChildActivity.this,"Child Added Successfully", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(AddChildActivity.this,e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+                    }
+
+                }
 
 
 
@@ -138,24 +179,10 @@ public class AddChildActivity extends AppCompatActivity {
 
 
 
-                Child child = new Child(child_name,fk,weekly_allowance,username,password,account_bal);
 
-              //  firebaseFirestore.collection("Children").document(doc_id).set(child);
 
-                firebaseFirestore.collection("children")
-                        .add(child)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Toast.makeText(AddChildActivity.this,"Child Added Successfully", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(AddChildActivity.this,e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
+
+
 
 
 
