@@ -1,6 +1,7 @@
 package com.example.smartsavr;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -60,4 +61,8 @@ public class ProfilePictureAdapter extends ListAdapter<ProfilePictureItem, Profi
             return oldItem.equals(newItem);
         }
     };
+
+    public int getSelectedItem() {
+        return getItem(lastCheckedPos).getResourceId();
+    }
 }

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -91,13 +92,13 @@ public class Parent_HomeScreen extends AppCompatActivity {
 
     private void setVisibility() {
         if (childList.size() == 0) {
-            findViewById(R.id.no_children_message).setVisibility(android.view.View.VISIBLE);
-            findViewById(R.id.add_a_child_text_view).setVisibility(android.view.View.GONE);
-            findViewById(R.id.view_added_children).setVisibility(android.view.View.GONE);
+            findViewById(R.id.no_children_message).setVisibility(View.VISIBLE);
+            findViewById(R.id.add_a_child_text_view).setVisibility(View.VISIBLE);
+            findViewById(R.id.view_added_children).setVisibility(View.GONE);
         } else {
-            findViewById(R.id.no_children_message).setVisibility(android.view.View.GONE);
-            findViewById(R.id.add_a_child_text_view).setVisibility(android.view.View.VISIBLE);
-            findViewById(R.id.view_added_children).setVisibility(android.view.View.VISIBLE);
+            findViewById(R.id.no_children_message).setVisibility(View.GONE);
+            findViewById(R.id.add_a_child_text_view).setVisibility(View.VISIBLE);
+            findViewById(R.id.view_added_children).setVisibility(View.VISIBLE);
         }
     }
 }

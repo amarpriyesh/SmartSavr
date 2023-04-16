@@ -45,12 +45,14 @@ public class AddChildActivity extends AppCompatActivity {
     String parentID;
     ProgressDialog progressDialog;
 
+    ProfilePictureAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = FragmentAddChildBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         progressDialog = new ProgressDialog(this);
+        initializeProfilePicturesRecyclerView();
 
 
         // up button
@@ -68,8 +70,9 @@ public class AddChildActivity extends AppCompatActivity {
                 String username = binding.usernameFieldEditText.getText().toString();
                 String password = binding.passwordFieldEditText.getText().toString();
 
-                //TODO: get id from recycler view
-                int profilePictureID = 1;
+                int profilePictureID = adapter.getSelectedItem();
+                //Log the selected item
+                Log.d("TAG", "Selected item: " + profilePictureID);
 
                 int account_bal = 0;
 
@@ -143,7 +146,6 @@ public class AddChildActivity extends AppCompatActivity {
                 }
             }
         });
-        initializeProfilePicturesRecyclerView();
     }
 
     private void setClickListeners() {
@@ -155,7 +157,7 @@ public class AddChildActivity extends AppCompatActivity {
     }
 
     private void initializeProfilePicturesRecyclerView() {
-        ProfilePictureAdapter adapter = new ProfilePictureAdapter();
+        adapter = new ProfilePictureAdapter();
         binding.profilePictureRecyclerView.setAdapter(adapter);
         binding.profilePictureRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
 
