@@ -85,8 +85,7 @@ public class AddChildActivity extends AppCompatActivity {
                 }
 
 
-            // CHECK FROM HERE ------------------------------------------
-            // get the child name into an string list and check before registering new children whether username is unique
+                // get the child name into an string list and check before registering new children whether username is unique
 
                //CollectionReference childrenref = firebaseFirestore.collection("children");
 
