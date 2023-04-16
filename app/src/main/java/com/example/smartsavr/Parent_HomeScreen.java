@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -54,6 +55,14 @@ public class Parent_HomeScreen extends AppCompatActivity {
         assert user != null;
         String parentID = user.getEmail();
 
+        final Button allowanceSummaryButton = findViewById(R.id.allowance_summary);
+        allowanceSummaryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: link to Lily's allowance summary page
+            }
+        });
+
         firebaseFirestore.collection("children").whereEqualTo("parent_id", parentID).addSnapshotListener(this, new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -73,6 +82,7 @@ public class Parent_HomeScreen extends AppCompatActivity {
                     switch (dc.getType()) {
                         case ADDED:
                             childList.add(child);
+                            //TODO: needs to update after adding a child
                             childAdapter.notifyItemChanged(childList.size() - 1);
                             break;
                         case MODIFIED:
