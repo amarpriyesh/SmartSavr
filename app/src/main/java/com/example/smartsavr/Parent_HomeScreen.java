@@ -77,7 +77,8 @@ public class Parent_HomeScreen extends AppCompatActivity {
                     int account_bal = dc.getDocument().getLong("account_balance").intValue();
                     int profilePictureID = dc.getDocument().getLong("profilePicture").intValue();
                     String parent_id = dc.getDocument().get("parent_id", String.class);
-                    Child child = new Child(name, parent_id, weekly_allowance, username, password, account_bal, profilePictureID);
+                    int choresCompleted = dc.getDocument().getLong("choresCompleted").intValue();
+                    Child child = new Child(name, parent_id, weekly_allowance, username, password, account_bal, profilePictureID, choresCompleted);
                     switch (dc.getType()) {
                         case ADDED:
                             childList.add(child);

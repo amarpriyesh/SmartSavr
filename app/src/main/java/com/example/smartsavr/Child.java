@@ -9,9 +9,10 @@ public class Child implements Serializable {
     private int weekly_allowance;
 
     private int profilePictureID;
+    private int choresCompleted;
 
     // as currently account balance and password is not implemented
-    public Child(String name, String parent_id,int weekly_allowance,String username,String password,int account_balance, int profilePictureID) {
+    public Child(String name, String parent_id,int weekly_allowance,String username,String password,int account_balance, int profilePictureID, int choresCompleted) {
 
         this.name = name;
         this.parent_id = parent_id;
@@ -20,6 +21,7 @@ public class Child implements Serializable {
         this.password = password;
         this.account_balance=account_balance;
         this.profilePictureID = profilePictureID;
+        this.choresCompleted = choresCompleted;
     }
 
     public String getName() {
@@ -77,6 +79,14 @@ public class Child implements Serializable {
 
     public void setProfilePicture(int profilePictureID) {
         this.profilePictureID = profilePictureID;
+    }
+
+    public int getChoresCompleted() {
+        return choresCompleted;
+    }
+
+    public void setChoresCompleted(int choresCompleted) {
+        this.choresCompleted = choresCompleted;
     }
 
 }

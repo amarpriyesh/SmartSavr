@@ -75,6 +75,7 @@ public class AddChildActivity extends AppCompatActivity {
                 Log.d("TAG", "Selected item: " + profilePictureID);
 
                 int account_bal = 0;
+                int choresCompleted = 0;
 
                 firebaseAuth = FirebaseAuth.getInstance();
                 firebaseFirestore = FirebaseFirestore.getInstance();
@@ -121,7 +122,7 @@ public class AddChildActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        Child child = new Child(child_name, parentID,weekly_allowance,username,password,account_bal, profilePictureID);
+                        Child child = new Child(child_name, parentID,weekly_allowance,username,password,account_bal, profilePictureID, choresCompleted);
 
                         //  firebaseFirestore.collection("Children").document(doc_id).set(child);
 
