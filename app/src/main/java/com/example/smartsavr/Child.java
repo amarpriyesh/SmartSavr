@@ -32,11 +32,11 @@ public class Child implements Serializable {
         this.name = name;
     }
 
-    public String getParent_id() {
+    public String getParentId() {
         return parent_id;
     }
 
-    public void setParent_id(String parent_id) {
+    public void setParentId(String parent_id) {
         this.parent_id = parent_id;
     }
 
@@ -48,19 +48,19 @@ public class Child implements Serializable {
         this.password = password;
     }
 
-    public int getAccount_balance() {
+    public int getAccountBalance() {
         return account_balance;
     }
 
-    public void setAccount_balance(int account_balance) {
+    public void setAccountBalance(int account_balance) {
         this.account_balance = account_balance;
     }
 
-    public int getWeekly_allowance() {
+    public int getWeeklyAllowance() {
         return weekly_allowance;
     }
 
-    public void setWeekly_allowance(int weekly_allowance) {
+    public void setWeeklyAllowance(int weekly_allowance) {
         this.weekly_allowance = weekly_allowance;
     }
 
