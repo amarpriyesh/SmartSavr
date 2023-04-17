@@ -26,6 +26,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Parent_HomeScreen extends AppCompatActivity {
 
@@ -55,29 +56,43 @@ public class Parent_HomeScreen extends AppCompatActivity {
         String parentID = user.getEmail();
 
         final Button allowanceSummaryButton = findViewById(R.id.allowance_summary);
-        allowanceSummaryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO: link to Lily's allowance summary page
-            }
+        allowanceSummaryButton.setOnClickListener(v -> {
+            //TODO: link to Lily's allowance summary page
         });
 
-        firebaseFirestore.collection("children").whereEqualTo("parent_id", parentID).addSnapshotListener(this, new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    Log.w("TAG", "Listen failed.", error);
-                    return;
-                }
+        firebaseFirestore.collection("children").whereEqualTo("parent_id", parentID).addSnapshotListener(this, (value, error) -> {
+            if (error != null) {
+                Log.w("TAG", "Listen failed.", error);
+                return;
+            }
+            if (value != null) {
                 for (DocumentChange dc : value.getDocumentChanges()) {
                     String username = dc.getDocument().get("username", String.class);
                     String name = dc.getDocument().get("name", String.class);
                     String password = dc.getDocument().get("password", String.class);
-                    int weekly_allowance = dc.getDocument().getLong("weekly_allowance").intValue();
-                    int account_bal = dc.getDocument().getLong("account_balance").intValue();
-                    int profilePictureID = dc.getDocument().getLong("profilePicture").intValue();
+
+                    int weekly_allowance = 0;
+                    if (dc.getDocument().getLong("weekly_allowance") != null) {
+                        weekly_allowance = Objects.requireNonNull(dc.getDocument().getLong("weekly_allowance")).intValue();
+                    }
+
+                    int account_bal = 0;
+                    if (dc.getDocument().getLong("account_balance") != null) {
+                        account_bal = Objects.requireNonNull(dc.getDocument().getLong("account_balance")).intValue();
+                    }
+
+                    int profilePictureID = 2131165306;
+                    if (dc.getDocument().getLong("profilePicture") != null) {
+                        profilePictureID = Objects.requireNonNull(dc.getDocument().getLong("profilePicture")).intValue();
+                    }
+
                     String parent_id = dc.getDocument().get("parent_id", String.class);
-                    int choresCompleted = dc.getDocument().getLong("choresCompleted").intValue();
+
+                    int choresCompleted = 0;
+                    if (dc.getDocument().getLong("choresCompleted") != null) {
+                        choresCompleted = Objects.requireNonNull(dc.getDocument().getLong("choresCompleted")).intValue();
+                    }
+
                     Child child = new Child(name, parent_id, weekly_allowance, username, password, account_bal, profilePictureID, choresCompleted);
                     switch (dc.getType()) {
                         case ADDED:
@@ -94,8 +109,8 @@ public class Parent_HomeScreen extends AppCompatActivity {
                             break;
                     }
                 }
-                setVisibility();
             }
+            setVisibility();
         });
         setVisibility();
     }
