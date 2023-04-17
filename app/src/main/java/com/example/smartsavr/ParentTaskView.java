@@ -7,10 +7,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
-import com.example.smartsavr.databinding.ActivityChildHomeBinding;
 import com.example.smartsavr.databinding.ActivityParentTaskViewBinding;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,14 +27,16 @@ public class ParentTaskView extends AppCompatActivity {
 
     static DBReference choresAddDBReference;
 
+    static FragmentManager fragmentManager;
+
     static String childID;
     ChoresPoller poller;
 
     final String TAG = "FIREBASE QUERY";
     ActivityParentTaskViewBinding binding;
 
-    CompletedActivitiesFragment completedActivityFragmnet;
-    CompletedActivitiesFragment toDoActivityFragmnet;
+    ActivitiesFragment completedActivityFragmnet;
+    ActivitiesFragment toDoActivityFragmnet;
     FirebaseFirestore firebaseFirestore;
     CollectionReference collectionReference;
 
@@ -46,6 +46,7 @@ public class ParentTaskView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
+        fragmentManager = getSupportFragmentManager();
         childID = intent.getExtras().getString("child");
         listChoresCompleted.clear();
         listChoresToDo.clear();
@@ -62,8 +63,8 @@ public class ParentTaskView extends AppCompatActivity {
         choresCompletedDBReference.setQuery(queryChoresCompleted);
         Query queryChoresToDo = collectionReference.whereEqualTo("childID", childID).whereEqualTo("complete",false).orderBy("deadline", Query.Direction.ASCENDING);
         toDoCompletedDBReference.setQuery(queryChoresToDo);
-        completedActivityFragmnet = CompletedActivitiesFragment.newInstance("parentChoresCompleted");
-        toDoActivityFragmnet = CompletedActivitiesFragment.newInstance("parentChoresToDo");
+        completedActivityFragmnet = ActivitiesFragment.newInstance("parentChoresCompleted");
+        toDoActivityFragmnet = ActivitiesFragment.newInstance("parentChoresToDo");
         setFragment(R.id.fragmentNeedApproval,(Fragment)completedActivityFragmnet);
         setFragment(R.id.fragmentCompletedActivities,(Fragment)toDoActivityFragmnet);
         setClickListeners();
@@ -83,12 +84,19 @@ public class ParentTaskView extends AppCompatActivity {
         binding.addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Reaching bottom sheet","RRR");
 
                     ChoreBottomSheetDialog bottomSheet = new ChoreBottomSheetDialog();
-                    bottomSheet.show(getSupportFragmentManager(), ChoreBottomSheetDialog.TAG);
+                    bottomSheet.show(fragmentManager, ChoreBottomSheetDialog.TAG);
+
+
 
             }
         });
     }
+
+    public static FragmentManager getSupportFragmentManagerParent(){
+        return fragmentManager;
+    }
+
+
 }

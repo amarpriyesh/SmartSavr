@@ -28,11 +28,17 @@ public class DBReference {
 
     Query query;
 
+    Query queryComplete;
+
     final String TAG = "DB ERROR";
 
     public FirebaseFirestore getFirebaseFirestore() {
         return firebaseFirestore;
     }
+
+    private CalendarOperation cal;
+
+
 
     public void setFirebaseFirestore(FirebaseFirestore firebaseFirestore) {
         this.firebaseFirestore = firebaseFirestore;
@@ -49,6 +55,7 @@ public class DBReference {
     public DBReference(CollectionReference collectionReference, FirebaseFirestore firebaseFirestore ){
         this.firebaseFirestore = firebaseFirestore;
         this.collectionReference  =  collectionReference;
+        cal = new CalendarOperation();
 
     }
 
@@ -88,6 +95,8 @@ public class DBReference {
                 }
                 chores.clear();
 
+
+
                 for (DocumentSnapshot ds : value.getDocuments()) {
                     //TODO handle exception
                     Chore obj = ds.toObject(Chore.class);
@@ -95,6 +104,49 @@ public class DBReference {
                     chores.add(obj);
                 }
                adapter.notifyDataSetChanged();
+            }
+        });
+
+
+    }
+    public void setApprovedListener() {
+        this.queryComplete.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    System.err.println("Listen failed: " + error);
+                    return;
+                }
+
+
+                int sumMonthly = 0;
+                int sumWeekly = 0;
+                int total = 0;
+
+                for (DocumentSnapshot ds : value.getDocuments()) {
+                    //TODO handle exception
+                    Chore obj = ds.toObject(Chore.class);
+                    Log.d(TAG,ds.getData().toString());
+                    if(obj.isComplete()) {
+
+                        if (obj.isApproved() && obj.getApprovedTimestamp() > cal.calMillisWeek()) {
+                            sumWeekly += obj.getRewardCents();
+                        }
+                        if (obj.isApproved() && obj.getApprovedTimestamp() > cal.calMillisMonth()) {
+                            sumMonthly += obj.getRewardCents();
+                        }
+                        if (obj.isApproved()) {
+                            total += obj.getRewardCents();
+                        }
+                    }
+
+                    ChildHome.binding.textTotal.setText(String.format("$ %s",total));
+                    ChildHome.binding.textWeekly.setText(String.format("$ %s",sumWeekly));
+                    ChildHome.binding.textMonthly.setText(String.format("$ %s",sumMonthly));
+
+
+                }
+
             }
         });
 
@@ -108,6 +160,10 @@ public class DBReference {
 
     void setQuery(Query query){
         this.query = query;
+    }
+
+    void setQueryComplete(Query query){
+        this.queryComplete = query;
     }
 
 
