@@ -7,6 +7,17 @@
     android:orientation="vertical"
     tools:context=".ChildProfile_parentlogin">
 
+    <TextView
+        android:id="@+id/child_name"
+        android:textColor="@color/black"
+        android:layout_gravity="start"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        tools:text="Child Name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <ImageView
         android:id="@+id/logo"
         android:layout_width="150dp"
@@ -16,7 +27,7 @@
         tools:src="@drawable/asset_3"/>
 
     <TextView
-        android:id="@+id/current_balance"
+        android:id="@+id/chores_completed"
         android:textColor="@color/black"
         android:layout_gravity="start"
         android:textSize="20sp"
@@ -27,7 +38,7 @@
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/chores_completed"
+        android:id="@+id/current_balance"
         android:textColor="@color/black"
         android:layout_gravity="start"
         android:textSize="20sp"

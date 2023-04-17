@@ -3,6 +3,7 @@ package com.example.smartsavr;
 import static androidx.core.content.ContextCompat.startActivity;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,8 +34,11 @@ public class ChildViewHolder extends RecyclerView.ViewHolder implements View.OnC
     public void onClick(View view) {
         //TODO: Navigate to child's page
         Intent intent = new Intent(view.getContext(), ChildProfile_parentlogin.class);
-        startActivity(view.getContext(), intent, null);
-        //Pass child object to child profile page
+
         intent.putExtra("child", child);
+
+        startActivity(view.getContext(), intent, null);
+
+        Log.d("TAG", "onClick: " + child.getParentId() + " " + child.getUsername());
     }
 }

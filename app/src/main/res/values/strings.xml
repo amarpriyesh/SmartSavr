@@ -31,4 +31,7 @@
     <string name="amount">Amount</string>
     <string name="you_haven_t_added_any_children_yet">You haven\'t added any children yet.</string>
     <string name="allowance_summary">Allowance Summary</string>
+    <string name="chores_completed">Chores Completed :</string>
+    <string name="current_balance">Currrent Balance :</string>
+    <string name="allowance">\"Allowance: \"</string>
 </resources>
