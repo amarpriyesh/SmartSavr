@@ -119,4 +119,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </TableLayout>
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="38dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/earningStatsText"
+        tools:srcCompat="@drawable/wallet1" />
 </androidx.constraintlayout.widget.ConstraintLayout>

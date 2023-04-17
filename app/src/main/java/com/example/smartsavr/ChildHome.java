@@ -57,7 +57,8 @@ public class ChildHome extends AppCompatActivity {
         setContentView(binding.getRoot());
         firebaseFirestore = FirebaseFirestore.getInstance();
         collectionReference = firebaseFirestore.collection("chores");
-        setContentView(R.layout.activity_child_home);
+
+
 
          choresCompletedDBReference = new DBReference(collectionReference,firebaseFirestore);
          toDoCompletedDBReference = new DBReference(collectionReference,firebaseFirestore);
@@ -88,8 +89,7 @@ public class ChildHome extends AppCompatActivity {
 
 
 
-        void setCompleted(Chore chore) {
-            collectionReference.document(chore.getId()).set(chore);
+        void setTable() {
 
 // ...
         }

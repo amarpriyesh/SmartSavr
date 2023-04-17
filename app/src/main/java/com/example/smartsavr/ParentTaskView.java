@@ -29,6 +29,8 @@ public class ParentTaskView extends AppCompatActivity {
 
     static DBReference choresAddDBReference;
 
+    static FragmentManager fragmentManager;
+
     static String childID;
     ChoresPoller poller;
 
@@ -46,6 +48,7 @@ public class ParentTaskView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
+        fragmentManager = getSupportFragmentManager();
         childID = intent.getExtras().getString("child");
         listChoresCompleted.clear();
         listChoresToDo.clear();
@@ -83,12 +86,19 @@ public class ParentTaskView extends AppCompatActivity {
         binding.addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Reaching bottom sheet","RRR");
 
                     ChoreBottomSheetDialog bottomSheet = new ChoreBottomSheetDialog();
-                    bottomSheet.show(getSupportFragmentManager(), ChoreBottomSheetDialog.TAG);
+                    bottomSheet.show(fragmentManager, ChoreBottomSheetDialog.TAG);
+
+
 
             }
         });
     }
+
+    public static FragmentManager getSupportFragmentManagerParent(){
+        return fragmentManager;
+    }
+
+
 }

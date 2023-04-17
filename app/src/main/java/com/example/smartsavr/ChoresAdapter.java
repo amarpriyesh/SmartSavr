@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.UiThread;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.FragmentManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -150,7 +151,12 @@ public class ChoresAdapter extends RecyclerView.Adapter<ChoresViewHolder> {
                 holder.edit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //TODO
+
+
+                                ChoreBottomSheetDialog bottomSheet = new ChoreBottomSheetDialog(chore);
+                                bottomSheet.show(ParentTaskView.getSupportFragmentManagerParent(), ChoreBottomSheetDialog.TAG);
+
+
                     }
                 });
 
