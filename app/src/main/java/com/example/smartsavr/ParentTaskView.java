@@ -7,10 +7,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
-import com.example.smartsavr.databinding.ActivityChildHomeBinding;
 import com.example.smartsavr.databinding.ActivityParentTaskViewBinding;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -37,8 +35,8 @@ public class ParentTaskView extends AppCompatActivity {
     final String TAG = "FIREBASE QUERY";
     ActivityParentTaskViewBinding binding;
 
-    CompletedActivitiesFragment completedActivityFragmnet;
-    CompletedActivitiesFragment toDoActivityFragmnet;
+    ActivitiesFragment completedActivityFragmnet;
+    ActivitiesFragment toDoActivityFragmnet;
     FirebaseFirestore firebaseFirestore;
     CollectionReference collectionReference;
 
@@ -65,8 +63,8 @@ public class ParentTaskView extends AppCompatActivity {
         choresCompletedDBReference.setQuery(queryChoresCompleted);
         Query queryChoresToDo = collectionReference.whereEqualTo("childID", childID).whereEqualTo("complete",false).orderBy("deadline", Query.Direction.ASCENDING);
         toDoCompletedDBReference.setQuery(queryChoresToDo);
-        completedActivityFragmnet = CompletedActivitiesFragment.newInstance("parentChoresCompleted");
-        toDoActivityFragmnet = CompletedActivitiesFragment.newInstance("parentChoresToDo");
+        completedActivityFragmnet = ActivitiesFragment.newInstance("parentChoresCompleted");
+        toDoActivityFragmnet = ActivitiesFragment.newInstance("parentChoresToDo");
         setFragment(R.id.fragmentNeedApproval,(Fragment)completedActivityFragmnet);
         setFragment(R.id.fragmentCompletedActivities,(Fragment)toDoActivityFragmnet);
         setClickListeners();

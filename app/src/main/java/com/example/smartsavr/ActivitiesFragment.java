@@ -17,12 +17,10 @@ import android.view.ViewGroup;
 
 import com.example.smartsavr.databinding.FragmentCompletedActivitiesBinding;
 
-import java.util.ArrayList;
-import java.util.List;
 import android.os.Handler;
 
 
-public class CompletedActivitiesFragment extends Fragment {
+public class ActivitiesFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,12 +40,12 @@ public class CompletedActivitiesFragment extends Fragment {
 
 
 
-    public CompletedActivitiesFragment() {
+    public ActivitiesFragment() {
         // doesn't do anything special
     }
 
-    public static CompletedActivitiesFragment newInstance(String user) {
-        CompletedActivitiesFragment fragment = new CompletedActivitiesFragment();
+    public static ActivitiesFragment newInstance(String user) {
+        ActivitiesFragment fragment = new ActivitiesFragment();
         Bundle args = new Bundle();
         args.putString(USR, user);
         fragment.setArguments(args);
