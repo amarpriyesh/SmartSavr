@@ -31,6 +31,9 @@ public class Child implements Serializable {
         this.choresCompleted = choresCompleted;
     }
 
+    public Child() {
+    }
+
     public String getName() {
         return name;
     }

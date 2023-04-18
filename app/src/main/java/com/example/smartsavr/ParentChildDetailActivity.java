@@ -10,7 +10,14 @@ import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 public class ParentChildDetailActivity extends AppCompatActivity {
+
+    static DBReference childDBReference;
+    FirebaseFirestore firebaseFirestore;
+    static CollectionReference collectionReference;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -20,13 +27,16 @@ public class ParentChildDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Child child = (Child) intent.getSerializableExtra("child");
-
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             // TODO: Deal with null name (upon navigating via up button)
             actionBar.setTitle(child.getName() + "'s Chores");
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        collectionReference = firebaseFirestore.collection("children");
+        childDBReference = new DBReference(collectionReference,firebaseFirestore);
 
         ImageView logo = findViewById(R.id.logo);
         logo.setImageResource(child.getProfilePicture());
@@ -50,8 +60,7 @@ public class ParentChildDetailActivity extends AppCompatActivity {
     private void setClickListeners(Child child) {
         Button modifyBalance = findViewById(R.id.modify_balance);
         modifyBalance.setOnClickListener(view -> {
-            //TODO: Set values in bottom sheet appropriately
-            ModifyAllowanceBottomSheetDialog bottomSheet = new ModifyAllowanceBottomSheetDialog();
+            ModifyAllowanceBottomSheetDialog bottomSheet = new ModifyAllowanceBottomSheetDialog(child);
             bottomSheet.show(getSupportFragmentManager(), ModifyAllowanceBottomSheetDialog.TAG);
         });
 
