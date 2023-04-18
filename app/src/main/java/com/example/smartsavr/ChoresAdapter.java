@@ -21,15 +21,15 @@ public class ChoresAdapter extends RecyclerView.Adapter<ChoresViewHolder> {
 
     List<Chore> chores;
 
-    String user;
+    boolean isChildUser;
 
     DBReference dbReference;
 
 
-    public ChoresAdapter(List<Chore> chores, Context context, String user, DBReference dbReference) {
+    public ChoresAdapter(List<Chore> chores, Context context, boolean isChildUser, DBReference dbReference) {
         this.context = context;
         this.chores = chores;
-        this.user = user;
+        this.isChildUser = isChildUser;
         this.dbReference = dbReference;
     }
 
@@ -53,7 +53,7 @@ public class ChoresAdapter extends RecyclerView.Adapter<ChoresViewHolder> {
             holder.rewardCents.setText(Utils.centsToDollarString(rewardCents));
         }
 
-        if (user.equals("child")) {
+        if (isChildUser) {
 
 
             if (!chore.isComplete()) {

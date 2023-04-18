@@ -3,6 +3,9 @@ package com.example.smartsavr;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ParentChildDetailActivity extends AppCompatActivity {
 
+    private Child child;
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +24,7 @@ public class ParentChildDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_parent_child_detail);
 
         Intent intent = getIntent();
-        Child child = (Child) intent.getSerializableExtra("child");
+        child = (Child) intent.getSerializableExtra(Utils.CHILD);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -29,7 +34,7 @@ public class ParentChildDetailActivity extends AppCompatActivity {
         }
 
         ImageView logo = findViewById(R.id.logo);
-        logo.setImageResource(child.getProfilePicture());
+        logo.setImageResource(Utils.getImageResource(child.getProfilePicture()));
 
         //Having an issue with string resources here
         TextView choresCompletedTV = findViewById(R.id.chores_completed);
@@ -58,7 +63,7 @@ public class ParentChildDetailActivity extends AppCompatActivity {
         Button manageChores = findViewById(R.id.manage);
         manageChores.setOnClickListener(view -> {
             Intent intent = new Intent(this, ParentChildChoresActivity.class);
-            intent.putExtra("child", child);
+            intent.putExtra(Utils.CHILD, child);
             startActivity(intent);
         });
 
@@ -66,5 +71,24 @@ public class ParentChildDetailActivity extends AppCompatActivity {
         allowanceSummary.setOnClickListener(view -> {
             //TODO: Navigate to allowance summary page
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.profile_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_edit_profile) {
+            Intent myIntent = new Intent(this, AddChildActivity.class);
+            myIntent.putExtra(Utils.CHILD, child);
+            startActivity(myIntent);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 }

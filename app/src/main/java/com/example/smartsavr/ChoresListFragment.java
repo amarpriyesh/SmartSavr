@@ -107,7 +107,7 @@ public class ChoresListFragment extends Fragment {
         RecyclerView choresRecyclerView = binding.recyclerView;
         choresRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        adapter = new ChoresAdapter(ChildHomeActivity.listChoresCompleted, requireActivity(),"child", ChildHomeActivity.choresCompletedDBReference);
+        adapter = new ChoresAdapter(ChildHomeActivity.listChoresCompleted, requireActivity(),true, ChildHomeActivity.choresCompletedDBReference);
         // Associates the adapter with the RecyclerView
         choresRecyclerView.setAdapter(adapter);
         handler = new Handler();
@@ -131,7 +131,7 @@ public class ChoresListFragment extends Fragment {
         RecyclerView choresRecyclerView = binding.recyclerView;
         choresRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        adapter = new ChoresAdapter(ChildHomeActivity.listChoresToDo, requireActivity(),"child", ChildHomeActivity.toDoCompletedDBReference);
+        adapter = new ChoresAdapter(ChildHomeActivity.listChoresToDo, requireActivity(),true, ChildHomeActivity.toDoCompletedDBReference);
         // Associates the adapter with the RecyclerView
         choresRecyclerView.setAdapter(adapter);
 
@@ -159,7 +159,7 @@ public class ChoresListFragment extends Fragment {
         RecyclerView choresRecyclerView = binding.recyclerView;
         choresRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        adapter = new ChoresAdapter(ParentChildChoresActivity.listChoresCompleted, requireActivity(),"parent", ParentChildChoresActivity.choresCompletedDBReference);
+        adapter = new ChoresAdapter(ParentChildChoresActivity.listChoresCompleted, requireActivity(),false, ParentChildChoresActivity.choresCompletedDBReference);
         // Associates the adapter with the RecyclerView
         choresRecyclerView.setAdapter(adapter);
         handler = new Handler();
@@ -183,7 +183,7 @@ public class ChoresListFragment extends Fragment {
         RecyclerView choresRecyclerView = binding.recyclerView;
         choresRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        adapter = new ChoresAdapter(ParentChildChoresActivity.listChoresToDo, requireActivity(),"parent", ParentChildChoresActivity.toDoCompletedDBReference);
+        adapter = new ChoresAdapter(ParentChildChoresActivity.listChoresToDo, requireActivity(),false, ParentChildChoresActivity.toDoCompletedDBReference);
         // Associates the adapter with the RecyclerView
         choresRecyclerView.setAdapter(adapter);
 

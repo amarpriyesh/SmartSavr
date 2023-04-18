@@ -2,10 +2,14 @@ package com.example.smartsavr;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.firestore.DocumentId;
+
 import java.io.Serializable;
 
 public class Child implements Serializable {
 
+    @DocumentId
+    private String id;
     private String name;
     private String parentId;
     private String password;
@@ -91,11 +95,20 @@ public class Child implements Serializable {
         this.choresCompleted = choresCompleted;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @NonNull
     @Override
     public String toString() {
         return "Child{" +
-                "name='" + name + '\'' +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
                 ", parentId='" + parentId + '\'' +
                 ", password='" + password + '\'' +
                 ", username='" + username + '\'' +

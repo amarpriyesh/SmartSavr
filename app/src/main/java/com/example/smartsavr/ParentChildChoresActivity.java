@@ -47,7 +47,7 @@ public class ParentChildChoresActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         fragmentManager = getSupportFragmentManager();
-        childID = intent.getExtras().getString("child");
+        childID = intent.getExtras().getString(Utils.CHILD);
         listChoresCompleted.clear();
         listChoresToDo.clear();
         binding = ActivityParentChildChoresBinding.inflate(getLayoutInflater());
