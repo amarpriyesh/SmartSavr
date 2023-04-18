@@ -13,28 +13,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:text="@string/modify_balance"
             android:textColor="@color/black"
             android:textSize="22sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/radio_group"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/radio_group"
-            tools:text="Modify Balance" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <RadioGroup
             android:id="@+id/radio_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/modify_balance_title_text_view"
-            >
+            app:layout_constraintTop_toBottomOf="@id/modify_balance_title_text_view">
+
             <RadioButton
                 android:id="@+id/add_balance_radio_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/add" />
+
             <RadioButton
                 android:id="@+id/subtract_balance_radio_button"
                 android:layout_width="wrap_content"
@@ -47,11 +49,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
+            android:layout_marginTop="8dp"
             android:labelFor="@id/amount_field_edit_text"
             android:text="@string/amount"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/radio_group"/>
+            app:layout_constraintTop_toBottomOf="@id/radio_group" />
 
         <TextView
             android:id="@+id/dollar_sign_text_view"
@@ -74,11 +77,10 @@
             android:importantForAutofill="no"
             android:inputType="numberDecimal"
             android:padding="8dp"
+            app:layout_constraintBottom_toTopOf="@id/save_allowance_button"
             app:layout_constraintStart_toEndOf="@id/dollar_sign_text_view"
             app:layout_constraintTop_toBottomOf="@id/amount_label_text_view"
-            app:layout_constraintBottom_toTopOf="@id/save_allowance_button"
             tools:text="5.00" />
-
 
         <Button
             android:id="@+id/save_allowance_button"

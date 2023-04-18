@@ -47,4 +47,6 @@
     <string name="see_more">See More</string>
     <string name="mark_done">Mark Done</string>
     <string name="tap_to_undo">Tap to Undo</string>
+    <string name="modify_balance">Modify Balance</string>
+    <string name="edit_chore">Edit Chore</string>
 </resources>

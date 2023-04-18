@@ -89,11 +89,12 @@ public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements
         if (this.chore == null) {
             // Create new chore
             binding.saveChoreButton.setOnClickListener(v -> {
+
                 Chore chore = new Chore(
                         ParentChildChoresActivity.childID,
                         getCalendar().getTimeInMillis(),
                         binding.choreNameFieldEditText.getText().toString(),
-                        Integer.parseInt(binding.rewardFieldEditText.getText().toString()));
+                        (int) (Double.parseDouble(binding.rewardFieldEditText.getText().toString()) * 100));
                 ParentChildChoresActivity.toDoCompletedDBReference.collectionReference.add(chore);
                 dismiss();
             });
@@ -101,7 +102,7 @@ public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements
             // Edit existing chore
             binding.choreNameFieldEditText.setText(chore.getTaskName());
             binding.rewardFieldEditText.setText(String.format("%s",chore.getRewardCents()), TextView.BufferType.EDITABLE);
-            binding.choreTitleTextView.setText("Edit Chore");
+            binding.choreTitleTextView.setText(R.string.edit_chore);
             binding.saveChoreButton.setOnClickListener(v -> {
                 chore.setTaskName(binding.choreNameFieldEditText.getText().toString());
                 chore.setRewardCents(Integer.parseInt(binding.rewardFieldEditText.getText().toString()));

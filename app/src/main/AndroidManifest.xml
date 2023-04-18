@@ -35,6 +35,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ParentChildChoresActivity"
+            android:exported="false"
+            android:parentActivityName=".ParentChildDetailActivity" />
+        <activity
             android:name=".ParentLoginActivity"
             android:exported="false"
             android:parentActivityName=".WelcomeActivity" />

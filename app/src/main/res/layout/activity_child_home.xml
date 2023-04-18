@@ -6,7 +6,7 @@
     <androidx.core.widget.NestedScrollView
         android:id="@+id/child_home_scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout

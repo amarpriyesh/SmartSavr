@@ -1,14 +1,14 @@
 package com.example.smartsavr;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ParentChildDetailActivity extends AppCompatActivity {
 
@@ -23,6 +23,7 @@ public class ParentChildDetailActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
+            // TODO: Deal with null name (upon navigating via up button)
             actionBar.setTitle(child.getName() + "'s Chores");
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
@@ -43,22 +44,27 @@ public class ParentChildDetailActivity extends AppCompatActivity {
         TextView nameTV = findViewById(R.id.child_name);
         nameTV.setText(child.getName());
 
+        setClickListeners(child);
+    }
+
+    private void setClickListeners(Child child) {
         Button modifyBalance = findViewById(R.id.modify_balance);
         modifyBalance.setOnClickListener(view -> {
-            //TODO: Bring up bottom sheet to modify balance
+            //TODO: Set values in bottom sheet appropriately
+            ModifyAllowanceBottomSheetDialog bottomSheet = new ModifyAllowanceBottomSheetDialog();
+            bottomSheet.show(getSupportFragmentManager(), ModifyAllowanceBottomSheetDialog.TAG);
         });
 
         Button manageChores = findViewById(R.id.manage);
         manageChores.setOnClickListener(view -> {
-            //TODO: Navigate to manage chores page
+            Intent intent = new Intent(this, ParentChildChoresActivity.class);
+            intent.putExtra("child", child);
+            startActivity(intent);
         });
 
         Button allowanceSummary = findViewById(R.id.allowance_summary);
         allowanceSummary.setOnClickListener(view -> {
             //TODO: Navigate to allowance summary page
         });
-
     }
-
-
 }
