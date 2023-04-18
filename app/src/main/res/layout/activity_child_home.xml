@@ -76,7 +76,6 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentUpcomingActivities"
-                android:name="com.example.smartsavr.ChoresListFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -87,7 +86,6 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentCompletedActivities"
-                android:name="com.example.smartsavr.ChoresListFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
