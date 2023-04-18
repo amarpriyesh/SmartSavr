@@ -36,10 +36,10 @@ public class ParentChildDetailActivity extends AppCompatActivity {
         choresCompletedTV.setText("Chores Completed: "  + child.getChoresCompleted());
 
         TextView currentBalanceTV = findViewById(R.id.current_balance);
-        currentBalanceTV.setText(("Account Balance: $" + child.getAccountBalanceCents()));
+        currentBalanceTV.setText(("Account Balance: " + Utils.centsToDollarString(child.getAccountBalanceCents())));
 
         TextView allowanceTV = findViewById(R.id.allowance);
-        allowanceTV.setText("Allowance: $" + child.getWeeklyAllowanceCents() + " per week");
+        allowanceTV.setText("Allowance: " + Utils.centsToDollarString(child.getWeeklyAllowanceCents()) + " per week");
 
         TextView nameTV = findViewById(R.id.child_name);
         nameTV.setText(child.getName());
