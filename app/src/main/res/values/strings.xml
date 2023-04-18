@@ -7,7 +7,7 @@
     <string name="add_chore_title">Add Chore</string>
     <string name="edit_chore_title">Edit Chore</string>
     <string name="activity_add_child">Add a Child</string>
-    <string name="activity_edit_profile">Edit %1$s\'s profile</string>
+    <string name="activity_edit_profile">Edit %1$s\'s Profile</string>
     <string name="author_text">Created by Aaron Pradhan, Jackson Schilling, FNU Priyesh, Jiayi Ning, and Parth Khaladkar for CS 5520 at Northeastern University. Profile avatar images provided by Freepik.</string>
     <string name="add_a_child_action">Add a Child</string>
     <string name="log_out_action">Log Out</string>
