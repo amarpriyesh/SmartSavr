@@ -211,37 +211,16 @@ public class ChoresAdapter extends RecyclerView.Adapter<ChoresViewHolder> {
         return chores.size();
     }
 
-    public String getDateToStringProcessor(long rawTime){
-        String[] formatDate = new String[]{"Month", "Day", "Hour", "Minute","Second"};
-        String[] formatDatePlural = new String[]{"Months", "Days", "Hours", "Minutes","Seconds"};
-        SimpleDateFormat formatter = new SimpleDateFormat("MM:dd:HH:mm:ss", Locale.US);
-        String[] dueDateFormat = formatter.format(new Date(rawTime)).split(":");
-        String[] currentDateFormat = formatter.format(new Date(System.currentTimeMillis())).split(":");
-
-
-        for (int i = 0; i < dueDateFormat.length; i++) {
-            int time = Math.abs(Integer.parseInt(dueDateFormat[i]) - Integer.parseInt(currentDateFormat[i]));
-
-            if (time == 1) {
-                return (String.format("%s %s", time, formatDate[i]));
-
-            } else if (time > 1) {
-
-                return (String.format("%s %s", time, formatDatePlural[i]));
-
-            }
-
-
-        }
-        return "few seconds";
+    public String getDateToStringProcessor(long dueDate) {
+        return getDateToStringProcessor(dueDate, System.currentTimeMillis());
     }
 
-    public String getDateToStringProcessor(long rawTime,long refTime){
+    public String getDateToStringProcessor(long dueDate, long currentDate) {
         String[] formatDate = new String[]{"Month", "Day", "Hour", "Minute","Second"};
         String[] formatDatePlural = new String[]{"Months", "Days", "Hours", "Minutes","Seconds"};
         SimpleDateFormat formatter = new SimpleDateFormat("MM:dd:HH:mm:ss", Locale.US);
-        String[] dueDateFormat = formatter.format(new Date(rawTime)).split(":");
-        String[] currentDateFormat = formatter.format(new Date(refTime)).split(":");
+        String[] dueDateFormat = formatter.format(new Date(dueDate)).split(":");
+        String[] currentDateFormat = formatter.format(new Date(currentDate)).split(":");
 
 
         for (int i = 0; i < dueDateFormat.length; i++) {
