@@ -12,19 +12,13 @@
         android:theme="@style/Theme.Smartsavr"
         tools:targetApi="31">
         <activity
-            android:name=".ParentTaskView"
-            android:exported="false" />
-        <activity
-            android:name=".ChildHome"
+            android:name=".ChildloginScreen"
             android:exported="false" />
         <activity
             android:name=".ChildProfile_parentlogin"
             android:exported="false" />
         <activity
-            android:name=".AddedChildrenview"
-            android:exported="false" />
-        <activity
-            android:name=".Parent_HomeScreenZero"
+            android:name=".Parent_HomeScreen"
             android:exported="false" />
         <activity
             android:name=".ActivityZero"

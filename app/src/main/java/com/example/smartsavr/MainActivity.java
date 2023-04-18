@@ -3,6 +3,7 @@ package com.example.smartsavr;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -50,32 +51,53 @@ public class MainActivity extends AppCompatActivity {
                 String name = binding.username.getText().toString();
                 String email = binding.email.getText().toString().trim();
                 String password = binding.password.getText().toString();
-                temp = 0+ random.nextInt(100);
-                userid = name + temp;
 
-                progressDialog.show();
+                if(TextUtils.isEmpty(name))
+                {
+                    Toast.makeText(MainActivity.this,"Enter Name",Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                firebaseAuth.createUserWithEmailAndPassword(email,password)
-                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                            @Override
-                            public void onSuccess(AuthResult authResult) {
-                                startActivity(new Intent(MainActivity.this,LoginActivity.class));
-                                progressDialog.cancel();
+                else if(TextUtils.isEmpty(email))
+                {
+                    Toast.makeText(MainActivity.this,"Enter Email",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if(TextUtils.isEmpty(password))
+                {
+                    Toast.makeText(MainActivity.this,"Enter Password ",Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                                firebaseFirestore.collection("User")
-                                        .document(FirebaseAuth.getInstance().getUid())
-                                        .set(new UserModel(userid,name,email));
+                else{
+                    progressDialog.show();
 
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                progressDialog.cancel();
+                    firebaseAuth.createUserWithEmailAndPassword(email,password)
+                            .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                @Override
+                                public void onSuccess(AuthResult authResult) {
+                                    startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                                    progressDialog.cancel();
 
-                            }
-                        });
+                                    firebaseFirestore.collection("User")
+                                            .document(FirebaseAuth.getInstance().getUid())
+                                            .set(new UserModel(name,email));
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    progressDialog.cancel();
+
+                                }
+                            });
+
+                }
+
+
+
 
             }
         });

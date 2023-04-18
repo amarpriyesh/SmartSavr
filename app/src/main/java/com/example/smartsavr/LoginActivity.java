@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
@@ -36,27 +37,48 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = binding.email.getText().toString().trim();
                 String password = binding.password.getText().toString();
-                progressDialog.show();
-
-                firebaseAuth.signInWithEmailAndPassword(email,password)
-                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                            @Override
-                            public void onSuccess(AuthResult authResult) {
-                                progressDialog.cancel();
-                                Toast.makeText(LoginActivity.this,"Login Successful",Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(LoginActivity.this, Parent_HomeScreenZero.class));
 
 
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                progressDialog.cancel();
-                                Toast.makeText(LoginActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                if(TextUtils.isEmpty(email))
+                {
+                    Toast.makeText(LoginActivity.this,"Enter Email",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if(TextUtils.isEmpty(password))
+                {
+                    Toast.makeText(LoginActivity.this,"Enter Password ",Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                            }
-                        });
+                else
+                {
+                    progressDialog.show();
+                    firebaseAuth.signInWithEmailAndPassword(email,password)
+                            .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                @Override
+                                public void onSuccess(AuthResult authResult) {
+                                    progressDialog.cancel();
+                                    Toast.makeText(LoginActivity.this,"Login Successful",Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(LoginActivity.this, Parent_HomeScreen.class));
+
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    progressDialog.cancel();
+                                    Toast.makeText(LoginActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+
+                                }
+                            });
+
+
+                }
+
+
+
+
 
 
                 binding.resetpassword.setOnClickListener(new View.OnClickListener() {
