@@ -81,7 +81,7 @@ public class ChildHomeActivity extends AppCompatActivity {
         choresCompletedDBReference = new DBReference(collectionReference, firebaseFirestore);
         toDoCompletedDBReference = new DBReference(collectionReference, firebaseFirestore);
 
-        Query queryChoresCompleted = collectionReference.whereEqualTo("childID", childId).whereEqualTo("complete", true).orderBy("completedTimestamp", Query.Direction.ASCENDING);
+        Query queryChoresCompleted = collectionReference.whereEqualTo("childID", childId).whereEqualTo("complete", true).orderBy("completedTimestamp", Query.Direction.ASCENDING).limit(3);
         Query queryChoresApproved = collectionReference.whereEqualTo("childID", childId).whereEqualTo("complete", true).whereEqualTo("approved", true);
 
         choresCompletedDBReference.setQuery(queryChoresCompleted);
@@ -91,7 +91,7 @@ public class ChildHomeActivity extends AppCompatActivity {
             binding.textWeekly.setText(getResources().getString(R.string.weekly_earnings, centsToDollarString(sumWeekly)));
             binding.textMonthly.setText(getResources().getString(R.string.monthly_earnings, centsToDollarString(sumMonthly)));
         });
-        Query queryChoresToDo = collectionReference.whereEqualTo("childID", childId).whereEqualTo("complete", false).orderBy("deadline", Query.Direction.ASCENDING);
+        Query queryChoresToDo = collectionReference.whereEqualTo("childID", childId).whereEqualTo("complete", false).orderBy("deadline", Query.Direction.ASCENDING).limit(3);
         toDoCompletedDBReference.setQuery(queryChoresToDo);
 
         completedActivityFragmnet = ChoresListFragment.newInstance("childChoresCompleted");

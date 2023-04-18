@@ -50,6 +50,8 @@ public class ParentChildChoresActivity extends AppCompatActivity {
         Log.d(TAG, String.format("Child is %s", child));
         listChoresCompleted.clear();
         listChoresToDo.clear();
+
+
         binding = ActivityParentChildChoresBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
