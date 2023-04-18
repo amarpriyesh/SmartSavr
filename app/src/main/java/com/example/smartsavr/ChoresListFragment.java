@@ -24,17 +24,9 @@ public class ChoresListFragment extends Fragment {
 
 
     // TODO: Rename and change types of parameters
-
-
-
-
     private FragmentChoresListBinding binding;
-
-    private   RecyclerView.Adapter<ChoresViewHolder> adapter;
-
+    private RecyclerView.Adapter<ChoresViewHolder> adapter;
     Handler handler;
-
-
 
     public ChoresListFragment() {
         // doesn't do anything special
@@ -50,14 +42,9 @@ public class ChoresListFragment extends Fragment {
     }
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       /* binding = FragmentCompletedActivitiesBinding.inflate(getLayoutInflater());
-        initializeRecyclerView();*/
-
-
     }
 
     @Override
@@ -69,145 +56,76 @@ public class ChoresListFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState){
-        Log.d("GET STRING",getArguments().getString(USR));
-        if(getArguments().getString(USR).equals("childChoresCompleted")){
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.d("GET STRING", getArguments().getString(USR));
+        if (getArguments().getString(USR).equals("childChoresCompleted")) {
             initializeRecyclerView1();
 
-            ChildHomeActivity.choresCompletedDBReference.setChoresListener(ChildHomeActivity.listChoresCompleted,this.adapter);
-            //ChildHome.choresCompletedDBReference.setChores(ChildHome.listChoresCompleted,this.adapter);
-        }
-        else if(getArguments().getString(USR).equals("childChoresToDo")){
+            ChildHomeActivity.choresCompletedDBReference.setChoresListener(ChildHomeActivity.listChoresCompleted, this.adapter, binding);
+        } else if (getArguments().getString(USR).equals("childChoresToDo")) {
             initializeRecyclerView2();
 
-            ChildHomeActivity.toDoCompletedDBReference.setChoresListener(ChildHomeActivity.listChoresToDo,this.adapter);
-            //ChildHome.toDoCompletedDBReference.setChores(ChildHome.listChoresToDo,this.adapter);
-        }
-        else if(getArguments().getString(USR).equals("parentChoresCompleted")){
+            ChildHomeActivity.toDoCompletedDBReference.setChoresListener(ChildHomeActivity.listChoresToDo, this.adapter, binding);
+        } else if (getArguments().getString(USR).equals("parentChoresCompleted")) {
             initializeRecyclerView3();
 
-            ParentChildChoresActivity.choresCompletedDBReference.setChoresListener(ParentChildChoresActivity.listChoresCompleted,this.adapter);
-            //ChildHome.choresCompletedDBReference.setChores(ChildHome.listChoresCompleted,this.adapter);
-        }
-
-        else if(getArguments().getString(USR).equals("parentChoresToDo")){
+            ParentChildChoresActivity.choresCompletedDBReference.setChoresListener(ParentChildChoresActivity.listChoresCompleted, this.adapter, binding);
+        } else if (getArguments().getString(USR).equals("parentChoresToDo")) {
             initializeRecyclerView4();
 
-            ParentChildChoresActivity.toDoCompletedDBReference.setChoresListener(ParentChildChoresActivity.listChoresToDo,this.adapter);
-            //ChildHome.toDoCompletedDBReference.setChores(ChildHome.listChoresToDo,this.adapter);
+            ParentChildChoresActivity.toDoCompletedDBReference.setChoresListener(ParentChildChoresActivity.listChoresToDo, this.adapter, binding);
         }
-
-
-
-
-
     }
 
     private void initializeRecyclerView1() {
         RecyclerView choresRecyclerView = binding.recyclerView;
         choresRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        adapter = new ChoresAdapter(ChildHomeActivity.listChoresCompleted, requireActivity(),true, ChildHomeActivity.choresCompletedDBReference);
+        adapter = new ChoresAdapter(ChildHomeActivity.listChoresCompleted, requireActivity(), true, ChildHomeActivity.choresCompletedDBReference);
         // Associates the adapter with the RecyclerView
         choresRecyclerView.setAdapter(adapter);
         handler = new Handler();
-        Runnable newRUnnable = new ChoresPoller(adapter,false,handler);
-        new Thread(newRUnnable).start();
-        /*Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-
-
-
-                handler.postDelayed(this, 1000);
-                adapter.notifyDataSetChanged();
-            }
-        };
-
-        handler.post(runnable);*/
+        Runnable newRunnable = new ChoresPoller(adapter, false, handler);
+        new Thread(newRunnable).start();
     }
 
     private void initializeRecyclerView2() {
         RecyclerView choresRecyclerView = binding.recyclerView;
         choresRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        adapter = new ChoresAdapter(ChildHomeActivity.listChoresToDo, requireActivity(),true, ChildHomeActivity.toDoCompletedDBReference);
+        adapter = new ChoresAdapter(ChildHomeActivity.listChoresToDo, requireActivity(), true, ChildHomeActivity.toDoCompletedDBReference);
         // Associates the adapter with the RecyclerView
         choresRecyclerView.setAdapter(adapter);
 
 
         handler = new Handler();
-        Runnable newRUnnable = new ChoresPoller(adapter,false,handler);
-        new Thread(newRUnnable).start();
-
-
-       /* Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-
-
-
-                handler.postDelayed(this, 1000);
-                adapter.notifyDataSetChanged();
-            }
-        };
-
-        handler.post(runnable);*/
-
+        Runnable newRunnable = new ChoresPoller(adapter, false, handler);
+        new Thread(newRunnable).start();
     }
+
     private void initializeRecyclerView3() {
         RecyclerView choresRecyclerView = binding.recyclerView;
         choresRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        adapter = new ChoresAdapter(ParentChildChoresActivity.listChoresCompleted, requireActivity(),false, ParentChildChoresActivity.choresCompletedDBReference);
+        adapter = new ChoresAdapter(ParentChildChoresActivity.listChoresCompleted, requireActivity(), false, ParentChildChoresActivity.choresCompletedDBReference);
         // Associates the adapter with the RecyclerView
         choresRecyclerView.setAdapter(adapter);
         handler = new Handler();
-        Runnable newRUnnable = new ChoresPoller(adapter,false,handler);
-        new Thread(newRUnnable).start();
-        /*Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-
-
-
-                handler.postDelayed(this, 1000);
-                adapter.notifyDataSetChanged();
-            }
-        };
-
-        handler.post(runnable);*/
+        Runnable newRunnable = new ChoresPoller(adapter, false, handler);
+        new Thread(newRunnable).start();
     }
 
     private void initializeRecyclerView4() {
         RecyclerView choresRecyclerView = binding.recyclerView;
         choresRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        adapter = new ChoresAdapter(ParentChildChoresActivity.listChoresToDo, requireActivity(),false, ParentChildChoresActivity.toDoCompletedDBReference);
+        adapter = new ChoresAdapter(ParentChildChoresActivity.listChoresToDo, requireActivity(), false, ParentChildChoresActivity.toDoCompletedDBReference);
         // Associates the adapter with the RecyclerView
         choresRecyclerView.setAdapter(adapter);
 
 
         handler = new Handler();
-        Runnable newRUnnable = new ChoresPoller(adapter,false,handler);
-        new Thread(newRUnnable).start();
-
-
-       /* Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-
-
-
-                handler.postDelayed(this, 1000);
-                adapter.notifyDataSetChanged();
-            }
-        };
-
-        handler.post(runnable);*/
-
-    }
-    public RecyclerView.Adapter<ChoresViewHolder> getAdapter(){
-        return this.adapter;
+        Runnable newRunnable = new ChoresPoller(adapter, false, handler);
+        new Thread(newRunnable).start();
     }
 }

@@ -28,7 +28,6 @@ public class ParentChildDetailActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            // TODO: Deal with null name (upon navigating via up button)
             actionBar.setTitle(child.getName() + "'s Profile");
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
@@ -82,10 +81,14 @@ public class ParentChildDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_edit_profile) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_edit_profile) {
             Intent myIntent = new Intent(this, AddChildActivity.class);
             myIntent.putExtra(Utils.CHILD, child);
             startActivity(myIntent);
+            return true;
+        } else if (itemId == android.R.id.home) {
+            onBackPressed();
             return true;
         } else {
             return super.onOptionsItemSelected(item);

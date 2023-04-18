@@ -3,6 +3,7 @@ package com.example.smartsavr;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,7 +55,6 @@ public class ParentChildChoresActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            // TODO: Deal with null name (upon navigating via up button)
             actionBar.setTitle(child.getName() + "'s Chores");
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
@@ -100,5 +100,12 @@ public class ParentChildChoresActivity extends AppCompatActivity {
         return fragmentManager;
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

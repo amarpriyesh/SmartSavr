@@ -8,7 +8,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import android.os.Handler;
 
-public class ChoresPoller implements Runnable{
+public class ChoresPoller implements Runnable {
     RecyclerView.Adapter<ChoresViewHolder> adapter;
     boolean exit;
     Handler handler;
@@ -19,34 +19,15 @@ public class ChoresPoller implements Runnable{
         this.handler = handler;
     }
 
-
-
     @Override
     public void run() {
-
-        while(!exit) {
-
+        while (!exit) {
             try {
                 Thread.sleep(60000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            handler.post(new Runnable() {
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void run() {
-                    adapter.notifyDataSetChanged();
-
-
-
-                }
-            });
+            handler.post(() -> adapter.notifyDataSetChanged());
         }
-
-
-    }
-
-    void setExit(){
-        exit = true;
     }
 }
