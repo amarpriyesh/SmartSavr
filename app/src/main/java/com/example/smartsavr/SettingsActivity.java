@@ -15,6 +15,7 @@ public class SettingsActivity extends AppCompatActivity {
     public static final String IS_CHILD_USER = "isChildUser";
 
     private ActivitySettingsBinding binding;
+    private boolean isChildUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +24,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         Intent intent = getIntent();
-        boolean isChildUser = intent.getBooleanExtra(IS_CHILD_USER, false);
+        isChildUser = intent.getBooleanExtra(IS_CHILD_USER, false);
         binding.addAChildButton.setVisibility(isChildUser ? View.GONE : View.VISIBLE);
 
         // up button
@@ -38,6 +39,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void setClickListeners() {
         binding.addAChildButton.setOnClickListener(view -> startActivity(new Intent(this, AddChildActivity.class)));
+        binding.logOutButton.setOnClickListener(view -> startActivity(new Intent(this, isChildUser ? ChildLoginActivity.class : ParentLoginActivity.class)));
     }
 
     @Override
