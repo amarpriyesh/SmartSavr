@@ -1,6 +1,7 @@
 package com.example.smartsavr;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -39,6 +40,11 @@ public class ChildloginScreen extends AppCompatActivity {
         binding = ActivityChildloginScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(R.string.log_in);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         binding.login.setOnClickListener(new View.OnClickListener() {
             @Override

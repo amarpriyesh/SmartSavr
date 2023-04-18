@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.smartsavr.databinding.ActivityMainBinding;
@@ -40,7 +41,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        firebaseAuth= FirebaseAuth.getInstance();
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(R.string.sign_up);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
         progressDialog = new ProgressDialog(this);
 
@@ -52,36 +60,28 @@ public class MainActivity extends AppCompatActivity {
                 String email = binding.email.getText().toString().trim();
                 String password = binding.password.getText().toString();
 
-                if(TextUtils.isEmpty(name))
-                {
-                    Toast.makeText(MainActivity.this,"Enter Name",Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(name)) {
+                    Toast.makeText(MainActivity.this, "Enter Name", Toast.LENGTH_SHORT).show();
                     return;
-                }
-
-                else if(TextUtils.isEmpty(email))
-                {
-                    Toast.makeText(MainActivity.this,"Enter Email",Toast.LENGTH_SHORT).show();
+                } else if (TextUtils.isEmpty(email)) {
+                    Toast.makeText(MainActivity.this, "Enter Email", Toast.LENGTH_SHORT).show();
                     return;
-                }
-                else if(TextUtils.isEmpty(password))
-                {
-                    Toast.makeText(MainActivity.this,"Enter Password ",Toast.LENGTH_SHORT).show();
+                } else if (TextUtils.isEmpty(password)) {
+                    Toast.makeText(MainActivity.this, "Enter Password ", Toast.LENGTH_SHORT).show();
                     return;
-                }
-
-                else{
+                } else {
                     progressDialog.show();
 
-                    firebaseAuth.createUserWithEmailAndPassword(email,password)
+                    firebaseAuth.createUserWithEmailAndPassword(email, password)
                             .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
-                                    startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
                                     progressDialog.cancel();
 
                                     firebaseFirestore.collection("User")
                                             .document(FirebaseAuth.getInstance().getUid())
-                                            .set(new UserModel(name,email));
+                                            .set(new UserModel(name, email));
 
                                 }
                             })
@@ -97,8 +97,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
-
-
             }
         });
 
@@ -106,29 +104,9 @@ public class MainActivity extends AppCompatActivity {
         binding.gotologin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
 
             }
         });
-    }
-
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_about) {
-            Intent myIntent = new Intent(this, SettingsActivity.class);
-            startActivity(myIntent);
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
     }
 }

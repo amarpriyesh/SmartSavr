@@ -3,6 +3,7 @@ package com.example.smartsavr;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -132,6 +133,7 @@ public class AddChildActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(DocumentReference documentReference) {
                                         Toast.makeText(AddChildActivity.this,"Child Added Successfully", Toast.LENGTH_SHORT).show();
+                                        onBackPressed();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -183,11 +185,12 @@ public class AddChildActivity extends AppCompatActivity {
         adapter.notifyItemRangeInserted(0, profilePictures.size());
     }
 
-
-
-
-
-
-
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

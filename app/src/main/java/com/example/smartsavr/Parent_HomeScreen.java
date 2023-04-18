@@ -1,28 +1,23 @@
 package com.example.smartsavr;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +34,11 @@ public class Parent_HomeScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent_home_screen);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(R.string.activity_home);
+        }
 
         findViewById(R.id.add_a_child_text_view).setOnClickListener(view -> startActivity(new Intent(this, AddChildActivity.class)));
 
@@ -117,13 +117,29 @@ public class Parent_HomeScreen extends AppCompatActivity {
 
     private void setVisibility() {
         if (childList.size() == 0) {
-            findViewById(R.id.no_children_message).setVisibility(View.VISIBLE);
             findViewById(R.id.add_a_child_text_view).setVisibility(View.VISIBLE);
             findViewById(R.id.view_added_children).setVisibility(View.GONE);
         } else {
-            findViewById(R.id.no_children_message).setVisibility(View.GONE);
             findViewById(R.id.add_a_child_text_view).setVisibility(View.VISIBLE);
             findViewById(R.id.view_added_children).setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_about) {
+            Intent myIntent = new Intent(this, SettingsActivity.class);
+            startActivity(myIntent);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 }

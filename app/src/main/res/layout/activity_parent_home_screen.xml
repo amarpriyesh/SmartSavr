@@ -13,30 +13,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <TextView
-        android:id="@+id/no_children_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/you_haven_t_added_any_children_yet"
-        android:textSize="24sp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/black"
-        android:layout_marginBottom="0dp"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/add_a_child_text_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="start"
-        android:layout_marginStart="10dp"
-        android:text="@string/Add_a_Child"
-        android:textColor="@color/blue"
+        android:text="@string/you_haven_t_added_any_children_yet"
+        android:textSize="18sp"
+        android:layout_margin="10dp"
         android:clickable="true"
-        android:textSize="24sp" />
+        android:textColor="@color/black" />
 
     <Space
         android:layout_weight="1"

@@ -1,6 +1,7 @@
 package com.example.smartsavr;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -28,6 +29,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(R.string.log_in);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         firebaseAuth=FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
@@ -58,10 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
                                     progressDialog.cancel();
-                                    Toast.makeText(LoginActivity.this,"Login Successful",Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(LoginActivity.this, Parent_HomeScreen.class));
-
-
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
