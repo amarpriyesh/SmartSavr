@@ -13,6 +13,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class ChildLoginActivity extends AppCompatActivity {
@@ -20,8 +21,6 @@ public class ChildLoginActivity extends AppCompatActivity {
     ActivityChildLoginBinding binding;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firebaseFirestore;
-    HashMap<String, String> mp = new HashMap<>();
-    boolean flag = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,25 +43,22 @@ public class ChildLoginActivity extends AppCompatActivity {
 
             firebaseFirestore.collection("children").whereNotEqualTo("username", null).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
+                    Map<String, ChildUser> mp = new HashMap<>();
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        //Log.d("Tag", document.getId() + " => " + document.getData());
-                        mp.put(Objects.requireNonNull(document.getData().get("username")).toString(), Objects.requireNonNull(document.getData().get("password")).toString());
+                        mp.put(Objects.requireNonNull(document.getData().get("username")).toString(), new ChildUser(document.getId(), Objects.requireNonNull(document.getData().get("password")).toString()));
                     }
-                    flag = true;
+                    ChildUser myUser = mp.get(username);
+                    if (myUser != null && Objects.equals(myUser.getPassword(), password)) {
+                        // initiate child home activity
+                        Toast.makeText(ChildLoginActivity.this, "Logged in", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(this, ChildHomeActivity.class);
+                        intent.putExtra(Utils.CHILD_ID, myUser.getChildId());
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(ChildLoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
-
-            if (flag) {
-                if (mp.containsKey(username)) {
-                    if (Objects.equals(mp.get(username), password)) {
-                        // initiate child home activity
-                        Toast.makeText(ChildLoginActivity.this, "Logged in ", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(this, ChildHomeActivity.class));
-                    }
-                } else {
-                    Toast.makeText(ChildLoginActivity.this, "Invalid Credentials ", Toast.LENGTH_SHORT).show();
-                }
-            }
         });
     }
 }

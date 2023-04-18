@@ -2,7 +2,7 @@ package com.example.smartsavr;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Log;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,30 +26,27 @@ public class ParentChildChoresActivity extends AppCompatActivity {
     static DBReference choresCompletedDBReference;
     static DBReference toDoCompletedDBReference;
 
-    static DBReference choresAddDBReference;
-
     static FragmentManager fragmentManager;
 
-    static String childID;
-    ChoresPoller poller;
+    private Child child;
 
-    final String TAG = "FIREBASE QUERY";
     ActivityParentChildChoresBinding binding;
 
-    ChoresListFragment completedActivityFragmnet;
-    ChoresListFragment toDoActivityFragmnet;
+    ChoresListFragment completedActivityFragment;
+    ChoresListFragment toDoActivityFragment;
     FirebaseFirestore firebaseFirestore;
     CollectionReference collectionReference;
 
 
+    private static final String TAG = "ParentChildChoresActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         fragmentManager = getSupportFragmentManager();
-        childID = intent.getExtras().getString(Utils.CHILD);
-        Child child = (Child) intent.getSerializableExtra(Utils.CHILD);
+        child = (Child) intent.getSerializableExtra(Utils.CHILD);
+        Log.d(TAG, String.format("Child is %s", child));
         listChoresCompleted.clear();
         listChoresToDo.clear();
         binding = ActivityParentChildChoresBinding.inflate(getLayoutInflater());
@@ -69,14 +66,14 @@ public class ParentChildChoresActivity extends AppCompatActivity {
         choresCompletedDBReference = new DBReference(collectionReference,firebaseFirestore);
         toDoCompletedDBReference = new DBReference(collectionReference,firebaseFirestore);
 
-        Query queryChoresCompleted = collectionReference.whereEqualTo("childID", childID).whereEqualTo("complete",true).orderBy("completedTimestamp", Query.Direction.ASCENDING);
+        Query queryChoresCompleted = collectionReference.whereEqualTo("childID", child.getId()).whereEqualTo("complete",true).orderBy("completedTimestamp", Query.Direction.ASCENDING);
         choresCompletedDBReference.setQuery(queryChoresCompleted);
-        Query queryChoresToDo = collectionReference.whereEqualTo("childID", childID).whereEqualTo("complete",false).orderBy("deadline", Query.Direction.ASCENDING);
+        Query queryChoresToDo = collectionReference.whereEqualTo("childID", child.getId()).whereEqualTo("complete",false).orderBy("deadline", Query.Direction.ASCENDING);
         toDoCompletedDBReference.setQuery(queryChoresToDo);
-        completedActivityFragmnet = ChoresListFragment.newInstance("parentChoresCompleted");
-        toDoActivityFragmnet = ChoresListFragment.newInstance("parentChoresToDo");
-        setFragment(R.id.fragmentNeedApproval, completedActivityFragmnet);
-        setFragment(R.id.fragmentCompletedActivities, toDoActivityFragmnet);
+        completedActivityFragment = ChoresListFragment.newInstance("parentChoresCompleted");
+        toDoActivityFragment = ChoresListFragment.newInstance("parentChoresToDo");
+        setFragment(R.id.fragmentNeedApproval, completedActivityFragment);
+        setFragment(R.id.fragmentCompletedActivities, toDoActivityFragment);
         setClickListeners();
 
 
@@ -90,14 +87,12 @@ public class ParentChildChoresActivity extends AppCompatActivity {
     }
 
     private void setClickListeners() {
-        // todo: move this functionality to the child chore management screen when it's implemented
         binding.addTask.setOnClickListener(v -> {
-
-                ChoreBottomSheetDialog bottomSheet = new ChoreBottomSheetDialog();
-                bottomSheet.show(fragmentManager, ChoreBottomSheetDialog.TAG);
-
-
-
+            Bundle bundle = new Bundle();
+            bundle.putString(ChoreBottomSheetDialog.CHILD_ID, child.getId());
+            ChoreBottomSheetDialog bottomSheet = new ChoreBottomSheetDialog();
+            bottomSheet.setArguments(bundle);
+            bottomSheet.show(fragmentManager, ChoreBottomSheetDialog.TAG);
         });
     }
 

@@ -3,6 +3,7 @@ package com.example.smartsavr;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,18 +23,16 @@ public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements
     // todo: perform input validation (date must be in the future, chore name must be non-empty, reward must be a valid dollar amount (2 decimal places) with a max of like $1000 or something
 
     public static final String TAG = "ChoreBottomSheetDialog";
+    public static final String CHILD_ID = "childId";
     private FragmentChoreBottomSheetBinding binding;
 
     // todo: Use viewmodel for state
     private int year;
     private int month;
     private int dayOfMonth;
+    private String childId;
 
     private Chore chore;
-
-
-    private ChoreBottomSheetDialog ob;
-
 
     public ChoreBottomSheetDialog() {
 
@@ -54,6 +53,13 @@ public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentChoreBottomSheetBinding.inflate(inflater, container, false);
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            childId = bundle.getString(CHILD_ID);
+        } else {
+            Log.e(TAG, "Child ID is null");
+        }
 
         Calendar calendar = Calendar.getInstance();
 
@@ -91,7 +97,7 @@ public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements
             binding.saveChoreButton.setOnClickListener(v -> {
                 String rewardText = binding.rewardFieldEditText.getText().toString();
                 Chore chore = new Chore(
-                        ParentChildChoresActivity.childID,
+                        childId,
                         getCalendar().getTimeInMillis(),
                         binding.choreNameFieldEditText.getText().toString(),
                         Utils.dollarStringToCents(rewardText));

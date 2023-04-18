@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -40,7 +41,7 @@ public class ChildHomeActivity extends AppCompatActivity {
 
     ChoresPoller poller;
 
-    final String TAG = "FIREBASE QUERY";
+    final String TAG = "ChildHomeActivity";
     ActivityChildHomeBinding binding;
 
     CalendarOperation cal;
@@ -50,7 +51,7 @@ public class ChildHomeActivity extends AppCompatActivity {
     FirebaseFirestore firebaseFirestore;
     CollectionReference collectionReference;
 
-    String child;
+    String childId;
 
 
 
@@ -67,7 +68,10 @@ public class ChildHomeActivity extends AppCompatActivity {
             actionBar.setTitle(R.string.activity_home);
         }
 
-        child = "sam";
+        Intent intent = getIntent();
+        childId = intent.getStringExtra(Utils.CHILD_ID);
+        Log.d(TAG, String.format("Child ID is %s", childId));
+
         listChoresCompleted.clear();
         listChoresToDo.clear();
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -77,8 +81,8 @@ public class ChildHomeActivity extends AppCompatActivity {
         choresCompletedDBReference = new DBReference(collectionReference, firebaseFirestore);
         toDoCompletedDBReference = new DBReference(collectionReference, firebaseFirestore);
 
-        Query queryChoresCompleted = collectionReference.whereEqualTo("childID", child).whereEqualTo("complete", true).orderBy("completedTimestamp", Query.Direction.ASCENDING);
-        Query queryChoresApproved = collectionReference.whereEqualTo("childID", child).whereEqualTo("complete", true).whereEqualTo("approved", true);
+        Query queryChoresCompleted = collectionReference.whereEqualTo("childID", childId).whereEqualTo("complete", true).orderBy("completedTimestamp", Query.Direction.ASCENDING);
+        Query queryChoresApproved = collectionReference.whereEqualTo("childID", childId).whereEqualTo("complete", true).whereEqualTo("approved", true);
 
         choresCompletedDBReference.setQuery(queryChoresCompleted);
         choresCompletedDBReference.setQueryComplete(queryChoresApproved);
@@ -87,7 +91,7 @@ public class ChildHomeActivity extends AppCompatActivity {
             binding.textWeekly.setText(getResources().getString(R.string.weekly_earnings, centsToDollarString(sumWeekly)));
             binding.textMonthly.setText(getResources().getString(R.string.monthly_earnings, centsToDollarString(sumMonthly)));
         });
-        Query queryChoresToDo = collectionReference.whereEqualTo("childID", child).whereEqualTo("complete", false).orderBy("deadline", Query.Direction.ASCENDING);
+        Query queryChoresToDo = collectionReference.whereEqualTo("childID", childId).whereEqualTo("complete", false).orderBy("deadline", Query.Direction.ASCENDING);
         toDoCompletedDBReference.setQuery(queryChoresToDo);
 
         completedActivityFragmnet = ChoresListFragment.newInstance("childChoresCompleted");

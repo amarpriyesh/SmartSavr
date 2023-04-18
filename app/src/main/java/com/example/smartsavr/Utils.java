@@ -3,6 +3,7 @@ package com.example.smartsavr;
 public class Utils {
 
     public static final String CHILD = "child";
+    public static final String CHILD_ID = "childId";
 
     public static String centsToDollarString(int cents) {
         return centsToDollarString(cents, true);
