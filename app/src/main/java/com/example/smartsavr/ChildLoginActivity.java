@@ -1,5 +1,6 @@
 package com.example.smartsavr;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -56,6 +57,7 @@ public class ChildLoginActivity extends AppCompatActivity {
                     if (Objects.equals(mp.get(username), password)) {
                         // initiate child home activity
                         Toast.makeText(ChildLoginActivity.this, "Logged in ", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(this, ChildHomeActivity.class));
                     }
                 } else {
                     Toast.makeText(ChildLoginActivity.this, "Invalid Credentials ", Toast.LENGTH_SHORT).show();

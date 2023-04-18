@@ -26,7 +26,6 @@
     <string name="sign_up_small"><u>Sign Up</u></string>
     <string name="log_in_small"><u>Log in</u></string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="email_address">E-mail address</string>
     <string name="password">Password</string>
     <string name="username">Username</string>
@@ -37,10 +36,13 @@
     <string name="amount">Amount</string>
     <string name="you_haven_t_added_any_children_yet">You haven\'t added any children yet. <font color="blue"><u>Add a child to get started.</u></font></string>
     <string name="allowance_summary">Allowance Summary</string>
-    <string name="chores_completed">Chores Completed :</string>
-    <string name="current_balance">Currrent Balance :</string>
+    <string name="chores_completed">Chores Completed:</string>
+    <string name="current_balance">Current Balance:</string>
     <string name="allowance">\"Allowance: \"</string>
     <string name="log_in">Log In</string>
     <string name="sign_up">Sign Up</string>
     <string name="smartsavr">Smartsavr</string>
+    <string name="weekly_earnings">Weekly Earnings: %1$s</string>
+    <string name="monthly_earnings">Monthly Earnings: %1$s</string>
+    <string name="see_more">See More</string>
 </resources>

@@ -23,6 +23,9 @@
             android:name=".ParentHomeActivity"
             android:exported="false" />
         <activity
+            android:name=".ChildHomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".WelcomeActivity"
             android:exported="true">
             <intent-filter>

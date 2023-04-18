@@ -1,8 +1,11 @@
 package com.example.smartsavr;
 
-import static androidx.databinding.DataBindingUtil.setContentView;
-
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,17 +13,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.example.smartsavr.databinding.FragmentCompletedActivitiesBinding;
-
-import android.os.Handler;
+import com.example.smartsavr.databinding.FragmentChoresListBinding;
 
 
-public class ActivitiesFragment extends Fragment {
+public class ChoresListFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,7 +28,7 @@ public class ActivitiesFragment extends Fragment {
 
 
 
-    private FragmentCompletedActivitiesBinding binding;
+    private FragmentChoresListBinding binding;
 
     private   RecyclerView.Adapter<ChoresViewHolder> adapter;
 
@@ -40,12 +36,12 @@ public class ActivitiesFragment extends Fragment {
 
 
 
-    public ActivitiesFragment() {
+    public ChoresListFragment() {
         // doesn't do anything special
     }
 
-    public static ActivitiesFragment newInstance(String user) {
-        ActivitiesFragment fragment = new ActivitiesFragment();
+    public static ChoresListFragment newInstance(String user) {
+        ChoresListFragment fragment = new ChoresListFragment();
         Bundle args = new Bundle();
         args.putString(USR, user);
         fragment.setArguments(args);
@@ -65,10 +61,10 @@ public class ActivitiesFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentCompletedActivitiesBinding.inflate(inflater, container, false);
+        binding = FragmentChoresListBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 

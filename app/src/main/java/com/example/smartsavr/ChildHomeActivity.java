@@ -1,12 +1,17 @@
 package com.example.smartsavr;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 
 import com.example.smartsavr.databinding.ActivityChildHomeBinding;
@@ -25,7 +30,7 @@ import java.util.List;
 public class ChildHomeActivity extends AppCompatActivity {
 
 
-    static List<Chore> listChoresCompleted =new ArrayList<>();;
+    static List<Chore> listChoresCompleted =new ArrayList<>();
     static List<Chore> listChoresToDo = new ArrayList<>();
 
     static DBReference choresCompletedDBReference;
@@ -34,12 +39,12 @@ public class ChildHomeActivity extends AppCompatActivity {
     ChoresPoller poller;
 
     final String TAG = "FIREBASE QUERY";
-    static ActivityChildHomeBinding binding;
+    ActivityChildHomeBinding binding;
 
     CalendarOperation cal;
 
-    ActivitiesFragment completedActivityFragmnet;
-    ActivitiesFragment toDoActivityFragmnet;
+    ChoresListFragment completedActivityFragmnet;
+    ChoresListFragment toDoActivityFragmnet;
     FirebaseFirestore firebaseFirestore;
     CollectionReference collectionReference;
 
@@ -52,11 +57,17 @@ public class ChildHomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = ActivityChildHomeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(R.string.activity_home);
+        }
+
         child="sam";
         listChoresCompleted.clear();
         listChoresToDo.clear();
-        binding = ActivityChildHomeBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
         firebaseFirestore = FirebaseFirestore.getInstance();
         collectionReference = firebaseFirestore.collection("chores");
 
@@ -70,17 +81,36 @@ public class ChildHomeActivity extends AppCompatActivity {
 
         choresCompletedDBReference.setQuery(queryChoresCompleted);
         choresCompletedDBReference.setQueryComplete(queryChoresApproved);
-        choresCompletedDBReference.setApprovedListener();
+        choresCompletedDBReference.setApprovedListener((total, sumWeekly, sumMonthly) -> {
+            binding.textTotal.setText(centsToDollarString(total));
+            binding.textWeekly.setText(getResources().getString(R.string.weekly_earnings, centsToDollarString(sumWeekly)));
+            binding.textMonthly.setText(getResources().getString(R.string.monthly_earnings, centsToDollarString(sumMonthly)));
+        });
         Query queryChoresToDo = collectionReference.whereEqualTo("childID", child).whereEqualTo("complete",false).orderBy("deadline", Query.Direction.ASCENDING);
         toDoCompletedDBReference.setQuery(queryChoresToDo);
 
-        completedActivityFragmnet = ActivitiesFragment.newInstance("childChoresCompleted");
-       toDoActivityFragmnet = ActivitiesFragment.newInstance("childChoresToDo");
-        setFragment(R.id.fragmentCompletedActivities,(Fragment)completedActivityFragmnet);
-        setFragment(R.id.fragmentUpcomingActivities,(Fragment)toDoActivityFragmnet);
-        binding.imageView3.setImageResource(R.drawable.wallet1);
+        completedActivityFragmnet = ChoresListFragment.newInstance("childChoresCompleted");
+       toDoActivityFragmnet = ChoresListFragment.newInstance("childChoresToDo");
+        setFragment(R.id.fragmentCompletedActivities, completedActivityFragmnet);
+        setFragment(R.id.fragmentUpcomingActivities, toDoActivityFragmnet);
+    }
 
+    private String centsToDollarString(int cents) {
+        return "$" + cents / 100 + "." + padLeftZeros(cents % 100, 2);
+    }
 
+    public String padLeftZeros(int number, int length) {
+        String numberString = Integer.toString(number);
+        if (numberString.length() >= length) {
+            return numberString;
+        }
+        StringBuilder builder = new StringBuilder();
+        while (builder.length() < length - numberString.length()) {
+            builder.append("0");
+        }
+        builder.append(numberString);
+
+        return builder.toString();
     }
 
     private void setFragment(int id, Fragment fragment) {
@@ -103,5 +133,21 @@ public class ChildHomeActivity extends AppCompatActivity {
         }
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_settings) {
+            Intent myIntent = new Intent(this, SettingsActivity.class);
+            startActivity(myIntent);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
 }

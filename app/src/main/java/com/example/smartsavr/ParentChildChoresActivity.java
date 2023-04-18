@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ParentChildChoresActivity extends AppCompatActivity {
 
-    static List<Chore> listChoresCompleted =new ArrayList<>();;
+    static List<Chore> listChoresCompleted =new ArrayList<>();
     static List<Chore> listChoresToDo = new ArrayList<>();
 
     static DBReference choresCompletedDBReference;
@@ -35,8 +35,8 @@ public class ParentChildChoresActivity extends AppCompatActivity {
     final String TAG = "FIREBASE QUERY";
     ActivityParentChildChoresBinding binding;
 
-    ActivitiesFragment completedActivityFragmnet;
-    ActivitiesFragment toDoActivityFragmnet;
+    ChoresListFragment completedActivityFragmnet;
+    ChoresListFragment toDoActivityFragmnet;
     FirebaseFirestore firebaseFirestore;
     CollectionReference collectionReference;
 
@@ -63,10 +63,10 @@ public class ParentChildChoresActivity extends AppCompatActivity {
         choresCompletedDBReference.setQuery(queryChoresCompleted);
         Query queryChoresToDo = collectionReference.whereEqualTo("childID", childID).whereEqualTo("complete",false).orderBy("deadline", Query.Direction.ASCENDING);
         toDoCompletedDBReference.setQuery(queryChoresToDo);
-        completedActivityFragmnet = ActivitiesFragment.newInstance("parentChoresCompleted");
-        toDoActivityFragmnet = ActivitiesFragment.newInstance("parentChoresToDo");
-        setFragment(R.id.fragmentNeedApproval,(Fragment)completedActivityFragmnet);
-        setFragment(R.id.fragmentCompletedActivities,(Fragment)toDoActivityFragmnet);
+        completedActivityFragmnet = ChoresListFragment.newInstance("parentChoresCompleted");
+        toDoActivityFragmnet = ChoresListFragment.newInstance("parentChoresToDo");
+        setFragment(R.id.fragmentNeedApproval, completedActivityFragmnet);
+        setFragment(R.id.fragmentCompletedActivities, toDoActivityFragmnet);
         setClickListeners();
 
 
@@ -81,16 +81,13 @@ public class ParentChildChoresActivity extends AppCompatActivity {
 
     private void setClickListeners() {
         // todo: move this functionality to the child chore management screen when it's implemented
-        binding.addTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        binding.addTask.setOnClickListener(v -> {
 
-                    ChoreBottomSheetDialog bottomSheet = new ChoreBottomSheetDialog();
-                    bottomSheet.show(fragmentManager, ChoreBottomSheetDialog.TAG);
+                ChoreBottomSheetDialog bottomSheet = new ChoreBottomSheetDialog();
+                bottomSheet.show(fragmentManager, ChoreBottomSheetDialog.TAG);
 
 
 
-            }
         });
     }
 
