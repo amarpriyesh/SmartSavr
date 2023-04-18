@@ -25,6 +25,17 @@ import java.util.Objects;
 
 public class ParentHomeActivity extends AppCompatActivity {
 
+    private static final String USERNAME = "username";
+    private static final String NAME = "name";
+    private static final String PASSWORD = "password";
+    private static final String WEEKLY_ALLOWANCE = "weeklyAllowance";
+    private static final String ACCOUNT_BALANCE = "accountBalance";
+    private static final String PROFILE_PICTURE = "profilePicture";
+    private static final String PARENT_ID = "parentId";
+    private static final String CHORES_COMPLETED = "choresCompleted";
+
+    private static final String TAG = "ParentHomeActivity";
+
     RecyclerView childrenRecyclerView;
     ChildAdapter childAdapter;
     List<Child> childList;
@@ -60,40 +71,47 @@ public class ParentHomeActivity extends AppCompatActivity {
             //TODO: link to Lily's allowance summary page
         });
 
-        firebaseFirestore.collection("children").whereEqualTo("parent_id", parentID).addSnapshotListener(this, (value, error) -> {
+        Log.d(TAG, String.format("Adding Firebase snapshot listener to collection `children` where parent ID is equal to %s", parentID));
+
+        firebaseFirestore.collection("children").whereEqualTo(PARENT_ID, parentID).addSnapshotListener(this, (value, error) -> {
             if (error != null) {
-                Log.w("TAG", "Listen failed.", error);
+                Log.w(TAG, "Listen failed.", error);
                 return;
             }
             if (value != null) {
+                Log.d(TAG, String.format("Received value: %s. There are %d document changes.", value, value.getDocumentChanges().size()));
+
                 for (DocumentChange dc : value.getDocumentChanges()) {
-                    String username = dc.getDocument().get("username", String.class);
-                    String name = dc.getDocument().get("name", String.class);
-                    String password = dc.getDocument().get("password", String.class);
+                    String username = dc.getDocument().get(USERNAME, String.class);
+                    String name = dc.getDocument().get(NAME, String.class);
+                    String password = dc.getDocument().get(PASSWORD, String.class);
 
-                    int weekly_allowance = 0;
-                    if (dc.getDocument().getLong("weekly_allowance") != null) {
-                        weekly_allowance = Objects.requireNonNull(dc.getDocument().getLong("weekly_allowance")).intValue();
+                    int weeklyAllowance = 0;
+                    if (dc.getDocument().getLong(WEEKLY_ALLOWANCE) != null) {
+                        weeklyAllowance = Objects.requireNonNull(dc.getDocument().getLong(WEEKLY_ALLOWANCE)).intValue();
                     }
 
-                    int account_bal = 0;
-                    if (dc.getDocument().getLong("account_balance") != null) {
-                        account_bal = Objects.requireNonNull(dc.getDocument().getLong("account_balance")).intValue();
+                    int accountBalance = 0;
+                    if (dc.getDocument().getLong(ACCOUNT_BALANCE) != null) {
+                        accountBalance = Objects.requireNonNull(dc.getDocument().getLong(ACCOUNT_BALANCE)).intValue();
                     }
 
-                    int profilePictureID = 2131165306;
-                    if (dc.getDocument().getLong("profilePicture") != null) {
-                        profilePictureID = Objects.requireNonNull(dc.getDocument().getLong("profilePicture")).intValue();
+                    int profilePicture = 2131165306;
+                    if (dc.getDocument().getLong(PROFILE_PICTURE) != null) {
+                        profilePicture = Objects.requireNonNull(dc.getDocument().getLong(PROFILE_PICTURE)).intValue();
                     }
 
-                    String parent_id = dc.getDocument().get("parent_id", String.class);
+                    String parent_id = dc.getDocument().get(PARENT_ID, String.class);
 
                     int choresCompleted = 0;
-                    if (dc.getDocument().getLong("choresCompleted") != null) {
-                        choresCompleted = Objects.requireNonNull(dc.getDocument().getLong("choresCompleted")).intValue();
+                    if (dc.getDocument().getLong(CHORES_COMPLETED) != null) {
+                        choresCompleted = Objects.requireNonNull(dc.getDocument().getLong(CHORES_COMPLETED)).intValue();
                     }
 
-                    Child child = new Child(name, parent_id, weekly_allowance, username, password, account_bal, profilePictureID, choresCompleted);
+                    Child child = new Child(name, parent_id, weeklyAllowance, username, password, accountBalance, profilePicture, choresCompleted);
+
+                    Log.d(TAG, String.format("Child data: %s", child));
+
                     switch (dc.getType()) {
                         case ADDED:
                             childList.add(child);
@@ -116,11 +134,11 @@ public class ParentHomeActivity extends AppCompatActivity {
     }
 
     private void setVisibility() {
-        if (childList.size() == 0) {
+        if (childList.isEmpty()) {
             findViewById(R.id.add_a_child_text_view).setVisibility(View.VISIBLE);
             findViewById(R.id.view_added_children).setVisibility(View.GONE);
         } else {
-            findViewById(R.id.add_a_child_text_view).setVisibility(View.VISIBLE);
+            findViewById(R.id.add_a_child_text_view).setVisibility(View.GONE);
             findViewById(R.id.view_added_children).setVisibility(View.VISIBLE);
         }
     }

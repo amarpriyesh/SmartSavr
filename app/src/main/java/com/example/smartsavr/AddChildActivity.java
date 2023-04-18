@@ -1,32 +1,24 @@
 package com.example.smartsavr;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.smartsavr.databinding.ActivityAddChildBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 
 public class AddChildActivity extends AppCompatActivity {
@@ -37,7 +29,6 @@ public class AddChildActivity extends AppCompatActivity {
     List<String> cnames = new ArrayList<>();
     boolean flag = false;
     String parentID;
-    ProgressDialog progressDialog;
 
     ProfilePictureAdapter adapter;
     @Override
@@ -45,7 +36,6 @@ public class AddChildActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityAddChildBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        progressDialog = new ProgressDialog(this);
         initializeProfilePicturesRecyclerView();
 
 
@@ -56,98 +46,75 @@ public class AddChildActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        binding.saveChildButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String child_name = binding.nameFieldEditText.getText().toString();
-                int weekly_allowance = Integer.parseInt(binding.weeklyAllowanceFieldEditText.getText().toString());
-                String username = binding.usernameFieldEditText.getText().toString();
-                String password = binding.passwordFieldEditText.getText().toString();
+        binding.saveChildButton.setOnClickListener(v -> {
+            String childName = binding.nameFieldEditText.getText().toString();
+            int weeklyAllowance = Integer.parseInt(binding.weeklyAllowanceFieldEditText.getText().toString());
+            String username = binding.usernameFieldEditText.getText().toString();
+            String password = binding.passwordFieldEditText.getText().toString();
 
-                int profilePictureID = adapter.getSelectedItem();
-                //Log the selected item
-                Log.d("TAG", "Selected item: " + profilePictureID);
+            int profilePicture = adapter.getSelectedItem();
+            //Log the selected item
+            Log.d("TAG", "Selected item: " + profilePicture);
 
-                int account_bal = 0;
-                int choresCompleted = 0;
+            int accountBalance = 0;
+            int choresCompleted = 0;
 
-                firebaseAuth = FirebaseAuth.getInstance();
-                firebaseFirestore = FirebaseFirestore.getInstance();
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if(user!=null)
-                {
-                  parentID =user.getEmail();
-                }
+            firebaseAuth = FirebaseAuth.getInstance();
+            firebaseFirestore = FirebaseFirestore.getInstance();
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if(user!=null)
+            {
+              parentID =user.getEmail();
+            }
 
 
-                // get the child name into an string list and check before registering new children whether username is unique
+            // get the child name into an string list and check before registering new children whether username is unique
 
-               //CollectionReference childrenref = firebaseFirestore.collection("children");
+           //CollectionReference childrenref = firebaseFirestore.collection("children");
 
-                firebaseFirestore.collection("children").whereNotEqualTo("username",null).get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if(task.isSuccessful())
-                                {
+            firebaseFirestore.collection("children").whereNotEqualTo("username",null).get()
+                    .addOnCompleteListener(task -> {
+                        if(task.isSuccessful())
+                        {
 
-                                    for(QueryDocumentSnapshot document : task.getResult())
-                                    {
+                            for(QueryDocumentSnapshot document : task.getResult())
+                            {
 
-                                        //Log.d("Tag", document.getId() + " => " + document.getData());
-                                        cnames.add(document.getData().get("username").toString());
-
-                                    }
-                                    flag = true;
-                                }
+                                //Log.d("Tag", document.getId() + " => " + document.getData());
+                                cnames.add(Objects.requireNonNull(document.getData().get("username")).toString());
 
                             }
-                        });
+                            flag = true;
+                        }
 
-                // to do -- > toast message not visible when duplicate usernames
-                if(flag)
+                    });
+
+            // to do -- > toast message not visible when duplicate usernames
+            if(flag)
+            {
+                if(cnames.contains(username))
                 {
-                    if(cnames.contains(username))
-                    {
-                        Log.d("Tag",cnames.toString());
+                    Log.d("Tag",cnames.toString());
 
-                        Toast.makeText(AddChildActivity.this,"UserName exists already", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    else
-                    {
-                        Child child = new Child(child_name, parentID,weekly_allowance,username,password,account_bal, profilePictureID, choresCompleted);
+                    Toast.makeText(AddChildActivity.this,"UserName exists already", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Child child = new Child(childName, parentID, weeklyAllowance, username, password, accountBalance, profilePicture, choresCompleted);
 
-                        //  firebaseFirestore.collection("Children").document(doc_id).set(child);
+                    //  firebaseFirestore.collection("Children").document(doc_id).set(child);
 
-                        firebaseFirestore.collection("children")
-                                .add(child)
-                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                    @Override
-                                    public void onSuccess(DocumentReference documentReference) {
-                                        Toast.makeText(AddChildActivity.this,"Child Added Successfully", Toast.LENGTH_SHORT).show();
-                                        onBackPressed();
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(AddChildActivity.this,e.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-
-                    }
+                    firebaseFirestore.collection("children")
+                            .add(child)
+                            .addOnSuccessListener(documentReference -> {
+                                Toast.makeText(AddChildActivity.this,"Child Added Successfully", Toast.LENGTH_SHORT).show();
+                                onBackPressed();
+                            })
+                            .addOnFailureListener(e -> Toast.makeText(AddChildActivity.this,e.getMessage(), Toast.LENGTH_SHORT).show());
 
                 }
-            }
-        });
-    }
 
-    private void setClickListeners() {
-        // todo: move this functionality to the child chore management screen when it's implemented
-        binding.saveChildButton.setOnClickListener(view -> {
-            ChoreBottomSheetDialog bottomSheet = new ChoreBottomSheetDialog();
-            bottomSheet.show(getSupportFragmentManager(), ChoreBottomSheetDialog.TAG);
+            }
         });
     }
 

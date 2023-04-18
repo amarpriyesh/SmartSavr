@@ -1,5 +1,6 @@
 package com.example.smartsavr;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -16,8 +17,15 @@ public class ParentChildDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent_child_detail);
+
         Intent intent = getIntent();
         Child child = (Child) intent.getSerializableExtra("child");
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(child.getName() + "'s Chores");
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         ImageView logo = findViewById(R.id.logo);
         logo.setImageResource(child.getProfilePicture());
