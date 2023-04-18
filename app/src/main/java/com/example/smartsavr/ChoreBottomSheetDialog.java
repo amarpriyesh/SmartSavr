@@ -59,7 +59,7 @@ public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements
                chore.setTaskName(binding.choreNameFieldEditText.getText().toString());
                chore.setRewardCents(Integer.parseInt(binding.rewardFieldEditText.getText().toString()));
                chore.setDeadline(calendar==null?System.currentTimeMillis():calendar.getTimeInMillis());
-               ParentTaskView.toDoCompletedDBReference.collectionReference.document(chore.getId()).set(chore);
+               ParentChildChoresActivity.toDoCompletedDBReference.collectionReference.document(chore.getId()).set(chore);
 
                dismiss();
            });
@@ -93,8 +93,8 @@ public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements
         binding.saveChoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Chore chore = new Chore(ParentTaskView.childID,calendar==null?System.currentTimeMillis():calendar.getTimeInMillis(),binding.choreNameFieldEditText.getText().toString(),Integer.parseInt(binding.rewardFieldEditText.getText().toString()));
-                ParentTaskView.toDoCompletedDBReference.collectionReference.add(chore);
+                Chore chore = new Chore(ParentChildChoresActivity.childID,calendar==null?System.currentTimeMillis():calendar.getTimeInMillis(),binding.choreNameFieldEditText.getText().toString(),Integer.parseInt(binding.rewardFieldEditText.getText().toString()));
+                ParentChildChoresActivity.toDoCompletedDBReference.collectionReference.add(chore);
                 dismiss();
 
             }

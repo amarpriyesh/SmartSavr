@@ -21,7 +21,7 @@ public class ChildAdapter extends RecyclerView.Adapter<ChildViewHolder> {
     @NonNull
     @Override
     public ChildViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ChildViewHolder(LayoutInflater.from(context).inflate(R.layout.childcardview, null));
+        return new ChildViewHolder(LayoutInflater.from(context).inflate(R.layout.child_card_view, null));
     }
 
     @Override

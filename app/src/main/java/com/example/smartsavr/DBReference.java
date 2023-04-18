@@ -140,9 +140,9 @@ public class DBReference {
                         }
                     }
 
-                    ChildHome.binding.textTotal.setText(String.format("$ %s",total));
-                    ChildHome.binding.textWeekly.setText(String.format("$ %s",sumWeekly));
-                    ChildHome.binding.textMonthly.setText(String.format("$ %s",sumMonthly));
+                    ChildHomeActivity.binding.textTotal.setText(String.format("$ %s",total));
+                    ChildHomeActivity.binding.textWeekly.setText(String.format("$ %s",sumWeekly));
+                    ChildHomeActivity.binding.textMonthly.setText(String.format("$ %s",sumMonthly));
 
 
                 }

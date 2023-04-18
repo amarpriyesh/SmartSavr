@@ -33,7 +33,7 @@ public class ChildViewHolder extends RecyclerView.ViewHolder implements View.OnC
     @Override
     public void onClick(View view) {
         //TODO: Navigate to child's page
-        Intent intent = new Intent(view.getContext(), ChildProfile_parentlogin.class);
+        Intent intent = new Intent(view.getContext(), ParentChildDetailActivity.class);
 
         intent.putExtra("child", child);
 

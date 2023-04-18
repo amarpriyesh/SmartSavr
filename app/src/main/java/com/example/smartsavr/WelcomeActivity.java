@@ -1,20 +1,19 @@
 package com.example.smartsavr;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.smartsavr.databinding.ActivityMainBinding;
-import com.example.smartsavr.databinding.ActivityZeroBinding;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.smartsavr.databinding.ActivityWelcomeBinding;
 
 
 
-public class ActivityZero extends AppCompatActivity {
+public class WelcomeActivity extends AppCompatActivity {
 
 
-    ActivityZeroBinding binding;
+    ActivityWelcomeBinding binding;
 
 
 
@@ -23,20 +22,20 @@ public class ActivityZero extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityZeroBinding.inflate(getLayoutInflater());
+        binding = ActivityWelcomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         binding.psignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ActivityZero.this,LoginActivity.class));
+                startActivity(new Intent(WelcomeActivity.this, ParentLoginActivity.class));
             }
         });
 
         binding.csignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ActivityZero.this,ChildloginScreen.class));
+                startActivity(new Intent(WelcomeActivity.this, ChildLoginActivity.class));
             }
         });
     }

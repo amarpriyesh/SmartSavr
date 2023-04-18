@@ -6,7 +6,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 
@@ -23,7 +22,7 @@ import com.google.firebase.firestore.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChildHome extends AppCompatActivity {
+public class ChildHomeActivity extends AppCompatActivity {
 
 
     static List<Chore> listChoresCompleted =new ArrayList<>();;

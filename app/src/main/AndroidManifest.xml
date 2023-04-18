@@ -12,17 +12,17 @@
         android:theme="@style/Theme.Smartsavr"
         tools:targetApi="31">
         <activity
-            android:name=".ChildloginScreen"
+            android:name=".ChildLoginActivity"
             android:exported="false"
-            android:parentActivityName=".ActivityZero" />
+            android:parentActivityName=".WelcomeActivity" />
         <activity
-            android:name=".ChildProfile_parentlogin"
+            android:name=".ParentChildDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".Parent_HomeScreen"
+            android:name=".ParentHomeActivity"
             android:exported="false" />
         <activity
-            android:name=".ActivityZero"
+            android:name=".WelcomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,13 +31,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".ParentLoginActivity"
             android:exported="false"
-            android:parentActivityName=".ActivityZero" />
+            android:parentActivityName=".WelcomeActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".SignUpActivity"
             android:exported="false"
-            android:parentActivityName=".LoginActivity" />
+            android:parentActivityName=".ParentLoginActivity" />
         <activity
             android:name=".SettingsActivity"
             android:exported="false" />

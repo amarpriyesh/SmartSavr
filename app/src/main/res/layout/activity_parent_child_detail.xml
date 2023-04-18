@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ChildProfile_parentlogin">
+    tools:context=".ParentChildDetailActivity">
 
     <TextView
         android:id="@+id/child_name"

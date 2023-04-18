@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Parent_HomeScreen extends AppCompatActivity {
+public class ParentHomeActivity extends AppCompatActivity {
 
     RecyclerView childrenRecyclerView;
     ChildAdapter childAdapter;
@@ -33,7 +33,7 @@ public class Parent_HomeScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_parent_home_screen);
+        setContentView(R.layout.activity_parent_home);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

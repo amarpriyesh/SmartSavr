@@ -4,9 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -14,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.smartsavr.databinding.ActivityMainBinding;
+import com.example.smartsavr.databinding.ActivitySignUpBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -23,9 +20,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
-    ActivityMainBinding binding;
+    ActivitySignUpBinding binding;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firebaseFirestore;
 
@@ -39,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Random random = new Random();
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         ActionBar actionBar = getSupportActionBar();
@@ -61,13 +58,13 @@ public class MainActivity extends AppCompatActivity {
                 String password = binding.password.getText().toString();
 
                 if (TextUtils.isEmpty(name)) {
-                    Toast.makeText(MainActivity.this, "Enter Name", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, "Enter Name", Toast.LENGTH_SHORT).show();
                     return;
                 } else if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(MainActivity.this, "Enter Email", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, "Enter Email", Toast.LENGTH_SHORT).show();
                     return;
                 } else if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(MainActivity.this, "Enter Password ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, "Enter Password ", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
                     progressDialog.show();
@@ -76,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                             .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
-                                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                                    startActivity(new Intent(SignUpActivity.this, ParentLoginActivity.class));
                                     progressDialog.cancel();
 
                                     firebaseFirestore.collection("User")
@@ -88,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(SignUpActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                                     progressDialog.cancel();
 
                                 }
@@ -104,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         binding.gotologin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                startActivity(new Intent(SignUpActivity.this, ParentLoginActivity.class));
 
             }
         });

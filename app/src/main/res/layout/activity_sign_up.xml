@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ChildloginScreen">
+    tools:context=".SignUpActivity">
 
     <ImageView
         android:id="@+id/logo"
@@ -23,13 +22,21 @@
         android:textStyle="bold"
         android:layout_marginBottom="20dp"/>
 
+
     <EditText
-        android:id="@+id/child_username"
+        android:id="@+id/username"
+        style="@style/EditTextStandard"
+        android:hint="@string/username"
+        android:layout_width="match_parent"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/email"
         style="@style/EditTextStandard"
         android:layout_marginTop="10dp"
-        android:inputType="textEmailAddress"
-        android:hint="@string/username"
-        android:layout_width="match_parent"/>
+        android:hint="@string/email_address"
+        android:layout_width="match_parent"
+        android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/password"
@@ -37,14 +44,25 @@
         android:layout_marginTop="10dp"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+        android:layout_width="match_parent"/>
 
     <Button
-        android:id="@+id/login"
+        android:id="@+id/signup"
         style="@style/Button.Standard"
         android:layout_marginTop="10dp"
-        android:text="@string/log_in"/>
+        android:text="Sign up"/>
 
+    <TextView
+        android:id="@+id/gotologin"
+        android:textColor="@color/black"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="@string/log_in_small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+   
+
+   
 
 </LinearLayout>

@@ -148,7 +148,7 @@ public class ChoresAdapter extends RecyclerView.Adapter<ChoresViewHolder> {
 
 
                                 ChoreBottomSheetDialog bottomSheet = new ChoreBottomSheetDialog(chore);
-                                bottomSheet.show(ParentTaskView.getSupportFragmentManagerParent(), ChoreBottomSheetDialog.TAG);
+                                bottomSheet.show(ParentChildChoresActivity.getSupportFragmentManagerParent(), ChoreBottomSheetDialog.TAG);
 
 
                     }

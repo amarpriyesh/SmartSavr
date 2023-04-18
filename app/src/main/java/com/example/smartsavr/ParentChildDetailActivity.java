@@ -5,18 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ChildProfile_parentlogin extends AppCompatActivity {
+public class ParentChildDetailActivity extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_child_profile_parentlogin);
+        setContentView(R.layout.activity_parent_child_detail);
         Intent intent = getIntent();
         Child child = (Child) intent.getSerializableExtra("child");
 

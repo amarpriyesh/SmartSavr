@@ -1,17 +1,14 @@
 package com.example.smartsavr;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
-
-import com.example.smartsavr.databinding.ActivityChildloginScreenBinding;
-import com.example.smartsavr.databinding.ActivityLoginBinding;
-import com.example.smartsavr.databinding.FragmentAddChildBinding;
+import com.example.smartsavr.databinding.ActivityChildLoginBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,13 +16,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-public class ChildloginScreen extends AppCompatActivity {
+public class ChildLoginActivity extends AppCompatActivity {
 
-    ActivityChildloginScreenBinding binding;
+    ActivityChildLoginBinding binding;
 
 
     FirebaseAuth firebaseAuth;
@@ -37,7 +32,7 @@ public class ChildloginScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityChildloginScreenBinding.inflate(getLayoutInflater());
+        binding = ActivityChildLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         ActionBar actionBar = getSupportActionBar();
@@ -89,7 +84,7 @@ public class ChildloginScreen extends AppCompatActivity {
                     if (mp.keySet().contains(username)) {
                         if (mp.get(username).equals(password)) {
                             // initiate child home activity
-                            Toast.makeText(ChildloginScreen.this, "Logged in ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ChildLoginActivity.this, "Logged in ", Toast.LENGTH_SHORT).show();
                         }
 
 
@@ -97,7 +92,7 @@ public class ChildloginScreen extends AppCompatActivity {
                     }
                     else
                     {
-                        Toast.makeText(ChildloginScreen.this, "Invalid Creds ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChildLoginActivity.this, "Invalid Creds ", Toast.LENGTH_SHORT).show();
                     }
                 }
 

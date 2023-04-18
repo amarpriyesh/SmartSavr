@@ -1,15 +1,15 @@
 package com.example.smartsavr;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-
-import com.example.smartsavr.databinding.ActivityParentTaskViewBinding;
+import com.example.smartsavr.databinding.ActivityParentChildChoresBinding;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -17,7 +17,7 @@ import com.google.firebase.firestore.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParentTaskView extends AppCompatActivity {
+public class ParentChildChoresActivity extends AppCompatActivity {
 
     static List<Chore> listChoresCompleted =new ArrayList<>();;
     static List<Chore> listChoresToDo = new ArrayList<>();
@@ -33,7 +33,7 @@ public class ParentTaskView extends AppCompatActivity {
     ChoresPoller poller;
 
     final String TAG = "FIREBASE QUERY";
-    ActivityParentTaskViewBinding binding;
+    ActivityParentChildChoresBinding binding;
 
     ActivitiesFragment completedActivityFragmnet;
     ActivitiesFragment toDoActivityFragmnet;
@@ -50,7 +50,7 @@ public class ParentTaskView extends AppCompatActivity {
         childID = intent.getExtras().getString("child");
         listChoresCompleted.clear();
         listChoresToDo.clear();
-        binding = ActivityParentTaskViewBinding.inflate(getLayoutInflater());
+        binding = ActivityParentChildChoresBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         firebaseFirestore = FirebaseFirestore.getInstance();
         collectionReference = firebaseFirestore.collection("chores");

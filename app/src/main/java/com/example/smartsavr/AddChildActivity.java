@@ -8,37 +8,30 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.smartsavr.databinding.FragmentAddChildBinding;
+import com.example.smartsavr.databinding.ActivityAddChildBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 
 public class AddChildActivity extends AppCompatActivity {
 
-    private FragmentAddChildBinding binding;
+    private ActivityAddChildBinding binding;
     FirebaseAuth firebaseAuth;
     FirebaseFirestore firebaseFirestore;
     List<String> cnames = new ArrayList<>();
@@ -50,7 +43,7 @@ public class AddChildActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = FragmentAddChildBinding.inflate(getLayoutInflater());
+        binding = ActivityAddChildBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         progressDialog = new ProgressDialog(this);
         initializeProfilePicturesRecyclerView();

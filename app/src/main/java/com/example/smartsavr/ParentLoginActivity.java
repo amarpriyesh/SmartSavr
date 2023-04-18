@@ -1,9 +1,5 @@
 package com.example.smartsavr;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,23 +7,26 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.smartsavr.databinding.ActivityLoginBinding;
-import com.example.smartsavr.databinding.ActivityMainBinding;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.smartsavr.databinding.ActivityParentLoginBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class LoginActivity extends AppCompatActivity {
+public class ParentLoginActivity extends AppCompatActivity {
 
-    ActivityLoginBinding binding;
+    ActivityParentLoginBinding binding;
     FirebaseAuth firebaseAuth;
     ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        binding = ActivityParentLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         ActionBar actionBar = getSupportActionBar();
@@ -48,12 +47,12 @@ public class LoginActivity extends AppCompatActivity {
 
                 if(TextUtils.isEmpty(email))
                 {
-                    Toast.makeText(LoginActivity.this,"Enter Email",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ParentLoginActivity.this,"Enter Email",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else if(TextUtils.isEmpty(password))
                 {
-                    Toast.makeText(LoginActivity.this,"Enter Password ",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ParentLoginActivity.this,"Enter Password ",Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -65,14 +64,14 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(AuthResult authResult) {
                                     progressDialog.cancel();
-                                    startActivity(new Intent(LoginActivity.this, Parent_HomeScreen.class));
+                                    startActivity(new Intent(ParentLoginActivity.this, ParentHomeActivity.class));
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
                                     progressDialog.cancel();
-                                    Toast.makeText(LoginActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ParentLoginActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
 
                                 }
                             });
@@ -96,14 +95,14 @@ public class LoginActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void unused) {
                                         progressDialog.cancel();
-                                        Toast.makeText(LoginActivity.this,"Email Sent",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(ParentLoginActivity.this,"Email Sent",Toast.LENGTH_SHORT).show();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
                                         progressDialog.cancel();
-                                        Toast.makeText(LoginActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(ParentLoginActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
                                     }
                                 });
                     }
@@ -115,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.gotosignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                startActivity(new Intent(ParentLoginActivity.this, SignUpActivity.class));
 
             }
         });

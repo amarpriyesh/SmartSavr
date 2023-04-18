@@ -7,16 +7,16 @@ import android.view.MenuItem;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.smartsavr.databinding.FragmentSettingsBinding;
+import com.example.smartsavr.databinding.ActivitySettingsBinding;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private FragmentSettingsBinding binding;
+    private ActivitySettingsBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = FragmentSettingsBinding.inflate(getLayoutInflater());
+        binding = ActivitySettingsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         // up button
