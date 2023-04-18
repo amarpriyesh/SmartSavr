@@ -2,7 +2,26 @@ package com.example.smartsavr;
 
 public class Utils {
     public static String centsToDollarString(int cents) {
-        return "$" + cents / 100 + "." + padLeftZeros(cents % 100, 2);
+        return centsToDollarString(cents, true);
+    }
+
+    public static String centsToDollarString(int cents, boolean includeDollarSign) {
+        int remainder = cents % 100;
+        if (remainder == 0) {
+            return (includeDollarSign ? "$" : "") + cents / 100;
+        }
+        return (includeDollarSign ? "$" : "") + cents / 100 + "." + padLeftZeros(remainder, 2);
+    }
+
+    /**
+     * Converts dollar string (e.g. "8.54", "", "2", "0.0") to cents.
+     */
+    public static int dollarStringToCents(String dollarString) {
+        if (dollarString.isBlank()) {
+            return 0;
+        } else {
+            return (int) (Double.parseDouble(dollarString) * 100);
+        }
     }
 
     public static String padLeftZeros(int number, int length) {

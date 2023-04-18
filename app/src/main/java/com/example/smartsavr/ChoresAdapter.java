@@ -44,8 +44,14 @@ public class ChoresAdapter extends RecyclerView.Adapter<ChoresViewHolder> {
         holder.taskCardview.setCardBackgroundColor(Color.WHITE);
         Chore chore = chores.get(holder.getAdapterPosition());
         holder.taskName.setText(chore.getTaskName());
-        holder.rewardCents.setText(Utils.centsToDollarString(chore.getRewardCents()));
 
+        int rewardCents = chore.getRewardCents();
+        if (rewardCents == 0) {
+            holder.rewardCents.setVisibility(View.GONE);
+        } else {
+            holder.rewardCents.setVisibility(View.VISIBLE);
+            holder.rewardCents.setText(Utils.centsToDollarString(rewardCents));
+        }
 
         if (user.equals("child")) {
 

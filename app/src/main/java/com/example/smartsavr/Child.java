@@ -10,19 +10,19 @@ public class Child implements Serializable {
     private String parentId;
     private String password;
     private String username;
-    private int accountBalance;
-    private int weeklyAllowance;
+    private int accountBalanceCents;
+    private int weeklyAllowanceCents;
     private int profilePicture;
     private int choresCompleted;
 
     // as currently account balance and password is not implemented
-    public Child(String name, String parentId, int weeklyAllowance, String username, String password, int accountBalance, int profilePicture, int choresCompleted) {
+    public Child(String name, String parentId, int weeklyAllowanceCents, String username, String password, int accountBalanceCents, int profilePicture, int choresCompleted) {
         this.name = name;
         this.parentId = parentId;
-        this.weeklyAllowance = weeklyAllowance;
+        this.weeklyAllowanceCents = weeklyAllowanceCents;
         this.username = username;
         this.password = password;
-        this.accountBalance = accountBalance;
+        this.accountBalanceCents = accountBalanceCents;
         this.profilePicture = profilePicture;
         this.choresCompleted = choresCompleted;
     }
@@ -51,20 +51,20 @@ public class Child implements Serializable {
         this.password = password;
     }
 
-    public int getAccountBalance() {
-        return accountBalance;
+    public int getAccountBalanceCents() {
+        return accountBalanceCents;
     }
 
-    public void setAccountBalance(int accountBalance) {
-        this.accountBalance = accountBalance;
+    public void setAccountBalanceCents(int accountBalanceCents) {
+        this.accountBalanceCents = accountBalanceCents;
     }
 
-    public int getWeeklyAllowance() {
-        return weeklyAllowance;
+    public int getWeeklyAllowanceCents() {
+        return weeklyAllowanceCents;
     }
 
-    public void setWeeklyAllowance(int weeklyAllowance) {
-        this.weeklyAllowance = weeklyAllowance;
+    public void setWeeklyAllowanceCents(int weeklyAllowanceCents) {
+        this.weeklyAllowanceCents = weeklyAllowanceCents;
     }
 
     public void setUsername(String username) {
@@ -99,8 +99,8 @@ public class Child implements Serializable {
                 ", parentId='" + parentId + '\'' +
                 ", password='" + password + '\'' +
                 ", username='" + username + '\'' +
-                ", accountBalance=" + accountBalance +
-                ", weeklyAllowance=" + weeklyAllowance +
+                ", accountBalanceCents=" + accountBalanceCents +
+                ", weeklyAllowanceCents=" + weeklyAllowanceCents +
                 ", profilePicture=" + profilePicture +
                 ", choresCompleted=" + choresCompleted +
                 '}';

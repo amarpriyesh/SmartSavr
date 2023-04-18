@@ -1,5 +1,6 @@
 package com.example.smartsavr;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -48,7 +49,7 @@ public class AddChildActivity extends AppCompatActivity {
 
         binding.saveChildButton.setOnClickListener(v -> {
             String childName = binding.nameFieldEditText.getText().toString();
-            int weeklyAllowance = Integer.parseInt(binding.weeklyAllowanceFieldEditText.getText().toString());
+            int weeklyAllowanceCents = Utils.dollarStringToCents(binding.weeklyAllowanceFieldEditText.getText().toString());
             String username = binding.usernameFieldEditText.getText().toString();
             String password = binding.passwordFieldEditText.getText().toString();
 
@@ -56,7 +57,7 @@ public class AddChildActivity extends AppCompatActivity {
             //Log the selected item
             Log.d("TAG", "Selected item: " + profilePicture);
 
-            int accountBalance = 0;
+            int accountBalanceCents = 0;
             int choresCompleted = 0;
 
             firebaseAuth = FirebaseAuth.getInstance();
@@ -96,11 +97,11 @@ public class AddChildActivity extends AppCompatActivity {
                 {
                     Log.d("Tag",cnames.toString());
 
-                    Toast.makeText(AddChildActivity.this,"UserName exists already", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddChildActivity.this,"Username exists already", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    Child child = new Child(childName, parentID, weeklyAllowance, username, password, accountBalance, profilePicture, choresCompleted);
+                    Child child = new Child(childName, parentID, weeklyAllowanceCents, username, password, accountBalanceCents, profilePicture, choresCompleted);
 
                     //  firebaseFirestore.collection("Children").document(doc_id).set(child);
 
@@ -108,10 +109,9 @@ public class AddChildActivity extends AppCompatActivity {
                             .add(child)
                             .addOnSuccessListener(documentReference -> {
                                 Toast.makeText(AddChildActivity.this,"Child Added Successfully", Toast.LENGTH_SHORT).show();
-                                onBackPressed();
+                                startActivity(new Intent(this, ParentHomeActivity.class));
                             })
                             .addOnFailureListener(e -> Toast.makeText(AddChildActivity.this,e.getMessage(), Toast.LENGTH_SHORT).show());
-
                 }
 
             }

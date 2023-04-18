@@ -28,8 +28,8 @@ public class ParentHomeActivity extends AppCompatActivity {
     private static final String USERNAME = "username";
     private static final String NAME = "name";
     private static final String PASSWORD = "password";
-    private static final String WEEKLY_ALLOWANCE = "weeklyAllowance";
-    private static final String ACCOUNT_BALANCE = "accountBalance";
+    private static final String WEEKLY_ALLOWANCE_CENTS = "weeklyAllowanceCents";
+    private static final String ACCOUNT_BALANCE_CENTS = "accountBalanceCents";
     private static final String PROFILE_PICTURE = "profilePicture";
     private static final String PARENT_ID = "parentId";
     private static final String CHORES_COMPLETED = "choresCompleted";
@@ -86,14 +86,14 @@ public class ParentHomeActivity extends AppCompatActivity {
                     String name = dc.getDocument().get(NAME, String.class);
                     String password = dc.getDocument().get(PASSWORD, String.class);
 
-                    int weeklyAllowance = 0;
-                    if (dc.getDocument().getLong(WEEKLY_ALLOWANCE) != null) {
-                        weeklyAllowance = Objects.requireNonNull(dc.getDocument().getLong(WEEKLY_ALLOWANCE)).intValue();
+                    int weeklyAllowanceCents = 0;
+                    if (dc.getDocument().getLong(WEEKLY_ALLOWANCE_CENTS) != null) {
+                        weeklyAllowanceCents = Objects.requireNonNull(dc.getDocument().getLong(WEEKLY_ALLOWANCE_CENTS)).intValue();
                     }
 
-                    int accountBalance = 0;
-                    if (dc.getDocument().getLong(ACCOUNT_BALANCE) != null) {
-                        accountBalance = Objects.requireNonNull(dc.getDocument().getLong(ACCOUNT_BALANCE)).intValue();
+                    int accountBalanceCents = 0;
+                    if (dc.getDocument().getLong(ACCOUNT_BALANCE_CENTS) != null) {
+                        accountBalanceCents = Objects.requireNonNull(dc.getDocument().getLong(ACCOUNT_BALANCE_CENTS)).intValue();
                     }
 
                     int profilePicture = 2131165306;
@@ -108,7 +108,7 @@ public class ParentHomeActivity extends AppCompatActivity {
                         choresCompleted = Objects.requireNonNull(dc.getDocument().getLong(CHORES_COMPLETED)).intValue();
                     }
 
-                    Child child = new Child(name, parent_id, weeklyAllowance, username, password, accountBalance, profilePicture, choresCompleted);
+                    Child child = new Child(name, parent_id, weeklyAllowanceCents, username, password, accountBalanceCents, profilePicture, choresCompleted);
 
                     Log.d(TAG, String.format("Child data: %s", child));
 

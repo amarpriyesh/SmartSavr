@@ -89,23 +89,23 @@ public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements
         if (this.chore == null) {
             // Create new chore
             binding.saveChoreButton.setOnClickListener(v -> {
-
+                String rewardText = binding.rewardFieldEditText.getText().toString();
                 Chore chore = new Chore(
                         ParentChildChoresActivity.childID,
                         getCalendar().getTimeInMillis(),
                         binding.choreNameFieldEditText.getText().toString(),
-                        (int) (Double.parseDouble(binding.rewardFieldEditText.getText().toString()) * 100));
+                        Utils.dollarStringToCents(rewardText));
                 ParentChildChoresActivity.toDoCompletedDBReference.collectionReference.add(chore);
                 dismiss();
             });
         } else {
             // Edit existing chore
             binding.choreNameFieldEditText.setText(chore.getTaskName());
-            binding.rewardFieldEditText.setText(String.format("%s",chore.getRewardCents()), TextView.BufferType.EDITABLE);
+            binding.rewardFieldEditText.setText(Utils.centsToDollarString(chore.getRewardCents(), false), TextView.BufferType.EDITABLE);
             binding.choreTitleTextView.setText(R.string.edit_chore);
             binding.saveChoreButton.setOnClickListener(v -> {
                 chore.setTaskName(binding.choreNameFieldEditText.getText().toString());
-                chore.setRewardCents(Integer.parseInt(binding.rewardFieldEditText.getText().toString()));
+                chore.setRewardCents(Utils.dollarStringToCents(binding.rewardFieldEditText.getText().toString()));
                 chore.setDeadline(getCalendar().getTimeInMillis());
                 ParentChildChoresActivity.toDoCompletedDBReference.collectionReference.document(chore.getId()).set(chore);
                 dismiss();
