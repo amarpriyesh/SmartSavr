@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,7 +29,21 @@ public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements
     private int month;
     private int dayOfMonth;
 
+    private Calendar calendar;
+
+    private Chore chore;
+
+
+    private ChoreBottomSheetDialog ob;
+
+
     public ChoreBottomSheetDialog() {
+
+    }
+
+    public ChoreBottomSheetDialog(Chore chore) {
+
+        this.chore = chore;
     }
 
     @Override
@@ -36,6 +51,20 @@ public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements
         super.onStart();
         BottomSheetBehavior<View> behavior = BottomSheetBehavior.from((View) requireView().getParent());
         behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        if (this.chore != null){
+            binding.choreNameFieldEditText.setText(chore.getTaskName());
+           binding.rewardFieldEditText.setText(String.format("%s",chore.getRewardCents()), TextView.BufferType.EDITABLE);
+           binding.choreTitleTextView.setText("Edit Chore");
+           binding.saveChoreButton.setOnClickListener(v -> {
+               chore.setTaskName(binding.choreNameFieldEditText.getText().toString());
+               chore.setRewardCents(Integer.parseInt(binding.rewardFieldEditText.getText().toString()));
+               chore.setDeadline(calendar==null?System.currentTimeMillis():calendar.getTimeInMillis());
+               ParentTaskView.toDoCompletedDBReference.collectionReference.document(chore.getId()).set(chore);
+
+               dismiss();
+           });
+        }
+
     }
 
     @Override
@@ -54,11 +83,26 @@ public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements
 
         setClickListeners();
 
+
+
         return binding.getRoot();
     }
 
-    private void setClickListeners() {
+    private void
+    setClickListeners() {
+        binding.saveChoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Chore chore = new Chore(ParentTaskView.childID,calendar==null?System.currentTimeMillis():calendar.getTimeInMillis(),binding.choreNameFieldEditText.getText().toString(),Integer.parseInt(binding.rewardFieldEditText.getText().toString()));
+                ParentTaskView.toDoCompletedDBReference.collectionReference.add(chore);
+                dismiss();
+
+            }
+
+        });
+
         binding.pickDateButton.setOnClickListener(view -> {
+
             DatePickerDialog datePickerDialog = new DatePickerDialog(requireActivity(),
                     this, year, month, dayOfMonth);
             datePickerDialog.show();
@@ -67,7 +111,7 @@ public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        Calendar calendar = Calendar.getInstance();
+        calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -82,4 +126,6 @@ public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements
     private static CharSequence getDateString(Calendar calendar) {
         return DateFormat.format("MM/dd/yyyy", calendar.getTime());
     }
+
+
 }
