@@ -120,6 +120,7 @@ public class ChildHomeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_settings) {
             Intent myIntent = new Intent(this, SettingsActivity.class);
+            myIntent.putExtra(SettingsActivity.IS_CHILD_USER, true);
             startActivity(myIntent);
             return true;
         } else {
