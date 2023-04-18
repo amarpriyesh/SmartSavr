@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -48,10 +49,19 @@ public class ParentChildChoresActivity extends AppCompatActivity {
         Intent intent = getIntent();
         fragmentManager = getSupportFragmentManager();
         childID = intent.getExtras().getString(Utils.CHILD);
+        Child child = (Child) intent.getSerializableExtra(Utils.CHILD);
         listChoresCompleted.clear();
         listChoresToDo.clear();
         binding = ActivityParentChildChoresBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            // TODO: Deal with null name (upon navigating via up button)
+            actionBar.setTitle(child.getName() + "'s Chores");
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         firebaseFirestore = FirebaseFirestore.getInstance();
         collectionReference = firebaseFirestore.collection("chores");
         //setContentView(R.layout.activity_parent_task_view);

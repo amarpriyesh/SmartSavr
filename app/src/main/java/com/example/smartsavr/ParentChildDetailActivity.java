@@ -29,7 +29,7 @@ public class ParentChildDetailActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             // TODO: Deal with null name (upon navigating via up button)
-            actionBar.setTitle(child.getName() + "'s Chores");
+            actionBar.setTitle(child.getName() + "'s Profile");
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
