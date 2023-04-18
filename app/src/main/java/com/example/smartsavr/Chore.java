@@ -1,11 +1,8 @@
 package com.example.smartsavr;
 
-import com.google.firebase.firestore.DocumentId;
-import com.google.firebase.firestore.Exclude;
+import androidx.annotation.NonNull;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import com.google.firebase.firestore.DocumentId;
 
 public class Chore {
 
@@ -23,7 +20,7 @@ public class Chore {
 
     private long approvedTimestamp;
 
-    public Chore( String childID, long deadline, String taskName, int rewardCents) {
+    public Chore(String childID, long deadline, String taskName, int rewardCents) {
         this.childID = childID;
         this.assignedTimestamp = System.currentTimeMillis();
         this.deadline = deadline;
@@ -33,16 +30,11 @@ public class Chore {
         this.completedTimestamp = Integer.MAX_VALUE;
         this.isApproved = false;
         this.approvedTimestamp = Integer.MAX_VALUE;
-
     }
 
-    public Chore(){
+    public Chore() {
 
     }
-
-
-
-
 
 
     public String getChildID() {
@@ -101,13 +93,12 @@ public class Chore {
         this.completedTimestamp = completedTimestamp;
     }
 
+    @NonNull
     @Override
-    public String toString(){
+    public String toString() {
         return this.taskName;
 
     }
-
-
 
     public String getId() {
         return id;
