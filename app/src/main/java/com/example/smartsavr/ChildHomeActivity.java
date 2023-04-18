@@ -1,5 +1,7 @@
 package com.example.smartsavr;
 
+import static com.example.smartsavr.Utils.centsToDollarString;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -65,19 +67,18 @@ public class ChildHomeActivity extends AppCompatActivity {
             actionBar.setTitle(R.string.activity_home);
         }
 
-        child="sam";
+        child = "sam";
         listChoresCompleted.clear();
         listChoresToDo.clear();
         firebaseFirestore = FirebaseFirestore.getInstance();
         collectionReference = firebaseFirestore.collection("chores");
 
 
+        choresCompletedDBReference = new DBReference(collectionReference, firebaseFirestore);
+        toDoCompletedDBReference = new DBReference(collectionReference, firebaseFirestore);
 
-         choresCompletedDBReference = new DBReference(collectionReference,firebaseFirestore);
-         toDoCompletedDBReference = new DBReference(collectionReference,firebaseFirestore);
-
-         Query queryChoresCompleted = collectionReference.whereEqualTo("childID", child).whereEqualTo("complete",true).orderBy("completedTimestamp", Query.Direction.ASCENDING);
-        Query queryChoresApproved = collectionReference.whereEqualTo("childID", child).whereEqualTo("complete",true).whereEqualTo("approved",true);
+        Query queryChoresCompleted = collectionReference.whereEqualTo("childID", child).whereEqualTo("complete", true).orderBy("completedTimestamp", Query.Direction.ASCENDING);
+        Query queryChoresApproved = collectionReference.whereEqualTo("childID", child).whereEqualTo("complete", true).whereEqualTo("approved", true);
 
         choresCompletedDBReference.setQuery(queryChoresCompleted);
         choresCompletedDBReference.setQueryComplete(queryChoresApproved);
@@ -86,31 +87,13 @@ public class ChildHomeActivity extends AppCompatActivity {
             binding.textWeekly.setText(getResources().getString(R.string.weekly_earnings, centsToDollarString(sumWeekly)));
             binding.textMonthly.setText(getResources().getString(R.string.monthly_earnings, centsToDollarString(sumMonthly)));
         });
-        Query queryChoresToDo = collectionReference.whereEqualTo("childID", child).whereEqualTo("complete",false).orderBy("deadline", Query.Direction.ASCENDING);
+        Query queryChoresToDo = collectionReference.whereEqualTo("childID", child).whereEqualTo("complete", false).orderBy("deadline", Query.Direction.ASCENDING);
         toDoCompletedDBReference.setQuery(queryChoresToDo);
 
         completedActivityFragmnet = ChoresListFragment.newInstance("childChoresCompleted");
-       toDoActivityFragmnet = ChoresListFragment.newInstance("childChoresToDo");
+        toDoActivityFragmnet = ChoresListFragment.newInstance("childChoresToDo");
         setFragment(R.id.fragmentCompletedActivities, completedActivityFragmnet);
         setFragment(R.id.fragmentUpcomingActivities, toDoActivityFragmnet);
-    }
-
-    private String centsToDollarString(int cents) {
-        return "$" + cents / 100 + "." + padLeftZeros(cents % 100, 2);
-    }
-
-    public String padLeftZeros(int number, int length) {
-        String numberString = Integer.toString(number);
-        if (numberString.length() >= length) {
-            return numberString;
-        }
-        StringBuilder builder = new StringBuilder();
-        while (builder.length() < length - numberString.length()) {
-            builder.append("0");
-        }
-        builder.append(numberString);
-
-        return builder.toString();
     }
 
     private void setFragment(int id, Fragment fragment) {
@@ -119,13 +102,6 @@ public class ChildHomeActivity extends AppCompatActivity {
         fragmentTransaction.replace(id, fragment);
         fragmentTransaction.commit();
     }
-
-
-
-
-
-
-
 
         void setTable() {
 

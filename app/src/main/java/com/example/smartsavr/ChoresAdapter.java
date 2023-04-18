@@ -26,8 +26,6 @@ public class ChoresAdapter extends RecyclerView.Adapter<ChoresViewHolder> {
     DBReference dbReference;
 
 
-
-
     public ChoresAdapter(List<Chore> chores, Context context, String user, DBReference dbReference) {
         this.context = context;
         this.chores = chores;
@@ -38,7 +36,7 @@ public class ChoresAdapter extends RecyclerView.Adapter<ChoresViewHolder> {
     @NonNull
     @Override
     public ChoresViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ChoresViewHolder(LayoutInflater.from(context).inflate(R.layout.activity_card, parent, false));
+        return new ChoresViewHolder(LayoutInflater.from(context).inflate(R.layout.chore_card_view, parent, false));
     }
 
     @Override
@@ -46,84 +44,76 @@ public class ChoresAdapter extends RecyclerView.Adapter<ChoresViewHolder> {
         holder.taskCardview.setCardBackgroundColor(Color.WHITE);
         Chore chore = chores.get(holder.getAdapterPosition());
         holder.taskName.setText(chore.getTaskName());
-        holder.rewardCents.setText(Integer.toString(chore.getRewardCents()));
+        holder.rewardCents.setText(Utils.centsToDollarString(chore.getRewardCents()));
 
 
-        if (user.equals("child")){
+        if (user.equals("child")) {
 
 
-        if(!chore.isComplete()){
+            if (!chore.isComplete()) {
 
-            if(chore.getDeadline()>System.currentTimeMillis()) {
-                holder.dateText.setText(String.format("Due in %s", getDateToStringProcessor(chore.getDeadline())));
-            }else{
-                holder.dateText.setText(String.format("Overdue by %s", getDateToStringProcessor(chore.getDeadline())));
-            }
-            holder.done.setImageResource(R.drawable.tick);
-            holder.done.setVisibility(View.VISIBLE);
-            holder.doneText.setVisibility(View.VISIBLE);
-            holder.doneText.setText("Mark Done!");
-
-        }
-
-        else{
-            if(!chore.isApproved() ) {
-                if(chore.getDeadline()>chore.getCompletedTimestamp()) {
-                    holder.dateText.setText(String.format("Completed %s back", getDateToStringProcessor(chore.getCompletedTimestamp())));
+                if (chore.getDeadline() > System.currentTimeMillis()) {
+                    holder.dateText.setText(String.format("Due in %s", getDateToStringProcessor(chore.getDeadline())));
+                } else {
+                    holder.dateText.setText(String.format("Overdue by %s", getDateToStringProcessor(chore.getDeadline())));
                 }
-                else{
-                    holder.dateText.setText(String.format("Completed %s back, overdue by %s", getDateToStringProcessor(chore.getCompletedTimestamp()),getDateToStringProcessor(chore.getCompletedTimestamp(),chore.getDeadline())));
-                }
-                holder.done.setImageResource(R.drawable.greentick);
+                holder.done.setImageResource(R.drawable.tick);
                 holder.done.setVisibility(View.VISIBLE);
                 holder.doneText.setVisibility(View.VISIBLE);
-                holder.doneText.setText("Tap to Undo");
+                holder.doneText.setText(R.string.mark_done);
+
+            } else {
+                if (!chore.isApproved()) {
+                    if (chore.getDeadline() > chore.getCompletedTimestamp()) {
+                        holder.dateText.setText(String.format("Completed %s back", getDateToStringProcessor(chore.getCompletedTimestamp())));
+                    } else {
+                        holder.dateText.setText(String.format("Completed %s back, overdue by %s", getDateToStringProcessor(chore.getCompletedTimestamp()), getDateToStringProcessor(chore.getCompletedTimestamp(), chore.getDeadline())));
                     }
-            else{
-                holder.dateText.setText(String.format("Approved %s back", getDateToStringProcessor(chore.getApprovedTimestamp())));
-                holder.done.setVisibility(View.INVISIBLE);
-                holder.doneText.setVisibility(View.INVISIBLE);
-                holder.taskCardview.setCardBackgroundColor(Color.LTGRAY);
+                    holder.done.setImageResource(R.drawable.greentick);
+                    holder.done.setVisibility(View.VISIBLE);
+                    holder.doneText.setVisibility(View.VISIBLE);
+                    holder.doneText.setText(R.string.tap_to_undo);
+                } else {
+                    holder.dateText.setText(String.format("Approved %s back", getDateToStringProcessor(chore.getApprovedTimestamp())));
+                    holder.done.setVisibility(View.INVISIBLE);
+                    holder.doneText.setVisibility(View.INVISIBLE);
+                    holder.taskCardview.setCardBackgroundColor(Color.LTGRAY);
+                }
             }
+
+            holder.done.setOnClickListener(v -> {
+
+                if (!chore.isComplete()) {
+
+                    chore.setComplete(true);
+                    chore.setCompletedTimestamp(System.currentTimeMillis());
+                    dbReference.getCollectionReference().document(chore.getId()).set(chore);
+                } else {
+                    chore.setComplete(false);
+                    chore.setCompletedTimestamp(Integer.MAX_VALUE);
+                    dbReference.getCollectionReference().document(chore.getId()).set(chore);
+                }
+            });
+
+            holder.edit.setVisibility(View.GONE);
+            holder.delete.setVisibility(View.GONE);
+            holder.taskCompleted.setVisibility(View.GONE);
+            holder.undo.setVisibility(View.GONE);
+
         }
+        // Parent starts
 
-    holder.done.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-            if(!chore.isComplete()) {
-
-                chore.setComplete(true);
-                chore.setCompletedTimestamp(System.currentTimeMillis());
-                dbReference.getCollectionReference().document(chore.getId()).set(chore);
-            }
-            else{
-                chore.setComplete(false);
-                chore.setCompletedTimestamp(Integer.MAX_VALUE);
-                dbReference.getCollectionReference().document(chore.getId()).set(chore);
-            }
-            }
-    });
-
-    holder.edit.setVisibility(View.GONE);
-    holder.delete.setVisibility(View.GONE);
-    holder.taskCompleted.setVisibility(View.GONE);
-    holder.undo.setVisibility(View.GONE);
-
-}
-///Parent starts
-
-        else{
+        else {
             holder.done.setVisibility(View.INVISIBLE);
             holder.doneText.setVisibility(View.INVISIBLE);
             holder.delete.setImageResource(R.drawable.trash);
             holder.edit.setImageResource(R.drawable.pencil);
             holder.undo.setImageResource(R.drawable.undo);
             holder.taskCompleted.setImageResource(R.drawable.check);
-            if(!chore.isComplete()){
-                if(chore.getDeadline()>System.currentTimeMillis()) {
+            if (!chore.isComplete()) {
+                if (chore.getDeadline() > System.currentTimeMillis()) {
                     holder.dateText.setText(String.format("Due in %s", getDateToStringProcessor(chore.getDeadline())));
-                }else{
+                } else {
                     holder.dateText.setText(String.format("Overdue by %s", getDateToStringProcessor(chore.getDeadline())));
                 }
                 holder.delete.setVisibility(View.VISIBLE);
@@ -131,65 +121,47 @@ public class ChoresAdapter extends RecyclerView.Adapter<ChoresViewHolder> {
                 holder.taskCompleted.setVisibility(View.INVISIBLE);
                 holder.undo.setVisibility(View.INVISIBLE);
 
-                Log.d("VISIBILITY",Integer.toString(holder.delete.getVisibility()));
+                Log.d("VISIBILITY", Integer.toString(holder.delete.getVisibility()));
 
 
-                holder.delete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dbReference.getCollectionReference().document(chore.getId()).delete();
+                holder.delete.setOnClickListener(v -> dbReference.getCollectionReference().document(chore.getId()).delete());
 
-                    }
+                holder.edit.setOnClickListener(v -> {
+
+
+                    ChoreBottomSheetDialog bottomSheet = new ChoreBottomSheetDialog(chore);
+                    bottomSheet.show(ParentChildChoresActivity.getSupportFragmentManagerParent(), ChoreBottomSheetDialog.TAG);
+
+
                 });
 
-                holder.edit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-
-                                ChoreBottomSheetDialog bottomSheet = new ChoreBottomSheetDialog(chore);
-                                bottomSheet.show(ParentChildChoresActivity.getSupportFragmentManagerParent(), ChoreBottomSheetDialog.TAG);
-
-
-                    }
-                });
-
-            }
-            else{
+            } else {
                 holder.taskCompleted.setVisibility(View.VISIBLE);
-                if(!chore.isApproved()){
-                    if(chore.getDeadline()>chore.getCompletedTimestamp()) {
+                if (!chore.isApproved()) {
+                    if (chore.getDeadline() > chore.getCompletedTimestamp()) {
                         holder.dateText.setText(String.format("Completed %s back", getDateToStringProcessor(chore.getCompletedTimestamp())));
-                    }
-                    else{
-                        holder.dateText.setText(String.format("Completed %s back, overdue by %s", getDateToStringProcessor(chore.getCompletedTimestamp()),getDateToStringProcessor(chore.getCompletedTimestamp(),chore.getDeadline())));
+                    } else {
+                        holder.dateText.setText(String.format("Completed %s back, overdue by %s", getDateToStringProcessor(chore.getCompletedTimestamp()), getDateToStringProcessor(chore.getCompletedTimestamp(), chore.getDeadline())));
                     }
                     holder.delete.setVisibility(View.INVISIBLE);
                     holder.edit.setVisibility(View.INVISIBLE);
                     holder.taskCompleted.setVisibility((View.VISIBLE));
                     holder.undo.setVisibility(View.VISIBLE);
-                    holder.taskCompleted.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            chore.setApproved(true);
-                            chore.setApprovedTimestamp(System.currentTimeMillis());
-                            dbReference.getCollectionReference().document(chore.getId()).set(chore);
-                        }
+                    holder.taskCompleted.setOnClickListener(v -> {
+                        chore.setApproved(true);
+                        chore.setApprovedTimestamp(System.currentTimeMillis());
+                        dbReference.getCollectionReference().document(chore.getId()).set(chore);
                     });
 
-                    holder.undo.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            chore.setComplete(false);
-                            chore.setCompletedTimestamp(Integer.MAX_VALUE);
-                            dbReference.getCollectionReference().document(chore.getId()).set(chore);
-                        }
+                    holder.undo.setOnClickListener(v -> {
+                        chore.setComplete(false);
+                        chore.setCompletedTimestamp(Integer.MAX_VALUE);
+                        dbReference.getCollectionReference().document(chore.getId()).set(chore);
                     });
 
 
-                }
-                else{
-                    holder.dateText.setText(String.format("Approved %s back",getDateToStringProcessor(chore.getApprovedTimestamp())));
+                } else {
+                    holder.dateText.setText(String.format("Approved %s back", getDateToStringProcessor(chore.getApprovedTimestamp())));
                     holder.delete.setVisibility(View.INVISIBLE);
                     holder.edit.setVisibility(View.INVISIBLE);
                     holder.taskCompleted.setVisibility(View.INVISIBLE);
@@ -201,7 +173,6 @@ public class ChoresAdapter extends RecyclerView.Adapter<ChoresViewHolder> {
 
 
         }
-
 
 
     }
@@ -216,8 +187,8 @@ public class ChoresAdapter extends RecyclerView.Adapter<ChoresViewHolder> {
     }
 
     public String getDateToStringProcessor(long dueDate, long currentDate) {
-        String[] formatDate = new String[]{"Month", "Day", "Hour", "Minute","Second"};
-        String[] formatDatePlural = new String[]{"Months", "Days", "Hours", "Minutes","Seconds"};
+        String[] formatDate = new String[]{"Month", "Day", "Hour", "Minute", "Second"};
+        String[] formatDatePlural = new String[]{"Months", "Days", "Hours", "Minutes", "Seconds"};
         SimpleDateFormat formatter = new SimpleDateFormat("MM:dd:HH:mm:ss", Locale.US);
         String[] dueDateFormat = formatter.format(new Date(dueDate)).split(":");
         String[] currentDateFormat = formatter.format(new Date(currentDate)).split(":");
