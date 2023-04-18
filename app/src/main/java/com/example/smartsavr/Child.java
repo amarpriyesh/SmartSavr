@@ -2,10 +2,14 @@ package com.example.smartsavr;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.firestore.DocumentId;
+
 import java.io.Serializable;
 
 public class Child implements Serializable {
 
+    @DocumentId
+    private String id;
     private String name;
     private String parentId;
     private String password;
@@ -57,6 +61,14 @@ public class Child implements Serializable {
 
     public void setAccountBalanceCents(int accountBalanceCents) {
         this.accountBalanceCents = accountBalanceCents;
+
+        if (this.accountBalanceCents < 0) {
+            this.accountBalanceCents = 0;
+        }
+
+        if (this.accountBalanceCents > 1000000) {
+            this.accountBalanceCents = 1000000;
+        }
     }
 
     public int getWeeklyAllowanceCents() {
@@ -89,6 +101,14 @@ public class Child implements Serializable {
 
     public void setChoresCompleted(int choresCompleted) {
         this.choresCompleted = choresCompleted;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     @NonNull
