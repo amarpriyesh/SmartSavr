@@ -71,16 +71,16 @@ public class ChoresAdapter extends RecyclerView.Adapter<ChoresViewHolder> {
             } else {
                 if (!chore.isApproved()) {
                     if (chore.getDeadline() > chore.getCompletedTimestamp()) {
-                        holder.dateText.setText(String.format("Completed %s back", getDateToStringProcessor(chore.getCompletedTimestamp())));
+                        holder.dateText.setText(String.format("Completed %s ago", getDateToStringProcessor(chore.getCompletedTimestamp())));
                     } else {
-                        holder.dateText.setText(String.format("Completed %s back, overdue by %s", getDateToStringProcessor(chore.getCompletedTimestamp()), getDateToStringProcessor(chore.getCompletedTimestamp(), chore.getDeadline())));
+                        holder.dateText.setText(String.format("Completed %s ago, overdue by %s", getDateToStringProcessor(chore.getCompletedTimestamp()), getDateToStringProcessor(chore.getCompletedTimestamp(), chore.getDeadline())));
                     }
                     holder.done.setImageResource(R.drawable.greentick);
                     holder.done.setVisibility(View.VISIBLE);
                     holder.doneText.setVisibility(View.VISIBLE);
                     holder.doneText.setText(R.string.tap_to_undo);
                 } else {
-                    holder.dateText.setText(String.format("Approved %s back", getDateToStringProcessor(chore.getApprovedTimestamp())));
+                    holder.dateText.setText(String.format("Approved %s ago", getDateToStringProcessor(chore.getApprovedTimestamp())));
                     holder.done.setVisibility(View.INVISIBLE);
                     holder.doneText.setVisibility(View.INVISIBLE);
                     holder.taskCardview.setCardBackgroundColor(Color.LTGRAY);
@@ -145,9 +145,9 @@ public class ChoresAdapter extends RecyclerView.Adapter<ChoresViewHolder> {
                 holder.taskCompleted.setVisibility(View.VISIBLE);
                 if (!chore.isApproved()) {
                     if (chore.getDeadline() > chore.getCompletedTimestamp()) {
-                        holder.dateText.setText(String.format("Completed %s back", getDateToStringProcessor(chore.getCompletedTimestamp())));
+                        holder.dateText.setText(String.format("Completed %s ago", getDateToStringProcessor(chore.getCompletedTimestamp())));
                     } else {
-                        holder.dateText.setText(String.format("Completed %s back, overdue by %s", getDateToStringProcessor(chore.getCompletedTimestamp()), getDateToStringProcessor(chore.getCompletedTimestamp(), chore.getDeadline())));
+                        holder.dateText.setText(String.format("Completed %s ago, overdue by %s", getDateToStringProcessor(chore.getCompletedTimestamp()), getDateToStringProcessor(chore.getCompletedTimestamp(), chore.getDeadline())));
                     }
                     holder.delete.setVisibility(View.INVISIBLE);
                     holder.edit.setVisibility(View.INVISIBLE);
@@ -167,7 +167,7 @@ public class ChoresAdapter extends RecyclerView.Adapter<ChoresViewHolder> {
 
 
                 } else {
-                    holder.dateText.setText(String.format("Approved %s back", getDateToStringProcessor(chore.getApprovedTimestamp())));
+                    holder.dateText.setText(String.format("Approved %s ago", getDateToStringProcessor(chore.getApprovedTimestamp())));
                     holder.delete.setVisibility(View.INVISIBLE);
                     holder.edit.setVisibility(View.INVISIBLE);
                     holder.taskCompleted.setVisibility(View.INVISIBLE);
@@ -193,28 +193,20 @@ public class ChoresAdapter extends RecyclerView.Adapter<ChoresViewHolder> {
     }
 
     public String getDateToStringProcessor(long dueDate, long currentDate) {
-        String[] formatDate = new String[]{"Month", "Day", "Hour", "Minute", "Second"};
-        String[] formatDatePlural = new String[]{"Months", "Days", "Hours", "Minutes", "Seconds"};
+        String[] formatDate = new String[]{"month", "day", "hour", "minute", "second"};
+        String[] formatDatePlural = new String[]{"months", "days", "hours", "minutes", "seconds"};
         SimpleDateFormat formatter = new SimpleDateFormat("MM:dd:HH:mm:ss", Locale.US);
         String[] dueDateFormat = formatter.format(new Date(dueDate)).split(":");
         String[] currentDateFormat = formatter.format(new Date(currentDate)).split(":");
 
-
         for (int i = 0; i < dueDateFormat.length; i++) {
             int time = Math.abs(Integer.parseInt(dueDateFormat[i]) - Integer.parseInt(currentDateFormat[i]));
-
             if (time == 1) {
                 return (String.format("%s %s", time, formatDate[i]));
-
             } else if (time > 1) {
-
                 return (String.format("%s %s", time, formatDatePlural[i]));
-
             }
-
-
         }
-        return "few seconds";
+        return "a few seconds";
     }
-
 }
