@@ -25,13 +25,13 @@ public class ChildProfile_parentlogin extends AppCompatActivity {
 
         //Having an issue with string resources here
         TextView choresCompletedTV = findViewById(R.id.chores_completed);
-        choresCompletedTV.setText("Chores Completed"  + child.getChoresCompleted());
+        choresCompletedTV.setText("Chores Completed: "  + child.getChoresCompleted());
 
         TextView currentBalanceTV = findViewById(R.id.current_balance);
-        currentBalanceTV.setText(("Account Balance: " + child.getAccountBalance()));
+        currentBalanceTV.setText(("Account Balance: $" + child.getAccountBalance()));
 
         TextView allowanceTV = findViewById(R.id.allowance);
-        allowanceTV.setText("Allowance: " + child.getWeeklyAllowance() + " per week");
+        allowanceTV.setText("Allowance: $" + child.getWeeklyAllowance() + " per week");
 
         TextView nameTV = findViewById(R.id.child_name);
         nameTV.setText(child.getName());
