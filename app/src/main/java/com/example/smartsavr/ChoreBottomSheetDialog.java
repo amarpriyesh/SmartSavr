@@ -123,17 +123,37 @@ public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements
                 });
 
         } else {
-            // Edit existing chore
-            binding.choreNameFieldEditText.setText(chore.getTaskName());
-            binding.rewardFieldEditText.setText(Utils.centsToDollarString(chore.getRewardCents(), false), TextView.BufferType.EDITABLE);
-            binding.choreTitleTextView.setText(R.string.edit_chore);
-            binding.saveChoreButton.setOnClickListener(v -> {
-                chore.setTaskName(binding.choreNameFieldEditText.getText().toString());
-                chore.setRewardCents(Utils.dollarStringToCents(binding.rewardFieldEditText.getText().toString()));
-                chore.setDeadline(getCalendar().getTimeInMillis());
-                ParentChildChoresActivity.toDoCompletedDBReference.collectionReference.document(chore.getId()).set(chore);
-                dismiss();
-            });
+            String edited_chores = chore.getTaskName().toString();
+            Log.d("TEST EMPTY CHORE",edited_chores);
+            if(TextUtils.isEmpty(edited_chores))
+            {
+                Toast.makeText(getActivity(), "Chore cannot be empty", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            else {
+                // Edit existing chore
+                binding.choreNameFieldEditText.setText(chore.getTaskName());
+                binding.rewardFieldEditText.setText(Utils.centsToDollarString(chore.getRewardCents(), false), TextView.BufferType.EDITABLE);
+                binding.choreTitleTextView.setText(R.string.edit_chore);
+                binding.saveChoreButton.setOnClickListener(v -> {
+                    String temp = binding.choreNameFieldEditText.getText().toString();
+                    if(TextUtils.isEmpty(temp))
+                    {
+                        Toast.makeText(getActivity(), "Chore cannot be empty", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    else {
+                        //chore.setTaskName(binding.choreNameFieldEditText.getText().toString());
+                        chore.setTaskName(temp);
+                        chore.setRewardCents(Utils.dollarStringToCents(binding.rewardFieldEditText.getText().toString()));
+                        chore.setDeadline(getCalendar().getTimeInMillis());
+
+                        ParentChildChoresActivity.toDoCompletedDBReference.collectionReference.document(chore.getId()).set(chore);
+                        dismiss();
+                    }
+                });
+            }
         }
 
         binding.pickDateButton.setOnClickListener(view -> {
