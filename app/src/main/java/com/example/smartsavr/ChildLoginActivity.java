@@ -51,6 +51,10 @@ public class ChildLoginActivity extends AppCompatActivity {
             }
             else {
 
+                int p_code = password.hashCode();
+                String p_check = Integer.toString(p_code);
+
+
                 firebaseAuth = FirebaseAuth.getInstance();
                 firebaseFirestore = FirebaseFirestore.getInstance();
 
@@ -61,7 +65,7 @@ public class ChildLoginActivity extends AppCompatActivity {
                             mp.put(Objects.requireNonNull(document.getData().get("username")).toString(), new ChildUser(document.getId(), Objects.requireNonNull(document.getData().get("password")).toString()));
                         }
                         ChildUser myUser = mp.get(username);
-                        if (myUser != null && Objects.equals(myUser.getPassword(), password)) {
+                        if (myUser != null && Objects.equals(myUser.getPassword(), p_check)) {
                             // initiate child home activity
                             Toast.makeText(ChildLoginActivity.this, "Logged in", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(this, ChildHomeActivity.class);

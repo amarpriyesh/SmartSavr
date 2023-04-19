@@ -111,6 +111,9 @@ public class AddChildActivity extends AppCompatActivity {
             }
             else {
 
+                int pcode = password.hashCode();
+                String hpass = Integer.toString(pcode);
+
 
                 int accountBalanceCents = 0;
                 int choresCompleted = 0;
@@ -131,7 +134,7 @@ public class AddChildActivity extends AppCompatActivity {
                 firebaseFirestore.collection("children").whereNotEqualTo("username", null).get()
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
-                                Child child = new Child(childName, parentID, weeklyAllowanceCents, username, password, accountBalanceCents, profilePicture, choresCompleted);
+                                Child child = new Child(childName, parentID, weeklyAllowanceCents, username, hpass, accountBalanceCents, profilePicture, choresCompleted);
                                 if (prevChild == null) {
                                     boolean containsUsername = false;
                                     for (QueryDocumentSnapshot document : task.getResult()) {
