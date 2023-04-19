@@ -1,9 +1,11 @@
 package com.example.smartsavr;
 
 import android.util.Log;
+import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.smartsavr.databinding.FragmentChoresListBinding;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -77,7 +79,7 @@ public class DBReference {
 
     }
 
-    public void setChoresListener(List<Chore> chores, RecyclerView.Adapter<ChoresViewHolder> adapter) {
+    public void setChoresListener(List<Chore> chores, RecyclerView.Adapter<ChoresViewHolder> adapter, FragmentChoresListBinding binding) {
         this.query.addSnapshotListener((value, error) -> {
             if (error != null) {
                 System.err.println("Listen failed: " + error);
@@ -93,7 +95,15 @@ public class DBReference {
                 Log.d(TAG,ds.getData().toString());
                 chores.add(obj);
             }
-           adapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
+
+            if (chores.isEmpty()) {
+                binding.noChoresTextView.setVisibility(View.VISIBLE);
+                binding.recyclerView.setVisibility(View.GONE);
+            } else {
+                binding.noChoresTextView.setVisibility(View.GONE);
+                binding.recyclerView.setVisibility(View.VISIBLE);
+            }
         });
 
 
@@ -126,10 +136,8 @@ public class DBReference {
                         totalBalance += obj.getRewardCents();
                     }
                 }
-
-                earningsBalanceConsumer.accept(totalBalance, sumWeekly, sumMonthly);
             }
-
+            earningsBalanceConsumer.accept(totalBalance, sumWeekly, sumMonthly);
         });
 
 

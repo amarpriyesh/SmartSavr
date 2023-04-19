@@ -13,7 +13,7 @@ import com.example.smartsavr.databinding.ProfilePictureItemBinding;
 
 public class ProfilePictureAdapter extends ListAdapter<ProfilePictureItem, ProfilePictureAdapter.ViewHolder> {
 
-    private static int lastCheckedPos = 0;
+    private int lastCheckedPos;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         final ProfilePictureItemBinding binding;
@@ -24,8 +24,9 @@ public class ProfilePictureAdapter extends ListAdapter<ProfilePictureItem, Profi
         }
     }
 
-    public ProfilePictureAdapter() {
+    public ProfilePictureAdapter(int selectedProfilePictureId) {
         super(DIFF_CALLBACK);
+        lastCheckedPos = selectedProfilePictureId;
     }
 
     @Override
@@ -50,7 +51,11 @@ public class ProfilePictureAdapter extends ListAdapter<ProfilePictureItem, Profi
         return new ViewHolder(binding);
     }
 
-    public static final DiffUtil.ItemCallback<ProfilePictureItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<ProfilePictureItem>() {
+    public int getLastCheckedPos() {
+        return lastCheckedPos;
+    }
+
+    public static final DiffUtil.ItemCallback<ProfilePictureItem> DIFF_CALLBACK = new DiffUtil.ItemCallback<>() {
         @Override
         public boolean areItemsTheSame(@NonNull ProfilePictureItem oldItem, @NonNull ProfilePictureItem newItem) {
             return oldItem.getResourceId() == newItem.getResourceId();

@@ -27,15 +27,14 @@ public class ChildViewHolder extends RecyclerView.ViewHolder implements View.OnC
     public void bindThisData(Child child) {
         this.child = child;
         this.name.setText(child.getName());
-        this.image.setImageResource(child.getProfilePicture());
+        this.image.setImageResource(Utils.getImageResource(child.getProfilePicture()));
     }
 
     @Override
     public void onClick(View view) {
-        //TODO: Navigate to child's page
         Intent intent = new Intent(view.getContext(), ParentChildDetailActivity.class);
 
-        intent.putExtra("child", child);
+        intent.putExtra(Utils.CHILD, child);
 
         startActivity(view.getContext(), intent, null);
 

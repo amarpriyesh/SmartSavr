@@ -96,7 +96,7 @@ public class ParentHomeActivity extends AppCompatActivity {
                         accountBalanceCents = Objects.requireNonNull(dc.getDocument().getLong(ACCOUNT_BALANCE_CENTS)).intValue();
                     }
 
-                    int profilePicture = 2131165306;
+                    int profilePicture = 0;
                     if (dc.getDocument().getLong(PROFILE_PICTURE) != null) {
                         profilePicture = Objects.requireNonNull(dc.getDocument().getLong(PROFILE_PICTURE)).intValue();
                     }
@@ -109,6 +109,7 @@ public class ParentHomeActivity extends AppCompatActivity {
                     }
 
                     Child child = new Child(name, parent_id, weeklyAllowanceCents, username, password, accountBalanceCents, profilePicture, choresCompleted);
+                    child.setId(dc.getDocument().getId());
 
                     Log.d(TAG, String.format("Child data: %s", child));
 

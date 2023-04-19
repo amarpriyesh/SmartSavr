@@ -118,7 +118,8 @@ public class Child implements Serializable {
     @Override
     public String toString() {
         return "Child{" +
-                "name='" + name + '\'' +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
                 ", parentId='" + parentId + '\'' +
                 ", password='" + password + '\'' +
                 ", username='" + username + '\'' +
