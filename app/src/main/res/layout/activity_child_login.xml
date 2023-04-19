@@ -46,5 +46,18 @@
         android:layout_marginTop="10dp"
         android:text="@string/log_in"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:textAlignment="center"
+        android:text="Login using the credentials provided by your parents"
+        android:textSize="25sp"
+        android:textColor="@color/black"
+        android:textStyle="normal"
+        android:layout_marginBottom="20dp"/>
+
 
 </LinearLayout>

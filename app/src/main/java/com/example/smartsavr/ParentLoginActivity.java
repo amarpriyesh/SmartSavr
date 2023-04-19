@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,6 +35,12 @@ public class ParentLoginActivity extends AppCompatActivity {
             actionBar.setTitle(R.string.log_in);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        TextView pass = findViewById(R.id.resetpassword);
+        pass.setTooltipText("Click to Receive a Reset Link on registered Email");
+
+        TextView txt = findViewById(R.id.gotosignup);
+        txt.setTooltipText("New User ? Click to Sign Up ");
 
         firebaseAuth=FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);
@@ -87,7 +94,10 @@ public class ParentLoginActivity extends AppCompatActivity {
                 binding.resetpassword.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+
                         String email = binding.email.getText().toString();
+
                         progressDialog.setTitle("Sending Reset-Email");
                         progressDialog.show();
                         firebaseAuth.sendPasswordResetEmail(email)
