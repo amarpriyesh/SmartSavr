@@ -31,6 +31,9 @@ public class Child implements Serializable {
         this.choresCompleted = choresCompleted;
     }
 
+    public Child() {
+    }
+
     public String getName() {
         return name;
     }
@@ -61,6 +64,14 @@ public class Child implements Serializable {
 
     public void setAccountBalanceCents(int accountBalanceCents) {
         this.accountBalanceCents = accountBalanceCents;
+
+        if (this.accountBalanceCents < 0) {
+            this.accountBalanceCents = 0;
+        }
+
+        if (this.accountBalanceCents > 1000000) {
+            this.accountBalanceCents = 1000000;
+        }
     }
 
     public int getWeeklyAllowanceCents() {

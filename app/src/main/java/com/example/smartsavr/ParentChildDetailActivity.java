@@ -13,7 +13,14 @@ import android.widget.TextView;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 public class ParentChildDetailActivity extends AppCompatActivity {
+
+    static DBReference childDBReference;
+    FirebaseFirestore firebaseFirestore;
+    static CollectionReference collectionReference;
 
     private Child child;
 
@@ -31,6 +38,10 @@ public class ParentChildDetailActivity extends AppCompatActivity {
             actionBar.setTitle(child.getName() + "'s Profile");
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        firebaseFirestore = FirebaseFirestore.getInstance();
+        collectionReference = firebaseFirestore.collection("children");
+        childDBReference = new DBReference(collectionReference,firebaseFirestore);
 
         ImageView logo = findViewById(R.id.logo);
         logo.setImageResource(Utils.getImageResource(child.getProfilePicture()));
@@ -54,8 +65,7 @@ public class ParentChildDetailActivity extends AppCompatActivity {
     private void setClickListeners(Child child) {
         Button modifyBalance = findViewById(R.id.modify_balance);
         modifyBalance.setOnClickListener(view -> {
-            //TODO: Set values in bottom sheet appropriately
-            ModifyAllowanceBottomSheetDialog bottomSheet = new ModifyAllowanceBottomSheetDialog();
+            ModifyAllowanceBottomSheetDialog bottomSheet = new ModifyAllowanceBottomSheetDialog(child);
             bottomSheet.show(getSupportFragmentManager(), ModifyAllowanceBottomSheetDialog.TAG);
         });
 

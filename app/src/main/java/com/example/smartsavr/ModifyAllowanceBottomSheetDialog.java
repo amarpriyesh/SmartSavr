@@ -1,6 +1,7 @@
 package com.example.smartsavr;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,10 @@ import androidx.annotation.Nullable;
 import com.example.smartsavr.databinding.FragmentModifyAllowanceBottomSheetBinding;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class ModifyAllowanceBottomSheetDialog extends BottomSheetDialogFragment {
 
@@ -18,7 +23,11 @@ public class ModifyAllowanceBottomSheetDialog extends BottomSheetDialogFragment 
 
     private FragmentModifyAllowanceBottomSheetBinding binding;
 
-    public ModifyAllowanceBottomSheetDialog() {}
+    private Child child;
+
+    public ModifyAllowanceBottomSheetDialog(Child child) {
+        this.child = child;
+    }
 
     @Override
     public void onStart() {
@@ -35,6 +44,32 @@ public class ModifyAllowanceBottomSheetDialog extends BottomSheetDialogFragment 
     }
 
     private void setClickListeners() {
-        binding.saveAllowanceButton.setOnClickListener(view -> dismiss());
+        binding.saveAllowanceButton.setOnClickListener(view -> {
+            boolean add = binding.addBalanceRadioButton.isChecked();
+            boolean subtract = binding.subtractBalanceRadioButton.isChecked();
+            String amountString = (binding.amountFieldEditText.getText().toString());
+            int amount = Utils.dollarStringToCents(amountString);
+
+            if (add) {
+                child.setAccountBalanceCents(child.getAccountBalanceCents() + amount);
+            } else if (subtract) {
+                child.setAccountBalanceCents(child.getAccountBalanceCents() - amount);
+            }
+
+            ParentChildDetailActivity.childDBReference.collectionReference.whereEqualTo("username", child.getUsername()).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    QuerySnapshot querySnapshot = task.getResult();
+                    if (querySnapshot != null) {
+                        for (Child child : querySnapshot.toObjects(Child.class)) {
+                            ParentChildDetailActivity.childDBReference.collectionReference.document(child.getId()).set(this.child);
+                        }
+                    } else {
+                        Log.d(TAG, "querySnapshot is null");
+                    }
+                }
+            });
+
+            dismiss();
+        });
     }
 }

@@ -25,13 +25,13 @@ import java.util.Objects;
 
 public class ParentHomeActivity extends AppCompatActivity {
 
-    private static final String USERNAME = "username";
+    static final String USERNAME = "username";
     private static final String NAME = "name";
     private static final String PASSWORD = "password";
     private static final String WEEKLY_ALLOWANCE_CENTS = "weeklyAllowanceCents";
     private static final String ACCOUNT_BALANCE_CENTS = "accountBalanceCents";
     private static final String PROFILE_PICTURE = "profilePicture";
-    private static final String PARENT_ID = "parentId";
+    static final String PARENT_ID = "parentId";
     private static final String CHORES_COMPLETED = "choresCompleted";
 
     private static final String TAG = "ParentHomeActivity";
