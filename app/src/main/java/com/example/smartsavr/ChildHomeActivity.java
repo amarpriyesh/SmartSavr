@@ -51,7 +51,7 @@ public class ChildHomeActivity extends AppCompatActivity {
     FirebaseFirestore firebaseFirestore;
     CollectionReference collectionReference;
 
-    String childId;
+    static String childId;
 
 
 
