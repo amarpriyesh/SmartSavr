@@ -8,6 +8,8 @@ import java.io.Serializable;
 
 public class Child implements Serializable {
 
+    private static final int MAX_ACCOUNT_BALANCE_CENTS = 1000000;
+
     @DocumentId
     private String id;
     private String name;
@@ -29,9 +31,6 @@ public class Child implements Serializable {
         this.accountBalanceCents = accountBalanceCents;
         this.profilePicture = profilePicture;
         this.choresCompleted = choresCompleted;
-    }
-
-    public Child() {
     }
 
     public String getName() {
@@ -69,8 +68,8 @@ public class Child implements Serializable {
             this.accountBalanceCents = 0;
         }
 
-        if (this.accountBalanceCents > 1000000) {
-            this.accountBalanceCents = 1000000;
+        if (this.accountBalanceCents > MAX_ACCOUNT_BALANCE_CENTS) {
+            this.accountBalanceCents = MAX_ACCOUNT_BALANCE_CENTS;
         }
     }
 

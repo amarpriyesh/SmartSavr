@@ -60,5 +60,4 @@
             android:name=".AddChildActivity"
             android:exported="false" />
     </application>
-
 </manifest>

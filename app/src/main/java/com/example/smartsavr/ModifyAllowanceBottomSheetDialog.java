@@ -12,9 +12,6 @@ import androidx.annotation.Nullable;
 import com.example.smartsavr.databinding.FragmentModifyAllowanceBottomSheetBinding;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 public class ModifyAllowanceBottomSheetDialog extends BottomSheetDialogFragment {
@@ -23,7 +20,7 @@ public class ModifyAllowanceBottomSheetDialog extends BottomSheetDialogFragment 
 
     private FragmentModifyAllowanceBottomSheetBinding binding;
 
-    private Child child;
+    private final Child child;
 
     public ModifyAllowanceBottomSheetDialog(Child child) {
         this.child = child;
