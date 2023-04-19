@@ -1,5 +1,8 @@
 package com.example.smartsavr;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -67,6 +70,11 @@ public class ModifyAllowanceBottomSheetDialog extends BottomSheetDialogFragment 
             });
 
             dismiss();
+
+            Intent intent = new Intent(view.getContext(), ParentChildDetailActivity.class);
+            intent.putExtra(Utils.CHILD, child);
+            startActivity(intent);
+            Log.d("TAG", "onClick: " + child.getParentId() + " " + child.getUsername());
         });
     }
 }
