@@ -50,6 +50,8 @@ public class ParentChildChoresActivity extends AppCompatActivity {
         Log.d(TAG, String.format("Child is %s", child));
         listChoresCompleted.clear();
         listChoresToDo.clear();
+
+
         binding = ActivityParentChildChoresBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -66,7 +68,7 @@ public class ParentChildChoresActivity extends AppCompatActivity {
         choresCompletedDBReference = new DBReference(collectionReference,firebaseFirestore);
         toDoCompletedDBReference = new DBReference(collectionReference,firebaseFirestore);
 
-        Query queryChoresCompleted = collectionReference.whereEqualTo("childID", child.getId()).whereEqualTo("complete",true).orderBy("completedTimestamp", Query.Direction.ASCENDING);
+        Query queryChoresCompleted = collectionReference.whereEqualTo("childID", child.getId()).whereEqualTo("complete",true).orderBy("completedTimestamp", Query.Direction.DESCENDING);
         choresCompletedDBReference.setQuery(queryChoresCompleted);
         Query queryChoresToDo = collectionReference.whereEqualTo("childID", child.getId()).whereEqualTo("complete",false).orderBy("deadline", Query.Direction.ASCENDING);
         toDoCompletedDBReference.setQuery(queryChoresToDo);

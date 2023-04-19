@@ -43,7 +43,7 @@
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentNeedApproval"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="310dp"
             android:layout_margin="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/requireApprovalText"
@@ -52,7 +52,7 @@
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentCompletedActivities"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="310dp"
             android:layout_margin="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/notCompletedText"

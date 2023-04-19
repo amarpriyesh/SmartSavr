@@ -12,6 +12,12 @@
         android:theme="@style/Theme.Smartsavr"
         tools:targetApi="31">
         <activity
+            android:name=".ChildHomeChoresUpcoming"
+            android:exported="false" />
+        <activity
+            android:name=".ChildHomeChoresCompleted"
+            android:exported="false" />
+        <activity
             android:name=".ChildLoginActivity"
             android:exported="false"
             android:launchMode="singleTask"
@@ -54,4 +60,5 @@
             android:name=".AddChildActivity"
             android:exported="false" />
     </application>
+
 </manifest>
