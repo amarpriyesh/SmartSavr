@@ -161,4 +161,10 @@ public class ParentHomeActivity extends AppCompatActivity {
             return super.onOptionsItemSelected(item);
         }
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        recreate();
+    }
 }
