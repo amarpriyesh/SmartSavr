@@ -50,7 +50,7 @@ public class AddChildActivity extends AppCompatActivity {
             binding.nameFieldEditText.setText(child.getName());
             binding.weeklyAllowanceFieldEditText.setText(Utils.centsToDollarString(child.getWeeklyAllowanceCents(), false));
             binding.usernameFieldEditText.setText(child.getUsername());
-            binding.passwordFieldEditText.setText(child.getPassword());
+            //binding.passwordFieldEditText.setText(child.getPassword());
             if (child.getProfilePicture() >= 0 && child.getProfilePicture() <= MAX_PROFILE_PICTURE_ID) {
                 selectedProfilePictureId = child.getProfilePicture();
             }

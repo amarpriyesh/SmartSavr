@@ -2,6 +2,7 @@ package com.example.smartsavr;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -93,17 +95,33 @@ public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements
 
     private void setClickListeners() {
         if (this.chore == null) {
-            // Create new chore
-            binding.saveChoreButton.setOnClickListener(v -> {
-                String rewardText = binding.rewardFieldEditText.getText().toString();
-                Chore chore = new Chore(
-                        childId,
-                        getCalendar().getTimeInMillis(),
-                        binding.choreNameFieldEditText.getText().toString(),
-                        Utils.dollarStringToCents(rewardText));
-                ParentChildChoresActivity.toDoCompletedDBReference.collectionReference.add(chore);
-                dismiss();
-            });
+
+
+
+                // Create new chore
+                binding.saveChoreButton.setOnClickListener(v -> {
+                    String Chore = binding.choreNameFieldEditText.getText().toString();
+                    if(TextUtils.isEmpty(Chore))
+                    {
+                        Toast.makeText(getActivity(),"Chore Cannot be Empty",Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    else
+                    {
+                        String rewardText = binding.rewardFieldEditText.getText().toString();
+                        Chore chore = new Chore(
+                                childId,
+                                getCalendar().getTimeInMillis(),
+                                binding.choreNameFieldEditText.getText().toString(),
+                                Utils.dollarStringToCents(rewardText));
+                        ParentChildChoresActivity.toDoCompletedDBReference.collectionReference.add(chore);
+                        dismiss();
+
+                    }
+
+
+                });
+
         } else {
             // Edit existing chore
             binding.choreNameFieldEditText.setText(chore.getTaskName());
