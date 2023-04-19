@@ -51,7 +51,7 @@ public class ChildHomeActivity extends AppCompatActivity {
     FirebaseFirestore firebaseFirestore;
     CollectionReference collectionReference;
 
-    String childId;
+    static String childId;
 
 
 
@@ -81,7 +81,7 @@ public class ChildHomeActivity extends AppCompatActivity {
         choresCompletedDBReference = new DBReference(collectionReference, firebaseFirestore);
         toDoCompletedDBReference = new DBReference(collectionReference, firebaseFirestore);
 
-        Query queryChoresCompleted = collectionReference.whereEqualTo("childID", childId).whereEqualTo("complete", true).orderBy("completedTimestamp", Query.Direction.ASCENDING).limit(3);
+        Query queryChoresCompleted = collectionReference.whereEqualTo("childID", childId).whereEqualTo("complete", true).orderBy("completedTimestamp", Query.Direction.DESCENDING).limit(3);
         Query queryChoresApproved = collectionReference.whereEqualTo("childID", childId).whereEqualTo("complete", true).whereEqualTo("approved", true);
 
         choresCompletedDBReference.setQuery(queryChoresCompleted);
@@ -98,6 +98,7 @@ public class ChildHomeActivity extends AppCompatActivity {
         toDoActivityFragmnet = ChoresListFragment.newInstance("childChoresToDo");
         setFragment(R.id.fragmentCompletedActivities, completedActivityFragmnet);
         setFragment(R.id.fragmentUpcomingActivities, toDoActivityFragmnet);
+        setListeners();
     }
 
     private void setFragment(int id, Fragment fragment) {
@@ -107,10 +108,19 @@ public class ChildHomeActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-        void setTable() {
+    private void setListeners(){
+        binding.linkCompletedActivities.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ChildHomeChoresCompleted.class);
+            startActivity(intent);
+        });
+        binding.linkUpcomingActivities.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ChildHomeChoresUpcoming.class);
+            startActivity(intent);
+        });
+        //TODO For Graphs
+        binding.linkSeeGraphs.setOnClickListener(v -> {});
+    }
 
-// ...
-        }
 
 
     @Override
