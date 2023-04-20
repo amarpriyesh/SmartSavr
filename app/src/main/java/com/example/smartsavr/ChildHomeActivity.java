@@ -39,12 +39,8 @@ public class ChildHomeActivity extends AppCompatActivity {
     static DBReference choresCompletedDBReference;
     static DBReference toDoCompletedDBReference;
 
-    ChoresPoller poller;
-
     final String TAG = "ChildHomeActivity";
     ActivityChildHomeBinding binding;
-
-    CalendarOperation cal;
 
     ChoresListFragment completedActivityFragmnet;
     ChoresListFragment toDoActivityFragmnet;
