@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -41,8 +42,6 @@ public class ParentChildDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         child = (Child) intent.getSerializableExtra(Utils.CHILD);
 
-        giveAllowance();
-
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(child.getName() + "'s Profile");
@@ -52,6 +51,8 @@ public class ParentChildDetailActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
         collectionReference = firebaseFirestore.collection("children");
         childDBReference = new DBReference(collectionReference,firebaseFirestore);
+
+        giveAllowance();
 
         ImageView logo = findViewById(R.id.logo);
         logo.setImageResource(Utils.getImageResource(child.getProfilePicture()));
@@ -85,6 +86,16 @@ public class ParentChildDetailActivity extends AppCompatActivity {
             ZonedDateTime zonedDateTime = localDate.atZone(ZoneId.of("America/New_York"));
             child.setLastAllowanceTime(zonedDateTime.toInstant().toEpochMilli());
         }
+        childDBReference.collectionReference.whereEqualTo("username", child.getUsername()).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                QuerySnapshot querySnapshot = task.getResult();
+                if (querySnapshot != null) {
+                    for (Child child : querySnapshot.toObjects(Child.class)) {
+                        ParentChildDetailActivity.childDBReference.collectionReference.document(child.getId()).set(this.child);
+                    }
+                }
+            }
+        });
     }
 
     private void setClickListeners(Child child) {
