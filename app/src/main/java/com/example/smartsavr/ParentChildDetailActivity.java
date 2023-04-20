@@ -3,6 +3,7 @@ package com.example.smartsavr;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,6 +17,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.TemporalAdjusters;
+
 public class ParentChildDetailActivity extends AppCompatActivity {
 
     static DBReference childDBReference;
@@ -23,6 +29,8 @@ public class ParentChildDetailActivity extends AppCompatActivity {
     static CollectionReference collectionReference;
 
     private Child child;
+
+    public static final long WEEK_IN_MILLIS = 604800000;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -32,6 +40,8 @@ public class ParentChildDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         child = (Child) intent.getSerializableExtra(Utils.CHILD);
+
+        giveAllowance();
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -60,6 +70,21 @@ public class ParentChildDetailActivity extends AppCompatActivity {
         nameTV.setText(child.getName());
 
         setClickListeners(child);
+    }
+
+    private void giveAllowance() {
+        Log.d("ParentChildDetail", "Giving allowance");
+        Log.d("current time", "" + System.currentTimeMillis());
+        Log.d("last allowance time", "" + child.getLastAllowanceTime());
+        Log.d("week in millis", "" + WEEK_IN_MILLIS);
+        int weeksSinceLastAllowance = (int) ((System.currentTimeMillis() - child.getLastAllowanceTime()) / WEEK_IN_MILLIS);
+        Log.d("ParentChildDetail", "Weeks since last allowance: " + weeksSinceLastAllowance);
+        if (weeksSinceLastAllowance > 0) {
+            child.setAccountBalanceCents(child.getAccountBalanceCents() + child.getWeeklyAllowanceCents() * weeksSinceLastAllowance);
+            LocalDateTime localDate = LocalDateTime.now().with(TemporalAdjusters.previousOrSame(java.time.DayOfWeek.SUNDAY));
+            ZonedDateTime zonedDateTime = localDate.atZone(ZoneId.of("America/New_York"));
+            child.setLastAllowanceTime(zonedDateTime.toInstant().toEpochMilli());
+        }
     }
 
     private void setClickListeners(Child child) {
