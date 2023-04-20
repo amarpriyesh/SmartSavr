@@ -26,13 +26,8 @@ public class ParentChartData {
     ArrayList<String> children_ids = new ArrayList<String>();
     ArrayList<String> children_names = new ArrayList<String>();
     List<Chore> listApprovedChores = new ArrayList<>();
-    List<Chore> returnChores = new ArrayList<>();
     ArrayList<Entry> values = new ArrayList<Entry>();
 
-    ArrayList<Switch> switches = new ArrayList<Switch>();
-    ArrayList<Integer> colors = new ArrayList<Integer>();
-    List<String> xAxisBottomLabels = new ArrayList<String>();
-    List<ILineDataSet> childrenData = new ArrayList<>();
     private final String TAG = "DB ERROR";
 
     public ParentChartData(String parentId) {
@@ -47,18 +42,12 @@ public class ParentChartData {
         return this.children_names;
     }
 
-    public void setReturnChores(List<Chore> list) {
-        this.returnChores = list;
-    }
-
-    public List<Chore> setChoresList() {
+    public void setChoresList() {
         listApprovedChores.clear();
 
         db = FirebaseFirestore.getInstance();
         chores = db.collection("chores");
 
-        //TODO change query back to correct conditions
-        List<Chore> returnChores = new ArrayList<>();
         Query query = chores.whereEqualTo("complete",true).orderBy("completedTimestamp", Query.Direction.ASCENDING);
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -71,7 +60,7 @@ public class ParentChartData {
                 Log.e(TAG, "Database error when loading documents");
             }
         });
-        return returnChores;
+
     }
 
     public void setChildrenList(DBCallback dbCallback) {

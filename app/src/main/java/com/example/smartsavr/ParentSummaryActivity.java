@@ -21,8 +21,6 @@ import java.util.List;
 
 public class ParentSummaryActivity extends AppCompatActivity {
 
-    static final long DAY_INCREMENT = 1000 * 60 * 60 * 24;
-
     LineChart lineChart;
     FirebaseFirestore db;
     CollectionReference chores;
@@ -54,11 +52,5 @@ public class ParentSummaryActivity extends AppCompatActivity {
             children_ids = parentChartData.getChildren_ids();
             children_names = parentChartData.getChildren_names();
         });
-
-    interface DBCallback {
-        void onCallback(List<String> childIds);
     }
-
-
-
 }
