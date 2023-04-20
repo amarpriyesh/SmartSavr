@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    tools:context=".ParentSummaryActivity">
+
+    <Switch
+        android:id="@+id/switch10"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:checked="true"
+        android:text="Child10"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/switch9"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/switch9"
+        app:layout_constraintTop_toBottomOf="@+id/switch9" />
+
+    <Switch
+        android:id="@+id/switch9"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:checked="true"
+        android:text="Child9"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/switch8"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/switch8"
+        app:layout_constraintTop_toBottomOf="@+id/switch8" />
+
+    <Switch
+        android:id="@+id/switch6"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:checked="true"
+        android:text="Child6"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/switch1"
+        tools:layout_editor_absoluteY="299dp" />
+
+    <Switch
+        android:id="@+id/switch8"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:checked="true"
+        android:text="Child8"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/switch7"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/switch7"
+        app:layout_constraintTop_toBottomOf="@+id/switch7" />
+
+    <Switch
+        android:id="@+id/switch7"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:checked="true"
+        android:text="Child7"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/switch6"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/switch6"
+        app:layout_constraintTop_toBottomOf="@+id/switch6" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/lineChartParent"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="50dp"
+        android:checked="true"
+        android:text="Child1"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lineChartParent" />
+
+    <Switch
+        android:id="@+id/switch5"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:checked="true"
+        android:text="Child5"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/switch4"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/switch4"
+        app:layout_constraintTop_toBottomOf="@+id/switch4" />
+
+    <Switch
+        android:id="@+id/switch2"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:checked="true"
+        android:text="Child2"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/switch1"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/switch1"
+        app:layout_constraintTop_toBottomOf="@+id/switch1" />
+
+    <Switch
+        android:id="@+id/switch4"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:checked="true"
+        android:text="Child4"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/switch3"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/switch3"
+        app:layout_constraintTop_toBottomOf="@+id/switch3" />
+
+    <Switch
+        android:id="@+id/switch3"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:checked="true"
+        android:text="Child3"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/switch2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/switch2"
+        app:layout_constraintTop_toBottomOf="@+id/switch2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
