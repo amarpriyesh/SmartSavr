@@ -78,7 +78,7 @@ public class ParentChildDetailActivity extends AppCompatActivity {
         Log.d("current time", "" + System.currentTimeMillis());
         Log.d("last allowance time", "" + child.getLastAllowanceTime());
         Log.d("week in millis", "" + WEEK_IN_MILLIS);
-        int weeksSinceLastAllowance = (int) ((System.currentTimeMillis() - child.getLastAllowanceTime()) / 60000);
+        int weeksSinceLastAllowance = (int) ((System.currentTimeMillis() - child.getLastAllowanceTime()) / WEEK_IN_MILLIS);
         Log.d("ParentChildDetail", "Weeks since last allowance: " + weeksSinceLastAllowance);
         if (weeksSinceLastAllowance > 0) {
             child.setAccountBalanceCents(child.getAccountBalanceCents() + child.getWeeklyAllowanceCents() * weeksSinceLastAllowance);
