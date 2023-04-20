@@ -50,6 +50,9 @@
             android:configChanges="keyboardHidden|screenSize"
             android:exported="true" />
         <activity
+            android:name=".ParentSummaryActivity"
+            android:exported="true" />
+        <activity
             android:name=".ParentLoginActivity"
             android:exported="false"
             android:launchMode="singleTask"
