@@ -74,7 +74,6 @@ public class ModifyAllowanceBottomSheetDialog extends BottomSheetDialogFragment 
             Intent intent = new Intent(view.getContext(), ParentChildDetailActivity.class);
             intent.putExtra(Utils.CHILD, child);
             startActivity(intent);
-            Log.d("TAG", "onClick: " + child.getParentId() + " " + child.getUsername());
         });
     }
 }
