@@ -17,14 +17,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 
 public class AddChildActivity extends AppCompatActivity {
 
+    private static final String TAG = "AddChildActivity";
     private static final int MAX_PROFILE_PICTURE_ID = 15;
 
     private ActivityAddChildBinding binding;
@@ -126,6 +125,7 @@ public class AddChildActivity extends AppCompatActivity {
                                             .addOnFailureListener(e -> Toast.makeText(AddChildActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show());
                                 }
                             } else {
+                                child.setId(prevChild.getId());
                                 String childId = prevChild.getId();
                                 if (childId == null) {
                                     Toast.makeText(this, "There was an error editing the child's profile", Toast.LENGTH_SHORT).show();
@@ -147,7 +147,9 @@ public class AddChildActivity extends AppCompatActivity {
                                         firebaseFirestore.collection("children").document(childId).set(child)
                                                 .addOnSuccessListener(documentReference -> {
                                                     Toast.makeText(this, "Profile saved successfully", Toast.LENGTH_SHORT).show();
-                                                    startActivity(new Intent(this, ParentHomeActivity.class));
+                                                    Intent intent = new Intent(this, ParentChildDetailActivity.class);
+                                                    intent.putExtra(Utils.CHILD, child);
+                                                    startActivity(intent);
                                                 })
                                                 .addOnFailureListener(e -> Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show());
                                     }

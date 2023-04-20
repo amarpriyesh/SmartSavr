@@ -1,8 +1,6 @@
 package com.example.smartsavr;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +23,12 @@ public class ModifyAllowanceBottomSheetDialog extends BottomSheetDialogFragment 
 
     private final Child child;
 
+    private OnSaveListener onSaveListener;
+
+    public interface OnSaveListener {
+        void acceptBalance(int balanceCents);
+    }
+
     public ModifyAllowanceBottomSheetDialog(Child child) {
         this.child = child;
     }
@@ -41,6 +45,18 @@ public class ModifyAllowanceBottomSheetDialog extends BottomSheetDialogFragment 
         binding = FragmentModifyAllowanceBottomSheetBinding.inflate(inflater, container, false);
         setClickListeners();
         return binding.getRoot();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context)
+    {
+        super.onAttach(context);
+        try {
+            onSaveListener = (OnSaveListener) getActivity();
+        }
+        catch (ClassCastException e) {
+            Log.e(TAG, "onAttach: ClassCastException: " + e.getMessage());
+        }
     }
 
     private void setClickListeners() {
@@ -69,11 +85,10 @@ public class ModifyAllowanceBottomSheetDialog extends BottomSheetDialogFragment 
                 }
             });
 
-            dismiss();
+            onSaveListener.acceptBalance(child.getAccountBalanceCents());
+            Log.d(TAG, "onClick: " + child.getParentId() + " " + child.getUsername());
 
-            Intent intent = new Intent(view.getContext(), ParentChildDetailActivity.class);
-            intent.putExtra(Utils.CHILD, child);
-            startActivity(intent);
+            dismiss();
         });
     }
 }

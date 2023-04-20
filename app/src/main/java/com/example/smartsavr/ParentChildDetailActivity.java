@@ -23,7 +23,9 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAdjusters;
 
-public class ParentChildDetailActivity extends AppCompatActivity {
+public class ParentChildDetailActivity extends AppCompatActivity implements ModifyAllowanceBottomSheetDialog.OnSaveListener {
+
+    private static final String TAG = "ParentChildDetailActivity";
 
     static DBReference childDBReference;
     FirebaseFirestore firebaseFirestore;
@@ -37,10 +39,14 @@ public class ParentChildDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_parent_child_detail);
 
         Intent intent = getIntent();
         child = (Child) intent.getSerializableExtra(Utils.CHILD);
+
+        Log.d(TAG, "Creating activity now");
+        Log.d(TAG, "Child: " + child);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -62,7 +68,7 @@ public class ParentChildDetailActivity extends AppCompatActivity {
         choresCompletedTV.setText("Chores Completed: "  + child.getChoresCompleted());
 
         TextView currentBalanceTV = findViewById(R.id.current_balance);
-        currentBalanceTV.setText(("Account Balance: " + Utils.centsToDollarString(child.getAccountBalanceCents())));
+        currentBalanceTV.setText("Account Balance: " + Utils.centsToDollarString(child.getAccountBalanceCents()));
 
         TextView allowanceTV = findViewById(R.id.allowance);
         allowanceTV.setText("Allowance: " + Utils.centsToDollarString(child.getWeeklyAllowanceCents()) + " per week");
@@ -142,8 +148,22 @@ public class ParentChildDetailActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+    }
+
+    @Override
     protected void onRestart() {
         super.onRestart();
+        Log.d(TAG, "Restarting now!");
         recreate();
+    }
+
+    @Override
+    public void acceptBalance(int balanceCents) {
+        child.setAccountBalanceCents(balanceCents);
+        TextView currentBalanceTV = findViewById(R.id.current_balance);
+        currentBalanceTV.setText("Account Balance: " + Utils.centsToDollarString(child.getAccountBalanceCents()));
     }
 }
