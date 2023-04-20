@@ -48,10 +48,11 @@
     <string name="smartsavr">Smartsavr</string>
     <string name="weekly_earnings">Weekly Earnings: %1$s</string>
     <string name="monthly_earnings">Monthly Earnings: %1$s</string>
-    <string name="see_more">See More</string>
+    <string name="see_more"><u>See More</u></string>
     <string name="mark_done">Mark Done</string>
     <string name="tap_to_undo">Tap to Undo</string>
     <string name="modify_balance">Modify Balance</string>
     <string name="edit_chore">Edit Chore</string>
     <string name="no_chores">There are no chores in this list.</string>
+    <string name="see_graphs"><u>See Graphs</u></string>
 </resources>
