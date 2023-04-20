@@ -40,6 +40,8 @@
     <string name="allowance_summary">Allowance Summary</string>
     <string name="chores_completed">Chores Completed:</string>
     <string name="current_balance">Current Balance:</string>
+    <string name="completed_chores">Completed Chores</string>
+    <string name="upcoming_chores">Upcoming Chores</string>
     <string name="allowance">\"Allowance: \"</string>
     <string name="log_in">Log In</string>
     <string name="sign_up">Sign Up</string>

@@ -110,11 +110,11 @@ public class ChildHomeActivity extends AppCompatActivity {
 
     private void setListeners(){
         binding.linkCompletedActivities.setOnClickListener(v -> {
-            Intent intent = new Intent(this, ChildHomeChoresCompleted.class);
+            Intent intent = new Intent(this, ChildHomeChoresCompletedActivity.class);
             startActivity(intent);
         });
         binding.linkUpcomingActivities.setOnClickListener(v -> {
-            Intent intent = new Intent(this, ChildHomeChoresUpcoming.class);
+            Intent intent = new Intent(this, ChildHomeChoresUpcomingActivity.class);
             startActivity(intent);
         });
         //TODO For Graphs

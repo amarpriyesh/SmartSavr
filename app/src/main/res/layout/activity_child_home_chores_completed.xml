@@ -4,24 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChildHomeChoresCompleted">
+    tools:context=".ChildHomeChoresCompletedActivity">
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/completedActivities"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recentlyCompletedText"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0"
         tools:layout="@layout/fragment_chores_list" />
-
-    <TextView
-        android:id="@+id/recentlyCompletedText"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_gravity="start"
-        android:text="Recently Completed"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
