@@ -19,6 +19,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -33,6 +37,7 @@ public class ParentHomeActivity extends AppCompatActivity {
     private static final String PROFILE_PICTURE = "profilePicture";
     private static final String PARENT_ID = "parentId";
     private static final String CHORES_COMPLETED = "choresCompleted";
+    private static final String LAST_ALLOWANCE_TIME = "lastAllowanceTime";
 
     private static final String TAG = "ParentHomeActivity";
 
@@ -86,6 +91,13 @@ public class ParentHomeActivity extends AppCompatActivity {
                     String name = dc.getDocument().get(NAME, String.class);
                     String password = dc.getDocument().get(PASSWORD, String.class);
 
+                    LocalDateTime localDate = LocalDateTime.now().with(TemporalAdjusters.previousOrSame(java.time.DayOfWeek.SUNDAY));
+                    ZonedDateTime zonedDateTime = localDate.atZone(ZoneId.of("America/New_York"));
+                    long lastAllowanceTime = zonedDateTime.toInstant().toEpochMilli();
+                    if (dc.getDocument().getLong(LAST_ALLOWANCE_TIME) != null) {
+                        lastAllowanceTime = Objects.requireNonNull(dc.getDocument().getLong("lastAllowanceTime"));
+                    }
+
                     int weeklyAllowanceCents = 0;
                     if (dc.getDocument().getLong(WEEKLY_ALLOWANCE_CENTS) != null) {
                         weeklyAllowanceCents = Objects.requireNonNull(dc.getDocument().getLong(WEEKLY_ALLOWANCE_CENTS)).intValue();
@@ -108,7 +120,7 @@ public class ParentHomeActivity extends AppCompatActivity {
                         choresCompleted = Objects.requireNonNull(dc.getDocument().getLong(CHORES_COMPLETED)).intValue();
                     }
 
-                    Child child = new Child(name, parent_id, weeklyAllowanceCents, username, password, accountBalanceCents, profilePicture, choresCompleted);
+                    Child child = new Child(name, parent_id, weeklyAllowanceCents, username, password, accountBalanceCents, profilePicture, choresCompleted, lastAllowanceTime);
                     child.setId(dc.getDocument().getId());
 
                     Log.d(TAG, String.format("Child data: %s", child));

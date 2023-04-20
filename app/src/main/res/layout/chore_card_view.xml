@@ -25,12 +25,12 @@
                 android:layout_height="20dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="100dp"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/black"
                 android:textSize="15sp"
-                app:layout_constraintEnd_toStartOf="@id/textDone"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Wash the dishes Wash the dishes Wash the dishes Wash the dishes Wash the dishes Wash the dishes Wash the dishes Wash the dishes Wash the dishes Wash the dishes Wash the dishes " />
@@ -39,82 +39,79 @@
                 android:id="@+id/textDone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:text="Done"
+                app:layout_constraintVertical_chainStyle="packed"
+                android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:visibility="visible"
-                app:layout_constraintEnd_toStartOf="@id/done"
+                app:layout_constraintStart_toStartOf="@id/done"
+                app:layout_constraintEnd_toEndOf="@id/done"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="visible" />
+                app:layout_constraintBottom_toTopOf="@id/done"
+                tools:visibility="gone" />
 
             <ImageView
                 android:id="@+id/done"
-                android:layout_width="56dp"
+                android:layout_width="27dp"
                 android:layout_height="27dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="20dp"
-                android:src="@drawable/tick"
+                android:layout_marginEnd="18dp"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/check"
                 android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@id/textDone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.625"
-                tools:visibility="visible" />
-
-            <ImageView
-                android:id="@+id/delete"
-                android:layout_width="56dp"
-                android:layout_height="27dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="16dp"
-                android:src="@drawable/trash"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.625"
                 tools:visibility="gone" />
 
             <ImageView
                 android:id="@+id/edit"
-                android:layout_width="56dp"
+                android:layout_width="27dp"
                 android:layout_height="27dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="16dp"
-                android:src="@drawable/pencil"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/edit"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/delete"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.625"
-                tools:visibility="gone" />
+                tools:visibility="visible"
+                app:tint="@color/black" />
+
+            <ImageView
+                android:id="@+id/delete"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/delete"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
 
             <ImageView
                 android:id="@+id/undo"
-                android:layout_width="56dp"
+                android:layout_width="27dp"
                 android:layout_height="27dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="8dp"
                 android:src="@drawable/undo"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/taskDone"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.666" />
+                tools:visibility="gone" />
 
             <ImageView
                 android:id="@+id/taskDone"
-                android:layout_width="56dp"
+                android:layout_width="27dp"
                 android:layout_height="27dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="12dp"
                 android:src="@drawable/check"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/edit"
+                app:layout_constraintEnd_toStartOf="@id/undo"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.625" />
+                tools:visibility="gone" />
 
             <Space
                 android:id="@+id/reward_space"

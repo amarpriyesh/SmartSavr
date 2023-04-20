@@ -44,12 +44,8 @@ public class ChildHomeActivity extends AppCompatActivity {
     static DBReference choresCompletedDBReference;
     static DBReference toDoCompletedDBReference;
 
-    ChoresPoller poller;
-
     final String TAG = "ChildHomeActivity";
     static ActivityChildHomeBinding binding;
-
-    CalendarOperation cal;
 
     ChoresListFragment completedActivityFragmnet;
     ChoresListFragment toDoActivityFragmnet;
@@ -135,11 +131,11 @@ choresCompletedDBReference.setChoresListenerSeeTextUpcoming(queryChoresToDoAll,b
 
     private void setListeners(){
         binding.linkCompletedActivities.setOnClickListener(v -> {
-            Intent intent = new Intent(this, ChildHomeChoresCompleted.class);
+            Intent intent = new Intent(this, ChildHomeChoresCompletedActivity.class);
             startActivity(intent);
         });
         binding.linkUpcomingActivities.setOnClickListener(v -> {
-            Intent intent = new Intent(this, ChildHomeChoresUpcoming.class);
+            Intent intent = new Intent(this, ChildHomeChoresUpcomingActivity.class);
             startActivity(intent);
         });
         //TODO For Graphs

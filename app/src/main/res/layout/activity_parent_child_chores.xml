@@ -32,7 +32,7 @@
             android:layout_height="30dp"
             android:layout_gravity="start"
             android:layout_margin="8dp"
-            android:text="To Do"
+            android:text="Upcoming Chores"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="20sp"

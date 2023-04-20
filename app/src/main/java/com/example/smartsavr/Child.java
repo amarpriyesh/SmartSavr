@@ -5,6 +5,12 @@ import androidx.annotation.NonNull;
 import com.google.firebase.firestore.DocumentId;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 
 public class Child implements Serializable {
 
@@ -21,7 +27,9 @@ public class Child implements Serializable {
     private int profilePicture;
     private int choresCompleted;
 
-    // as currently account balance and password is not implemented
+    private long lastAllowanceTime;
+
+    //Constructor for a new child
     public Child(String name, String parentId, int weeklyAllowanceCents, String username, String password, int accountBalanceCents, int profilePicture, int choresCompleted) {
         this.name = name;
         this.parentId = parentId;
@@ -31,6 +39,23 @@ public class Child implements Serializable {
         this.accountBalanceCents = accountBalanceCents;
         this.profilePicture = profilePicture;
         this.choresCompleted = choresCompleted;
+        //With a new child, the last allowance time is set to the previous Sunday
+        LocalDateTime localDate = LocalDateTime.now().with(TemporalAdjusters.previousOrSame(java.time.DayOfWeek.SUNDAY));
+        ZonedDateTime zonedDateTime = localDate.atZone(ZoneId.of("America/New_York"));
+        this.lastAllowanceTime = zonedDateTime.toInstant().toEpochMilli();
+    }
+
+    //Constructor for a child that already exists in the db
+    public Child(String name, String parentId, int weeklyAllowanceCents, String username, String password, int accountBalanceCents, int profilePicture, int choresCompleted, long lastAllowanceTime) {
+        this.name = name;
+        this.parentId = parentId;
+        this.weeklyAllowanceCents = weeklyAllowanceCents;
+        this.username = username;
+        this.password = password;
+        this.accountBalanceCents = accountBalanceCents;
+        this.profilePicture = profilePicture;
+        this.choresCompleted = choresCompleted;
+        this.lastAllowanceTime = lastAllowanceTime;
     }
 
     public Child() {}
@@ -115,6 +140,14 @@ public class Child implements Serializable {
         this.id = id;
     }
 
+    public long getLastAllowanceTime() {
+        return lastAllowanceTime;
+    }
+
+    public void setLastAllowanceTime(long lastAllowanceTime) {
+        this.lastAllowanceTime = lastAllowanceTime;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -128,6 +161,7 @@ public class Child implements Serializable {
                 ", weeklyAllowanceCents=" + weeklyAllowanceCents +
                 ", profilePicture=" + profilePicture +
                 ", choresCompleted=" + choresCompleted +
+                ", lastAllowanceTime=" + lastAllowanceTime +
                 '}';
     }
 }
