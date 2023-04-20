@@ -46,6 +46,10 @@
             android:name=".ParentChildChoresActivity"
             android:exported="false" />
         <activity
+            android:name=".ChildSummaryActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:exported="true" />
+        <activity
             android:name=".ParentLoginActivity"
             android:exported="false"
             android:launchMode="singleTask"

@@ -34,11 +34,6 @@ public class ChildChartData {
 
     public ChildChartData(String childId) {
         this.childId = childId;
-        this.setChoresList(chores -> {
-            listApprovedChores = this.getListApprovedChores();
-            values = this.calculateDailyEarnings();
-            xAxisBottomLabels = this.populateXAxisLabels();
-        });
     }
 
     public List<Chore> getListApprovedChores() {
@@ -59,8 +54,8 @@ public class ChildChartData {
                 for (QueryDocumentSnapshot document : snapshot) {
                     Chore chore = document.toObject(Chore.class);
                     listApprovedChores.add(chore);
-                    values = calculateDailyEarnings();
-                    xAxisBottomLabels = populateXAxisLabels();
+                    calculateDailyEarnings();
+                    populateXAxisLabels();
                 }
                 dbCallback.onCallback(listApprovedChores);
             } else {
@@ -74,7 +69,15 @@ public class ChildChartData {
         return listApprovedChores.get(listApprovedChores.size()-1).getCompletedTimestamp();
     }
 
-    public ArrayList<Entry> calculateDailyEarnings() {
+    public ArrayList<Entry> getValues() {
+        return values;
+    }
+
+    public List<String> getXAxisLabels() {
+        return xAxisBottomLabels;
+    }
+
+    public void calculateDailyEarnings() {
         values.clear();
         if (listApprovedChores.size() == 0) {
             populateDataBetweenDateGaps(startingAxisTimestamp, System.currentTimeMillis());
@@ -104,7 +107,6 @@ public class ChildChartData {
             xValue++;
             populateDataBetweenDateGaps(getLastDayTimestamp(), System.currentTimeMillis());
         }
-        return values;
     }
 
     public String convertTimestampToDate(long timestamp) {
@@ -141,7 +143,8 @@ public class ChildChartData {
         }
     }
 
-    public List<String> populateXAxisLabels() {
+    public void populateXAxisLabels() {
+        xAxisBottomLabels.clear();
         int i = 0;
         int gap_days = compareTwoDates(startingAxisTimestamp, System.currentTimeMillis());
         long nextDayTimestamp = startingAxisTimestamp + DAY_INCREMENT;
@@ -150,7 +153,6 @@ public class ChildChartData {
             i++;
             nextDayTimestamp += DAY_INCREMENT;
         }
-        return xAxisBottomLabels;
     }
 
     interface DBCallback {

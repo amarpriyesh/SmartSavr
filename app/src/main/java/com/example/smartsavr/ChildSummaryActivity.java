@@ -1,5 +1,6 @@
 package com.example.smartsavr;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -34,16 +36,22 @@ public class ChildSummaryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_child_summary);
-        listApprovedChores.clear();
-        xAxisBottomLabels.clear();
-        values.clear();
 
-        child = new ChildChartData("HklKeW3IqYDDxk04c1q0");
+        Intent intent = getIntent();
+        Child childUser = (Child) intent.getSerializableExtra(Utils.CHILD);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(childUser.getName() + "'s Earning Summary");
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        child = new ChildChartData(childUser.getId());
         child.setChoresList(chores -> {
             listApprovedChores = child.getListApprovedChores();
-            values = child.calculateDailyEarnings();
-            Log.e("TAG", String.valueOf(values.size()-1));
-            xAxisBottomLabels = child.populateXAxisLabels();
+            child.calculateDailyEarnings();
+            values = child.getValues();
+            xAxisBottomLabels = child.getXAxisLabels();
             populateGraph();
 
             //Set earning stats

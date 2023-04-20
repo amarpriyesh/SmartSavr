@@ -120,7 +120,9 @@ public class ParentChildDetailActivity extends AppCompatActivity implements Modi
 
         Button allowanceSummary = findViewById(R.id.allowance_summary);
         allowanceSummary.setOnClickListener(view -> {
-            //TODO: Navigate to allowance summary page
+            Intent intent = new Intent(this, ChildSummaryActivity.class);
+            intent.putExtra(Utils.CHILD, child);
+            startActivity(intent);
         });
     }
 
