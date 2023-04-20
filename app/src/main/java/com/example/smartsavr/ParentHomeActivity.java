@@ -116,11 +116,9 @@ public class ParentHomeActivity extends AppCompatActivity {
                     switch (dc.getType()) {
                         case ADDED:
                             childList.add(child);
-                            //TODO: needs to update after adding a child
                             childAdapter.notifyItemChanged(childList.size() - 1);
                             break;
                         case MODIFIED:
-                            //TODO: add logic for updating child info
                             break;
                         case REMOVED:
                             childList.remove(child);
@@ -160,5 +158,11 @@ public class ParentHomeActivity extends AppCompatActivity {
         } else {
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        recreate();
     }
 }
