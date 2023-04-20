@@ -68,7 +68,7 @@ public class ParentChildChoresActivity extends AppCompatActivity {
 
         Query queryChoresCompleted = collectionReference.whereEqualTo("childID", child.getId()).whereEqualTo("complete",true).orderBy("completedTimestamp", Query.Direction.DESCENDING);
         choresCompletedDBReference.setQuery(queryChoresCompleted);
-        Query queryChoresToDo = collectionReference.whereEqualTo("childID", child.getId()).whereEqualTo("complete",false).orderBy("deadline", Query.Direction.ASCENDING);
+        Query queryChoresToDo = collectionReference.whereEqualTo("childID", child.getId()).whereEqualTo("complete",false).orderBy("deadline", Query.Direction.ASCENDING).orderBy("assignedTimestamp",Query.Direction.DESCENDING);
         toDoCompletedDBReference.setQuery(queryChoresToDo);
         completedActivityFragment = ChoresListFragment.newInstance("parentChoresCompleted");
         toDoActivityFragment = ChoresListFragment.newInstance("parentChoresToDo");

@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 
 import com.example.smartsavr.databinding.ActivityChildHomeBinding;
@@ -33,8 +34,12 @@ import java.util.List;
 public class ChildHomeActivity extends AppCompatActivity {
 
 
+
     static List<Chore> listChoresCompleted =new ArrayList<>();
-    static List<Chore> listChoresToDo = new ArrayList<>();
+     static List<Chore> listChoresToDo = new ArrayList<>();
+
+    static List<Chore> allChoresCompleted =new ArrayList<>();
+    static List<Chore> allChoresToDo = new ArrayList<>();
 
     static DBReference choresCompletedDBReference;
     static DBReference toDoCompletedDBReference;
@@ -42,7 +47,7 @@ public class ChildHomeActivity extends AppCompatActivity {
     ChoresPoller poller;
 
     final String TAG = "ChildHomeActivity";
-    ActivityChildHomeBinding binding;
+    static ActivityChildHomeBinding binding;
 
     CalendarOperation cal;
 
@@ -84,6 +89,10 @@ public class ChildHomeActivity extends AppCompatActivity {
         Query queryChoresCompleted = collectionReference.whereEqualTo("childID", childId).whereEqualTo("complete", true).orderBy("completedTimestamp", Query.Direction.DESCENDING).limit(3);
         Query queryChoresApproved = collectionReference.whereEqualTo("childID", childId).whereEqualTo("complete", true).whereEqualTo("approved", true);
 
+        Query queryChoresCompletedAll = collectionReference.whereEqualTo("childID", childId).whereEqualTo("complete", true).orderBy("completedTimestamp", Query.Direction.DESCENDING);
+        Query queryChoresToDoAll = collectionReference.whereEqualTo("childID", childId).whereEqualTo("complete", false).orderBy("deadline", Query.Direction.ASCENDING).orderBy("assignedTimestamp",Query.Direction.DESCENDING);
+choresCompletedDBReference.setChoresListenerSeeTextCompleted(queryChoresCompletedAll,binding);
+choresCompletedDBReference.setChoresListenerSeeTextUpcoming(queryChoresToDoAll,binding);
         choresCompletedDBReference.setQuery(queryChoresCompleted);
         choresCompletedDBReference.setQueryComplete(queryChoresApproved);
         choresCompletedDBReference.setApprovedListener((total, sumWeekly, sumMonthly) -> {
@@ -91,15 +100,31 @@ public class ChildHomeActivity extends AppCompatActivity {
             binding.textWeekly.setText(getResources().getString(R.string.weekly_earnings, centsToDollarString(sumWeekly)));
             binding.textMonthly.setText(getResources().getString(R.string.monthly_earnings, centsToDollarString(sumMonthly)));
         });
-        Query queryChoresToDo = collectionReference.whereEqualTo("childID", childId).whereEqualTo("complete", false).orderBy("deadline", Query.Direction.ASCENDING).limit(3);
+        Query queryChoresToDo = collectionReference.whereEqualTo("childID", childId).whereEqualTo("complete", false).orderBy("deadline", Query.Direction.ASCENDING).orderBy("assignedTimestamp",Query.Direction.DESCENDING).limit(3);
+
         toDoCompletedDBReference.setQuery(queryChoresToDo);
 
         completedActivityFragmnet = ChoresListFragment.newInstance("childChoresCompleted");
         toDoActivityFragmnet = ChoresListFragment.newInstance("childChoresToDo");
         setFragment(R.id.fragmentCompletedActivities, completedActivityFragmnet);
         setFragment(R.id.fragmentUpcomingActivities, toDoActivityFragmnet);
+        if  (ChildHomeActivity.listChoresCompleted.size() > 3) {
+            binding.linkCompletedActivities.setVisibility(View.VISIBLE);
+        }
+        else {
+            binding.linkCompletedActivities.setVisibility(View.INVISIBLE);
+        }
+
+        if  (ChildHomeActivity.listChoresToDo.size() > 3) {
+            binding.linkUpcomingActivities.setVisibility(View.VISIBLE);
+        }
+        else {
+            binding.linkUpcomingActivities.setVisibility(View.INVISIBLE);
+        }
         setListeners();
     }
+
+
 
     private void setFragment(int id, Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();

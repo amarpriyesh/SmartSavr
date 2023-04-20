@@ -11,9 +11,15 @@ import android.os.Bundle;
 import com.example.smartsavr.databinding.ActivityChildHomeChoresCompletedBinding;
 import com.google.firebase.firestore.Query;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ChildHomeChoresCompleted extends AppCompatActivity {
 
     ActivityChildHomeChoresCompletedBinding binding;
+
+    static List<Chore> listChoresCompletedAll =new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +28,7 @@ public class ChildHomeChoresCompleted extends AppCompatActivity {
         setContentView(binding.getRoot());
         Query queryChoresCompleted = ChildHomeActivity.choresCompletedDBReference.getCollectionReference().whereEqualTo("childID", ChildHomeActivity.childId).whereEqualTo("complete", true).orderBy("completedTimestamp", Query.Direction.DESCENDING);
         ChildHomeActivity.choresCompletedDBReference.setQuery(queryChoresCompleted);
-        setFragment(R.id.completedActivities,ChoresListFragment.newInstance("childChoresCompleted"));
+        setFragment(R.id.completedActivities,ChoresListFragment.newInstance("childChoresCompletedAll"));
 
     }
 
