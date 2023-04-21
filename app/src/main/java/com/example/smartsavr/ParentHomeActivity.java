@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -51,6 +52,8 @@ public class ParentHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parent_home);
 
+        Log.d(TAG, "Creating");
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setTitle(R.string.activity_home);
@@ -78,7 +81,9 @@ public class ParentHomeActivity extends AppCompatActivity {
 
         Log.d(TAG, String.format("Adding Firebase snapshot listener to collection `children` where parent ID is equal to %s", parentID));
 
-        firebaseFirestore.collection("children").whereEqualTo(PARENT_ID, parentID).addSnapshotListener(this, (value, error) -> {
+        Log.d(TAG, "Calling Firebase to get children");
+        firebaseFirestore.collection("children").whereEqualTo(PARENT_ID, parentID).orderBy("name", Query.Direction.ASCENDING).addSnapshotListener(this, (value, error) -> {
+            Log.d(TAG, "Got children");
             if (error != null) {
                 Log.w(TAG, "Listen failed.", error);
                 return;
@@ -138,6 +143,12 @@ public class ParentHomeActivity extends AppCompatActivity {
                             break;
                     }
                 }
+                // inserts the child into the right location when a new child is added
+                // actually jk we can just do this by recreating in onNewIntent 🙃
+//                List<Child> childListSorted = childList.stream().sorted(Comparator.comparing(Child::getName)).collect(Collectors.toList());
+//                childList.clear();
+//                childList.addAll(childListSorted);
+//                childAdapter.notifyDataSetChanged();
             }
             setVisibility();
         });
@@ -173,8 +184,15 @@ public class ParentHomeActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        recreate();
+    }
+
+    @Override
     protected void onRestart() {
         super.onRestart();
+        Log.d(TAG, "Restarting");
         recreate();
     }
 }
