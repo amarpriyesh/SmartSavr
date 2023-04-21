@@ -47,7 +47,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         TextView login = findViewById(R.id.gotologin);
-        login.setTooltipText("Already Have a Account ? Click to Sign In ");
+        login.setTooltipText("Already have an account ? Click here to sign in ");
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();

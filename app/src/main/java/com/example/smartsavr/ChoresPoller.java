@@ -8,7 +8,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import android.os.Handler;
 
-public class ChoresPoller implements Runnable {
+public class
+ChoresPoller implements Runnable {
     RecyclerView.Adapter<ChoresViewHolder> adapter;
     boolean exit;
     Handler handler;

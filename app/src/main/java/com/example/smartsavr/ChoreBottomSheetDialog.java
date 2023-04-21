@@ -85,7 +85,7 @@ public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        calendar.set(Calendar.HOUR, 23);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
         calendar.set(Calendar.MINUTE, 59);
         calendar.set(Calendar.SECOND, 59);
         calendar.set(Calendar.MILLISECOND, 999);
@@ -100,8 +100,8 @@ public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements
 
                 // Create new chore
                 binding.saveChoreButton.setOnClickListener(v -> {
-                    String Chore = binding.choreNameFieldEditText.getText().toString();
-                    if(TextUtils.isEmpty(Chore))
+                    String ChoreName = binding.choreNameFieldEditText.getText().toString();
+                    if(TextUtils.isEmpty(ChoreName))
                     {
                         Toast.makeText(getActivity(),"Chore Cannot be Empty",Toast.LENGTH_SHORT).show();
                         return;
@@ -123,9 +123,9 @@ public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements
                 });
 
         } else {
-            String edited_chores = chore.getTaskName().toString();
-            Log.d("TEST EMPTY CHORE",edited_chores);
-            if(TextUtils.isEmpty(edited_chores))
+            String editedChoreName = chore.getTaskName().toString();
+            Log.d("TEST EMPTY CHORE",editedChoreName);
+            if(TextUtils.isEmpty(editedChoreName))
             {
                 Toast.makeText(getActivity(), "Chore cannot be empty", Toast.LENGTH_SHORT).show();
                 return;
@@ -136,8 +136,8 @@ public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements
                 binding.rewardFieldEditText.setText(Utils.centsToDollarString(chore.getRewardCents(), false), TextView.BufferType.EDITABLE);
                 binding.choreTitleTextView.setText(R.string.edit_chore);
                 binding.saveChoreButton.setOnClickListener(v -> {
-                    String temp = binding.choreNameFieldEditText.getText().toString();
-                    if(TextUtils.isEmpty(temp))
+                    String inputChore = binding.choreNameFieldEditText.getText().toString();
+                    if(TextUtils.isEmpty(inputChore))
                     {
                         Toast.makeText(getActivity(), "Chore cannot be empty", Toast.LENGTH_SHORT).show();
                         return;
@@ -145,7 +145,7 @@ public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements
 
                     else {
                         //chore.setTaskName(binding.choreNameFieldEditText.getText().toString());
-                        chore.setTaskName(temp);
+                        chore.setTaskName(inputChore);
                         chore.setRewardCents(Utils.dollarStringToCents(binding.rewardFieldEditText.getText().toString()));
                         chore.setDeadline(getCalendar().getTimeInMillis());
 

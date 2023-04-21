@@ -40,7 +40,7 @@ public class ParentLoginActivity extends AppCompatActivity {
         pass.setTooltipText("Click to Receive a Reset Link on registered Email");
 
         TextView txt = findViewById(R.id.gotosignup);
-        txt.setTooltipText("New User ? Click to Sign Up ");
+        txt.setTooltipText("New user ? Click here to sign up ");
 
         firebaseAuth=FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);

@@ -33,7 +33,12 @@ public class AddChildActivity extends AppCompatActivity {
     FirebaseFirestore firebaseFirestore;
     String parentID;
 
+
+
     ProfilePictureAdapter adapter;
+
+    private String old_password="";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +52,11 @@ public class AddChildActivity extends AppCompatActivity {
         int selectedProfilePictureId = 0;
 
         if (child != null) {
+
             binding.nameFieldEditText.setText(child.getName());
             binding.weeklyAllowanceFieldEditText.setText(Utils.centsToDollarString(child.getWeeklyAllowanceCents(), false));
             binding.usernameFieldEditText.setText(child.getUsername());
-            //binding.passwordFieldEditText.setText(child.getPassword());
+            old_password = child.getPassword();
             if (child.getProfilePicture() >= 0 && child.getProfilePicture() <= MAX_PROFILE_PICTURE_ID) {
                 selectedProfilePictureId = child.getProfilePicture();
             }
@@ -73,11 +79,16 @@ public class AddChildActivity extends AppCompatActivity {
     }
 
     private View.OnClickListener saveChildClickListener(Child prevChild) {
+
         return v -> {
             String childName = binding.nameFieldEditText.getText().toString();
             int weeklyAllowanceCents = Utils.dollarStringToCents(binding.weeklyAllowanceFieldEditText.getText().toString());
             String username = binding.usernameFieldEditText.getText().toString();
             String password = binding.passwordFieldEditText.getText().toString();
+            String hpass;
+            int pcode;
+
+
 
             int profilePicture = adapter.getLastCheckedPos();
             //Log the selected item
@@ -94,25 +105,31 @@ public class AddChildActivity extends AppCompatActivity {
                 Toast.makeText(AddChildActivity.this,"Enter child username ",Toast.LENGTH_SHORT).show();
                 return;
             }
-            else if(TextUtils.isEmpty(password))
+            else if(old_password.equals("") && TextUtils.isEmpty(password))
             {
                 Toast.makeText(AddChildActivity.this,"Create a password ",Toast.LENGTH_SHORT).show();
                 return;
             }
-            else if(TextUtils.isEmpty(username))
-            {
-                Toast.makeText(AddChildActivity.this,"Enter child username ",Toast.LENGTH_SHORT).show();
-                return;
-            }
-            else if(weeklyAllowanceCents <= 0 || TextUtils.isEmpty(Integer.toString(weeklyAllowanceCents)))
+            else if(weeklyAllowanceCents < 0 )
             {
                 Toast.makeText(AddChildActivity.this,"Enter Valid Allowance ",Toast.LENGTH_SHORT).show();
                 return;
             }
             else {
+                Log.v("Old Password ",old_password);
+                if(!old_password.equals("") && TextUtils.isEmpty(password))
+                {
+                    hpass = old_password;
+                }
+                else {
+                    pcode = password.hashCode();
+                    hpass = Integer.toString(pcode);
 
-                int pcode = password.hashCode();
-                String hpass = Integer.toString(pcode);
+                }
+                
+                Log.v("Passed to Db",hpass);
+
+
 
 
                 int accountBalanceCents = 0;

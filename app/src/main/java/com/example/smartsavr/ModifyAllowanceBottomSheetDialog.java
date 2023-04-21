@@ -1,5 +1,6 @@
 package com.example.smartsavr;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -24,6 +25,12 @@ public class ModifyAllowanceBottomSheetDialog extends BottomSheetDialogFragment 
 
     private final Child child;
 
+    private OnSaveListener onSaveListener;
+
+    public interface OnSaveListener {
+        void acceptBalance(int balanceCents);
+    }
+
     public ModifyAllowanceBottomSheetDialog(Child child) {
         this.child = child;
     }
@@ -42,6 +49,18 @@ public class ModifyAllowanceBottomSheetDialog extends BottomSheetDialogFragment 
         return binding.getRoot();
     }
 
+    @Override
+    public void onAttach(@NonNull Context context)
+    {
+        super.onAttach(context);
+        try {
+            onSaveListener = (OnSaveListener) getActivity();
+        }
+        catch (ClassCastException e) {
+            Log.e(TAG, "onAttach: ClassCastException: " + e.getMessage());
+        }
+    }
+
     private void setClickListeners() {
         binding.saveAllowanceButton.setOnClickListener(view -> {
             boolean add = binding.addBalanceRadioButton.isChecked();
@@ -50,7 +69,7 @@ public class ModifyAllowanceBottomSheetDialog extends BottomSheetDialogFragment 
             int amount = Utils.dollarStringToCents(amountString);
 
 
-            if(TextUtils.isEmpty(amountString) || amount <= 0)
+            if(TextUtils.isEmpty(amountString) || amount < 0)
             {
                 Toast.makeText(getActivity(),"Enter valid amount",Toast.LENGTH_SHORT).show();
                 return;
@@ -58,13 +77,11 @@ public class ModifyAllowanceBottomSheetDialog extends BottomSheetDialogFragment 
 
             if (add) {
                 child.setAccountBalanceCents(child.getAccountBalanceCents() + amount);
-            } else if (subtract) {
+            }
+            if (subtract) {
                 child.setAccountBalanceCents(child.getAccountBalanceCents() - amount);
             }
-            else {
-                Toast.makeText(getActivity(),"Either add or Subtract",Toast.LENGTH_SHORT).show();
-                return;
-            }
+
 
             ParentChildDetailActivity.childDBReference.collectionReference.whereEqualTo("username", child.getUsername()).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
@@ -78,6 +95,9 @@ public class ModifyAllowanceBottomSheetDialog extends BottomSheetDialogFragment 
                     }
                 }
             });
+
+            onSaveListener.acceptBalance(child.getAccountBalanceCents());
+            Log.d(TAG, "onClick: " + child.getParentId() + " " + child.getUsername());
 
             dismiss();
         });

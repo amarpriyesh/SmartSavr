@@ -12,29 +12,37 @@
         android:theme="@style/Theme.Smartsavr"
         tools:targetApi="31">
         <activity
-            android:name=".ChildHomeChoresUpcoming"
-            android:exported="false" />
+            android:name=".ChildHomeChoresUpcomingActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
-            android:name=".ChildHomeChoresCompleted"
-            android:exported="false" />
+            android:name=".ChildHomeChoresCompletedActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ChildLoginActivity"
             android:exported="false"
             android:launchMode="singleTask"
-            android:parentActivityName=".WelcomeActivity" />
+            android:parentActivityName=".WelcomeActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ParentChildDetailActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ParentHomeActivity"
             android:exported="false"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ChildHomeActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".WelcomeActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,21 +51,26 @@
         </activity>
         <activity
             android:name=".ParentChildChoresActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ParentLoginActivity"
             android:exported="false"
             android:launchMode="singleTask"
-            android:parentActivityName=".WelcomeActivity" />
+            android:parentActivityName=".WelcomeActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SignUpActivity"
             android:exported="false"
-            android:parentActivityName=".ParentLoginActivity" />
+            android:parentActivityName=".ParentLoginActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SettingsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".AddChildActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
     </application>
 </manifest>
