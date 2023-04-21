@@ -89,8 +89,8 @@ public class ChildHomeActivity extends AppCompatActivity {
 
         completedActivityFragmnet = ChoresListFragment.newInstance("childChoresCompleted");
         toDoActivityFragmnet = ChoresListFragment.newInstance("childChoresToDo");
-        setFragment(R.id.fragmentCompletedActivities, completedActivityFragmnet);
-        setFragment(R.id.fragmentUpcomingActivities, toDoActivityFragmnet);
+        setFragment(R.id.fragmentChildCompletedChores, completedActivityFragmnet);
+        setFragment(R.id.fragmentChildUpcomingChores, toDoActivityFragmnet);
         if (ChildHomeActivity.listChoresCompleted.size() > 3) {
             binding.linkCompletedActivities.setVisibility(View.VISIBLE);
         } else {

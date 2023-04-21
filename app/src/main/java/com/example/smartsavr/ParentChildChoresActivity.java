@@ -72,11 +72,9 @@ public class ParentChildChoresActivity extends AppCompatActivity {
         toDoCompletedDBReference.setQuery(queryChoresToDo);
         completedActivityFragment = ChoresListFragment.newInstance("parentChoresCompleted");
         toDoActivityFragment = ChoresListFragment.newInstance("parentChoresToDo");
-        setFragment(R.id.fragmentNeedApproval, completedActivityFragment);
-        setFragment(R.id.fragmentCompletedActivities, toDoActivityFragment);
+        setFragment(R.id.fragmentParentCompletedChores, completedActivityFragment);
+        setFragment(R.id.fragmentChildCompletedChores, toDoActivityFragment);
         setClickListeners();
-
-
     }
 
     private void setFragment(int id, Fragment fragment) {

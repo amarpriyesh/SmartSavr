@@ -15,7 +15,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/upcomingActivitiesText"
+                android:id="@+id/upcomingChoresChildText"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_gravity="start"
@@ -36,10 +36,10 @@
                 android:text="@string/see_more"
                 android:textColor="@color/blue"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fragmentUpcomingActivities" />
+                app:layout_constraintTop_toBottomOf="@+id/fragmentChildUpcomingChores" />
 
             <TextView
-                android:id="@+id/recentlyCompletedText"
+                android:id="@+id/completedChoresChildText"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:layout_gravity="start"
@@ -56,11 +56,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
                 android:textSize="20sp"
                 android:text="@string/see_more"
                 android:textColor="@color/blue"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fragmentCompletedActivities" />
+                app:layout_constraintTop_toBottomOf="@+id/fragmentChildCompletedChores"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintVertical_bias="0" />
 
             <TextView
                 android:id="@+id/earningStatsText"
@@ -77,21 +80,21 @@
 
 
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentUpcomingActivities"
+                android:id="@+id/fragmentChildUpcomingChores"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/upcomingActivitiesText"
+                app:layout_constraintTop_toBottomOf="@+id/upcomingChoresChildText"
                 tools:layout="@layout/fragment_chores_list" />
 
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragmentCompletedActivities"
+                android:id="@+id/fragmentChildCompletedChores"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recentlyCompletedText"
+                app:layout_constraintTop_toBottomOf="@+id/completedChoresChildText"
                 tools:layout="@layout/fragment_chores_list" />
 
             <ImageView
@@ -144,14 +147,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginBottom="8dp"
                 android:text="@string/see_graphs"
                 android:textSize="20sp"
                 android:textColor="@color/blue"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textMonthly"
-                app:layout_constraintVertical_bias="0" />
+                app:layout_constraintTop_toBottomOf="@+id/textMonthly" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
