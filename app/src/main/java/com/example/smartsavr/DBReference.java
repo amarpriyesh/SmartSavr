@@ -5,6 +5,7 @@ import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.smartsavr.databinding.ActivityChildHomeBinding;
 import com.example.smartsavr.databinding.FragmentChoresListBinding;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -79,9 +80,11 @@ public class DBReference {
 
     }
 
+
     public void setChoresListener(List<Chore> chores, RecyclerView.Adapter<ChoresViewHolder> adapter, FragmentChoresListBinding binding) {
         this.query.addSnapshotListener((value, error) -> {
             if (error != null) {
+
                 System.err.println("Listen failed: " + error);
                 return;
             }
@@ -92,10 +95,10 @@ public class DBReference {
             for (DocumentSnapshot ds : value.getDocuments()) {
                 //TODO handle exception
                 Chore obj = ds.toObject(Chore.class);
-                Log.d(TAG,ds.getData().toString());
                 chores.add(obj);
             }
             adapter.notifyDataSetChanged();
+
 
             if (chores.isEmpty()) {
                 binding.noChoresTextView.setVisibility(View.VISIBLE);
@@ -104,7 +107,51 @@ public class DBReference {
                 binding.noChoresTextView.setVisibility(View.GONE);
                 binding.recyclerView.setVisibility(View.VISIBLE);
             }
+
         });
+
+
+
+    }
+
+    public void setChoresListenerSeeTextUpcoming(Query query, ActivityChildHomeBinding binding) {
+        query.addSnapshotListener((value, error) -> {
+            if (error != null) {
+
+                System.err.println("Listen failed: " + error);
+                return;
+            }
+
+            if  (value.size()>3) {
+                binding.linkUpcomingActivities.setVisibility(View.VISIBLE);
+            }
+            else {
+                binding.linkUpcomingActivities.setVisibility(View.GONE);
+            }
+
+        });
+
+
+
+    }
+
+    public void setChoresListenerSeeTextCompleted(Query query, ActivityChildHomeBinding binding) {
+        query.addSnapshotListener((value, error) -> {
+            if (error != null) {
+
+                System.err.println("Listen failed: " + error);
+                return;
+            }
+
+            if  (value.size()>3) {
+                binding.linkCompletedActivities.setVisibility(View.VISIBLE);
+            }
+            else {
+                binding.linkCompletedActivities.setVisibility(View.GONE);
+            }
+
+        });
+
 
 
     }
@@ -138,6 +185,7 @@ public class DBReference {
                 }
             }
             earningsBalanceConsumer.accept(totalBalance, sumWeekly, sumMonthly);
+
         });
 
 
