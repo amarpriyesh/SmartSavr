@@ -38,9 +38,6 @@ public class ChildHomeActivity extends AppCompatActivity {
     static List<Chore> listChoresCompleted =new ArrayList<>();
      static List<Chore> listChoresToDo = new ArrayList<>();
 
-    static List<Chore> allChoresCompleted =new ArrayList<>();
-    static List<Chore> allChoresToDo = new ArrayList<>();
-
     static DBReference choresCompletedDBReference;
     static DBReference toDoCompletedDBReference;
 
@@ -87,8 +84,8 @@ public class ChildHomeActivity extends AppCompatActivity {
 
         Query queryChoresCompletedAll = collectionReference.whereEqualTo("childID", childId).whereEqualTo("complete", true).orderBy("completedTimestamp", Query.Direction.DESCENDING);
         Query queryChoresToDoAll = collectionReference.whereEqualTo("childID", childId).whereEqualTo("complete", false).orderBy("deadline", Query.Direction.ASCENDING).orderBy("assignedTimestamp",Query.Direction.DESCENDING);
-choresCompletedDBReference.setChoresListenerSeeTextCompleted(queryChoresCompletedAll,binding);
-choresCompletedDBReference.setChoresListenerSeeTextUpcoming(queryChoresToDoAll,binding);
+        choresCompletedDBReference.setChoresListenerSeeTextCompleted(queryChoresCompletedAll,binding);
+        choresCompletedDBReference.setChoresListenerSeeTextUpcoming(queryChoresToDoAll,binding);
         choresCompletedDBReference.setQuery(queryChoresCompleted);
         choresCompletedDBReference.setQueryComplete(queryChoresApproved);
         choresCompletedDBReference.setApprovedListener((total, sumWeekly, sumMonthly) -> {

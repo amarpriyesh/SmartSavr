@@ -70,11 +70,11 @@ public class ChoresListFragment extends Fragment {
         else if (getArguments().getString(USR).equals("childChoresCompletedAll")) {
             initializeRecyclerView5();
 
-            ChildHomeActivity.choresCompletedDBReference.setChoresListener(ChildHomeChoresCompleted.listChoresCompletedAll, this.adapter, binding);
+            ChildHomeActivity.choresCompletedDBReference.setChoresListener(ChildHomeChoresCompletedActivity.listChoresCompletedAll, this.adapter, binding);
         } else if (getArguments().getString(USR).equals("childChoresToDoAll")) {
             initializeRecyclerView6();
 
-            ChildHomeActivity.toDoCompletedDBReference.setChoresListener(ChildHomeChoresUpcoming.listChoresUpcomingAll, this.adapter, binding);
+            ChildHomeActivity.toDoCompletedDBReference.setChoresListener(ChildHomeChoresUpcomingActivity.listChoresUpcomingAll, this.adapter, binding);
         }
         else if (getArguments().getString(USR).equals("parentChoresCompleted")) {
             initializeRecyclerView3();
@@ -143,7 +143,7 @@ public class ChoresListFragment extends Fragment {
     private void initializeRecyclerView5() {
         RecyclerView choresRecyclerView = binding.recyclerView;
         choresRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        adapter = new ChoresAdapter(ChildHomeChoresCompleted.listChoresCompletedAll, requireActivity(), true, ChildHomeActivity.choresCompletedDBReference);
+        adapter = new ChoresAdapter(ChildHomeChoresCompletedActivity.listChoresCompletedAll, requireActivity(), true, ChildHomeActivity.choresCompletedDBReference);
         // Associates the adapter with the RecyclerView
         choresRecyclerView.setAdapter(adapter);
         handler = new Handler();
@@ -155,7 +155,7 @@ public class ChoresListFragment extends Fragment {
         RecyclerView choresRecyclerView = binding.recyclerView;
         choresRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        adapter = new ChoresAdapter(ChildHomeChoresUpcoming.listChoresUpcomingAll, requireActivity(), true, ChildHomeActivity.toDoCompletedDBReference);
+        adapter = new ChoresAdapter(ChildHomeChoresUpcomingActivity.listChoresUpcomingAll, requireActivity(), true, ChildHomeActivity.toDoCompletedDBReference);
         // Associates the adapter with the RecyclerView
         choresRecyclerView.setAdapter(adapter);
 
