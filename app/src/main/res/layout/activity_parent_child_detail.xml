@@ -64,7 +64,7 @@
         android:textSize="15sp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="20dp"
-        tools:text="*Allowance is automatically added to the child's account balance every Sunday."
+        android:text="*Allowance is automatically added to the child's account balance every Sunday."
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
