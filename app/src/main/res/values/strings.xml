@@ -54,4 +54,5 @@
     <string name="no_chores">There are no chores in this list.</string>
     <string name="weekly_earning">Weekly Earnings: $</string>
     <string name="monthly_earning">Monthly Earnings: $</string>
+    <string name="channel_id">01</string>
 </resources>
