@@ -2,6 +2,8 @@ package com.example.smartsavr;
 
 import static com.example.smartsavr.Utils.centsToDollarString;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +35,8 @@ public class ChildHomeActivity extends AppCompatActivity {
 
     static DBReference choresCompletedDBReference;
     static DBReference toDoCompletedDBReference;
+
+    static MyFirebaseMessagingService fcmService;
 
     final String TAG = "ChildHomeActivity";
     ActivityChildHomeBinding binding;
@@ -103,6 +107,12 @@ public class ChildHomeActivity extends AppCompatActivity {
             binding.linkUpcomingActivities.setVisibility(View.INVISIBLE);
         }
         setListeners();
+
+        fcmService = new MyFirebaseMessagingService();
+        createNotificationChannel(childId);
+        fcmService.checkNotificationPermissions(this);
+        fcmService.checkToSendAddChoreNotification(childId);
+        fcmService.checkToSendApprovedChoreNotification(childId);
     }
 
 
@@ -145,5 +155,13 @@ public class ChildHomeActivity extends AppCompatActivity {
         } else {
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void createNotificationChannel(String channelTopic) {
+        NotificationChannel channel = new NotificationChannel
+                (getString(R.string.channel_id), channelTopic, NotificationManager.IMPORTANCE_DEFAULT);
+        channel.setDescription("Notifications for "+ channelTopic);
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
     }
 }
