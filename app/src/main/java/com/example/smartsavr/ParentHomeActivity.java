@@ -1,5 +1,7 @@
 package com.example.smartsavr;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,6 +48,8 @@ public class ParentHomeActivity extends AppCompatActivity {
     ChildAdapter childAdapter;
     List<Child> childList;
     FirebaseFirestore firebaseFirestore;
+
+    MyFirebaseMessagingService fcmService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +153,13 @@ public class ParentHomeActivity extends AppCompatActivity {
 //                childList.clear();
 //                childList.addAll(childListSorted);
 //                childAdapter.notifyDataSetChanged();
+
+                fcmService = new MyFirebaseMessagingService();
+                fcmService.checkNotificationPermissions(this);
+                for (Child child : childList) {
+                    createNotificationChannel(String.format("%s%s", parentID.charAt(0), child.getId()));
+                    fcmService.checkToSendCompletedChoreNotification(parentID, child);
+                }
             }
             setVisibility();
         });
@@ -194,5 +205,13 @@ public class ParentHomeActivity extends AppCompatActivity {
         super.onRestart();
         Log.d(TAG, "Restarting");
         recreate();
+    }
+
+    public void createNotificationChannel(String channelTopic) {
+        NotificationChannel channel = new NotificationChannel
+                (getString(R.string.channel_id), "fcm", NotificationManager.IMPORTANCE_DEFAULT);
+        channel.setDescription("Notifications for "+ channelTopic);
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
     }
 }

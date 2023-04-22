@@ -1,9 +1,22 @@
 package com.example.smartsavr;
 
+import android.util.Log;
+
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class Utils {
 
     public static final String CHILD = "child";
     public static final String CHILD_ID = "childId";
+    private static final String SERVER_KEY = "key=AAAAREXjElc:APA91bHrl3E3Ip2PVR8NOLaXU9a4L1M9TyurPbzaJOPgUd25Rr1K9PDTYLGroc_USYVQymaEbwUChS1tfhQel1tfXFZ1bc5WairAtObrpEp9m089txnM-ZEcUdPHLsBUyoJFOuK176eY";
 
     public static String centsToDollarString(int cents) {
         return centsToDollarString(cents, true);
@@ -98,4 +111,59 @@ public class Utils {
                 return R.drawable.unknown_profile_picture;
         }
     }
+
+    public static String fcmHttpConnection(JSONObject jsonObject) {
+
+        // try to open the HTTP connection
+        try {
+            // Open the HTTP connection and send the payload
+            HttpURLConnection conn = (HttpURLConnection) new URL("https://fcm.googleapis.com/fcm/send").openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Authorization", SERVER_KEY);
+            conn.setDoOutput(true);
+
+            // Send FCM message content as output stream
+            OutputStream outputStream = conn.getOutputStream();
+            outputStream.write(jsonObject.toString().getBytes());
+            outputStream.close();
+
+            // Read FCM input stream
+            InputStream inputStream = conn.getInputStream();
+            return convertStreamToString(inputStream);
+
+            // look for IOExceptions - if they happen, return NULL
+        } catch (IOException e) {
+            Log.e("FCM Connection", "Error sending message content");
+            return null;
+        }
+    }
+
+    public static String convertStreamToString(InputStream inputStream) {
+        // creating a new string builder
+        StringBuilder stringBuilder = new StringBuilder();
+
+        // read in stream
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            String len;
+
+            // append to stringBuilder
+            while ((len = bufferedReader.readLine()) != null) {
+                stringBuilder.append(len);
+            }
+
+            // close and return stringBuilder
+            bufferedReader.close();
+            return stringBuilder.toString().replace(",", ",\n");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // otherwise return an empty string
+        return "";
+    }
+
+
 }
