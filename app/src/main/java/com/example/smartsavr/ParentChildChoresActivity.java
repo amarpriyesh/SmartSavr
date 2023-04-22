@@ -68,15 +68,13 @@ public class ParentChildChoresActivity extends AppCompatActivity {
 
         Query queryChoresCompleted = collectionReference.whereEqualTo("childID", child.getId()).whereEqualTo("complete",true).orderBy("completedTimestamp", Query.Direction.DESCENDING);
         choresCompletedDBReference.setQuery(queryChoresCompleted);
-        Query queryChoresToDo = collectionReference.whereEqualTo("childID", child.getId()).whereEqualTo("complete",false).orderBy("deadline", Query.Direction.ASCENDING);
+        Query queryChoresToDo = collectionReference.whereEqualTo("childID", child.getId()).whereEqualTo("complete",false).orderBy("deadline", Query.Direction.ASCENDING).orderBy("assignedTimestamp",Query.Direction.DESCENDING);
         toDoCompletedDBReference.setQuery(queryChoresToDo);
         completedActivityFragment = ChoresListFragment.newInstance("parentChoresCompleted");
         toDoActivityFragment = ChoresListFragment.newInstance("parentChoresToDo");
-        setFragment(R.id.fragmentNeedApproval, completedActivityFragment);
-        setFragment(R.id.fragmentCompletedActivities, toDoActivityFragment);
+        setFragment(R.id.fragmentParentCompletedChores, completedActivityFragment);
+        setFragment(R.id.fragmentChildCompletedChores, toDoActivityFragment);
         setClickListeners();
-
-
     }
 
     private void setFragment(int id, Fragment fragment) {

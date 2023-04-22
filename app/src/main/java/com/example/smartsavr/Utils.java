@@ -39,7 +39,9 @@ public class Utils {
         }
         int dotIndex = dollarAmount.indexOf(".");
         int dollars;
-        if (dotIndex >= 0) {
+        if (dotIndex == 0) {
+            dollars = 0;
+        } else if (dotIndex > 0) {
             dollars = Integer.parseInt(dollarAmount.substring(0, dotIndex));
         } else {
             dollars = Integer.parseInt(dollarAmount);

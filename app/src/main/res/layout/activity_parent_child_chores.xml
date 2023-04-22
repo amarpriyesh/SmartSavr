@@ -3,84 +3,89 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/child_home_scroll_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ParentChildChoresActivity">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/requireApprovalText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:textStyle="bold"
-            android:text="Completed Chores (Need Approval)"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/notCompletedText"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_gravity="start"
-            android:layout_margin="8dp"
-            android:text="To Do"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragmentNeedApproval" />
-
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragmentNeedApproval"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/child_home_scroll_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/requireApprovalText"
-            tools:layout="@layout/fragment_chores_list" />
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toTopOf="@id/addTask"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragmentCompletedActivities"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/notCompletedText"
-            tools:layout="@layout/fragment_chores_list" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".ParentChildChoresActivity">
 
-        <ImageView
-            android:id="@+id/chore_approval_tooltip_image_view"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="8dp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/fragmentNeedApproval"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/tooltip" />
+                <TextView
+                    android:id="@+id/completedChoresText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:text="Completed Chores (Need Approval)"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/fragmentChildCompletedChores" />
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/fragmentParentCompletedChores"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/completedChoresText"
+                    tools:layout="@layout/fragment_chores_list" />
+
+                <TextView
+                    android:id="@+id/upcomingChoresText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_gravity="start"
+                    android:layout_margin="8dp"
+                    android:text="Upcoming Chores"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/fragmentChildCompletedChores"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/upcomingChoresText"
+                    tools:layout="@layout/fragment_chores_list" />
+
+                <ImageView
+                    android:id="@+id/chore_approval_tooltip_image_view"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/tooltip"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toTopOf="@+id/fragmentParentCompletedChores"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
         <Button
             android:id="@+id/addTask"
             style="@style/Button.Standard"
-            android:text="Add Task"
             android:layout_marginVertical="8dp"
+            android:text="Add Task"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fragmentCompletedActivities" />
-
+            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.core.widget.NestedScrollView>
 </layout>

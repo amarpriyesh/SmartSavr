@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -44,6 +45,9 @@ public class SignUpActivity extends AppCompatActivity {
             actionBar.setTitle(R.string.sign_up);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        TextView login = findViewById(R.id.gotologin);
+        login.setTooltipText("Already have an account ? Click here to sign in ");
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();

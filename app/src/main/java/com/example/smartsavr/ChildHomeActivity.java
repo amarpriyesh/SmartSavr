@@ -2,14 +2,14 @@ package com.example.smartsavr;
 
 import static com.example.smartsavr.Utils.centsToDollarString;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,20 +28,14 @@ import java.util.List;
 public class ChildHomeActivity extends AppCompatActivity {
 
 
-    static List<Chore> listChoresCompleted =new ArrayList<>();
+    static List<Chore> listChoresCompleted = new ArrayList<>();
     static List<Chore> listChoresToDo = new ArrayList<>();
 
     static DBReference choresCompletedDBReference;
     static DBReference toDoCompletedDBReference;
 
-    static MyFirebaseMessagingService fcmService;
-
-    ChoresPoller poller;
-
     final String TAG = "ChildHomeActivity";
     ActivityChildHomeBinding binding;
-
-    CalendarOperation cal;
 
     ChoresListFragment completedActivityFragmnet;
     ChoresListFragment toDoActivityFragmnet;
@@ -49,9 +43,6 @@ public class ChildHomeActivity extends AppCompatActivity {
     CollectionReference collectionReference;
 
     static String childId;
-
-
-
 
 
     @Override
@@ -81,6 +72,10 @@ public class ChildHomeActivity extends AppCompatActivity {
         Query queryChoresCompleted = collectionReference.whereEqualTo("childID", childId).whereEqualTo("complete", true).orderBy("completedTimestamp", Query.Direction.DESCENDING).limit(3);
         Query queryChoresApproved = collectionReference.whereEqualTo("childID", childId).whereEqualTo("complete", true).whereEqualTo("approved", true);
 
+        Query queryChoresCompletedAll = collectionReference.whereEqualTo("childID", childId).whereEqualTo("complete", true).orderBy("completedTimestamp", Query.Direction.DESCENDING);
+        Query queryChoresToDoAll = collectionReference.whereEqualTo("childID", childId).whereEqualTo("complete", false).orderBy("deadline", Query.Direction.ASCENDING).orderBy("assignedTimestamp", Query.Direction.DESCENDING);
+        choresCompletedDBReference.setChoresListenerSeeTextCompleted(queryChoresCompletedAll, binding);
+        choresCompletedDBReference.setChoresListenerSeeTextUpcoming(queryChoresToDoAll, binding);
         choresCompletedDBReference.setQuery(queryChoresCompleted);
         choresCompletedDBReference.setQueryComplete(queryChoresApproved);
         choresCompletedDBReference.setApprovedListener((total, sumWeekly, sumMonthly) -> {
@@ -88,21 +83,28 @@ public class ChildHomeActivity extends AppCompatActivity {
             binding.textWeekly.setText(getResources().getString(R.string.weekly_earnings, centsToDollarString(sumWeekly)));
             binding.textMonthly.setText(getResources().getString(R.string.monthly_earnings, centsToDollarString(sumMonthly)));
         });
-        Query queryChoresToDo = collectionReference.whereEqualTo("childID", childId).whereEqualTo("complete", false).orderBy("deadline", Query.Direction.ASCENDING).limit(3);
+        Query queryChoresToDo = collectionReference.whereEqualTo("childID", childId).whereEqualTo("complete", false).orderBy("deadline", Query.Direction.ASCENDING).orderBy("assignedTimestamp", Query.Direction.DESCENDING).limit(3);
+
         toDoCompletedDBReference.setQuery(queryChoresToDo);
 
         completedActivityFragmnet = ChoresListFragment.newInstance("childChoresCompleted");
         toDoActivityFragmnet = ChoresListFragment.newInstance("childChoresToDo");
-        setFragment(R.id.fragmentCompletedActivities, completedActivityFragmnet);
-        setFragment(R.id.fragmentUpcomingActivities, toDoActivityFragmnet);
-        setListeners();
+        setFragment(R.id.fragmentChildCompletedChores, completedActivityFragmnet);
+        setFragment(R.id.fragmentChildUpcomingChores, toDoActivityFragmnet);
+        if (ChildHomeActivity.listChoresCompleted.size() > 3) {
+            binding.linkCompletedActivities.setVisibility(View.VISIBLE);
+        } else {
+            binding.linkCompletedActivities.setVisibility(View.INVISIBLE);
+        }
 
-        fcmService = new MyFirebaseMessagingService();
-        createNotificationChannel(childId);
-        fcmService.checkNotificationPermissions(this);
-        fcmService.checkToSendAddChoreNotification(childId);
-        fcmService.checkToSendApprovedChoreNotification(childId);
+        if (ChildHomeActivity.listChoresToDo.size() > 3) {
+            binding.linkUpcomingActivities.setVisibility(View.VISIBLE);
+        } else {
+            binding.linkUpcomingActivities.setVisibility(View.INVISIBLE);
+        }
+        setListeners();
     }
+
 
     private void setFragment(int id, Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -111,19 +113,19 @@ public class ChildHomeActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    private void setListeners(){
+    private void setListeners() {
         binding.linkCompletedActivities.setOnClickListener(v -> {
-            Intent intent = new Intent(this, ChildHomeChoresCompleted.class);
+            Intent intent = new Intent(this, ChildHomeChoresCompletedActivity.class);
             startActivity(intent);
         });
         binding.linkUpcomingActivities.setOnClickListener(v -> {
-            Intent intent = new Intent(this, ChildHomeChoresUpcoming.class);
+            Intent intent = new Intent(this, ChildHomeChoresUpcomingActivity.class);
             startActivity(intent);
         });
         //TODO For Graphs
-        binding.linkSeeGraphs.setOnClickListener(v -> {});
+        binding.linkSeeGraphs.setOnClickListener(v -> {
+        });
     }
-
 
 
     @Override
@@ -144,13 +146,4 @@ public class ChildHomeActivity extends AppCompatActivity {
             return super.onOptionsItemSelected(item);
         }
     }
-
-    public void createNotificationChannel(String channelTopic) {
-        NotificationChannel channel = new NotificationChannel
-                (getString(R.string.channel_id), channelTopic, NotificationManager.IMPORTANCE_DEFAULT);
-        channel.setDescription("Notifications for "+ channelTopic);
-        NotificationManager notificationManager = getSystemService(NotificationManager.class);
-        notificationManager.createNotificationChannel(channel);
-    }
 }
-

@@ -71,7 +71,7 @@ public class ParentChildDetailActivity extends AppCompatActivity implements Modi
         currentBalanceTV.setText("Account Balance: " + Utils.centsToDollarString(child.getAccountBalanceCents()));
 
         TextView allowanceTV = findViewById(R.id.allowance);
-        allowanceTV.setText("Allowance: " + Utils.centsToDollarString(child.getWeeklyAllowanceCents()) + " per week");
+        allowanceTV.setText("Allowance: " + Utils.centsToDollarString(child.getWeeklyAllowanceCents()) + " per week*");
 
         TextView nameTV = findViewById(R.id.child_name);
         nameTV.setText(child.getName());
