@@ -22,6 +22,8 @@ import com.google.firebase.messaging.RemoteMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     final String TAG = "FCMService";
     FirebaseFirestore firebaseFirestore;
@@ -40,7 +42,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        getFirebaseMessage(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
+        getFirebaseMessage(Objects.requireNonNull(remoteMessage.getNotification()).getTitle(), remoteMessage.getNotification().getBody());
     }
 
     public void getFirebaseMessage(String title, String msg) {
@@ -62,14 +64,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Query queryChoreLastAdded = collectionReference.whereEqualTo("childID", childId).orderBy("assignedTimestamp", Query.Direction.DESCENDING);
         queryChoreLastAdded.addSnapshotListener((snapshots, error) -> {
             if (error != null) {
-                System.err.println("Listen failed:" + error);
+                Log.w(TAG, "Listen failed.", error);
                 return;
             }
 
-            if (snapshots != null && snapshots.getDocuments().get(0) != null) {
+            if (snapshots != null && snapshots.size() != 0) {
                 Chore lastAddedChore = snapshots.getDocuments().get(0).toObject(Chore.class);
                 if (lastAddedChore != null && lastAddedChore.getAssignedTimestamp() > System.currentTimeMillis() - 10000) {
-                    sendChildNotification(lastAddedChore, childId, "addChore");
+                    //Check if the data change is actually because of add/edit chore
+                    if (lastAddedChore.getAssignedTimestamp() > lastAddedChore.getApprovedTimestamp() && lastAddedChore.getAssignedTimestamp() > lastAddedChore.getCompletedTimestamp()) {
+                        sendChildNotification(lastAddedChore, childId, "addChore");
+                    }
                 }
             }
         });
@@ -80,14 +85,38 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Query queryChoreLastApproved = collectionReference.whereEqualTo("childID", childId).whereEqualTo("approved", true).orderBy("approvedTimestamp", Query.Direction.DESCENDING);
         queryChoreLastApproved.addSnapshotListener((snapshots, error) -> {
             if (error != null) {
-                System.err.println("Listen failed:" + error);
+                Log.w(TAG, "Listen failed.", error);
                 return;
             }
 
-            if (snapshots != null && snapshots.getDocuments().get(0) != null) {
+            if (snapshots != null && snapshots.size() != 0) {
                 Chore lastApprovedChore = snapshots.getDocuments().get(0).toObject(Chore.class);
                 if (lastApprovedChore != null && lastApprovedChore.getApprovedTimestamp() > System.currentTimeMillis() - 10000) {
-                    sendChildNotification(lastApprovedChore, childId, "approveChore");
+                    //Check if the data change is actually because of approve chore
+                    if (lastApprovedChore.getApprovedTimestamp() > lastApprovedChore.getAssignedTimestamp() && lastApprovedChore.getApprovedTimestamp() > lastApprovedChore.getCompletedTimestamp()) {
+                        sendChildNotification(lastApprovedChore, childId, "approveChore");
+                    }
+                }
+            }
+        });
+    }
+
+    public void checkToSendCompletedChoreNotification(String parentId, Child child) {
+        collectionReference = firebaseFirestore.collection("chores");
+        Query queryChoreLastApproved = collectionReference.whereEqualTo("childID", child.getId()).whereEqualTo("complete", true).orderBy("completedTimestamp", Query.Direction.DESCENDING);
+        queryChoreLastApproved.addSnapshotListener((snapshots, error) -> {
+            if (error != null) {
+                Log.w(TAG, "Listen failed.", error);
+                return;
+            }
+
+            if (snapshots != null && snapshots.size() != 0) {
+                Chore lastCompletedChore = snapshots.getDocuments().get(0).toObject(Chore.class);
+                if (Objects.requireNonNull(lastCompletedChore).getCompletedTimestamp() > System.currentTimeMillis() - 10000) {
+                    //Check if the data change is actually because of complete chore
+                    if (lastCompletedChore.getCompletedTimestamp() > lastCompletedChore.getAssignedTimestamp() && lastCompletedChore.getCompletedTimestamp() > lastCompletedChore.getApprovedTimestamp()) {
+                        sendParentNotification(parentId, child);
+                    }
                 }
             }
         });
@@ -102,17 +131,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             JSONObject jNotification = new JSONObject();
             try {
                 switch(notificationType) {
-                    case ("addChore"):
-                        jNotification.put("title", "Chore " + chore.getTaskName() + " has been added or edited!");
+                    case "addChore":
+                        jNotification.put("title", String.format("Chore %s has been added or edited!", chore.getTaskName()));
                         jNotification.put("body", "View your chores list in the app for more details.");
                         break;
                     case ("approveChore"):
                         if (chore.getRewardCents() != 0) {
-                            jNotification.put("title", "You've earned " + Utils.centsToDollarString(chore.getRewardCents(),true) + " from newly approved chore " + chore.getTaskName() + "!");
-                            jNotification.put("body", "Great job on completing the task! View account balance change in the app for more details.");
+                            jNotification.put("title", String.format("You've earned %s from newly approved chore!", Utils.centsToDollarString(chore.getRewardCents(), true)));
+                            jNotification.put("body", "Great job on completing the task! View in the app for more details.");
                         } else {
-                            jNotification.put("title", "Chore " + chore.getTaskName() + " has been approved!");
-                            jNotification.put("body", "Great job on completing the task! View your chores list in the app for more details.");
+                            jNotification.put("title", String.format("Chore %s has been approved!", chore.getTaskName()));
+                            jNotification.put("body", "Great job on completing the task! View in the app for more details.");
                         }
                         break;
                 }
@@ -124,6 +153,26 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             final String messageResponse = Utils.fcmHttpConnection(jPayload);
             Log.d(TAG, "notification sent to" + childId);
+            Log.d(TAG, messageResponse);
+        }).start();
+    }
+
+    public void sendParentNotification(String parentId, Child child) {
+        subscribeToNotifications(String.format("%s%s", parentId.charAt(0), child.getId()));
+        new Thread(() -> {
+            JSONObject jPayload = new JSONObject();
+            JSONObject jNotification = new JSONObject();
+            try {
+                jNotification.put("title", String.format("%s has completed a chore!", child.getName()));
+                jNotification.put("body", "View in the app to approve the completed chore.");
+                jPayload.put("to", "/topics/" + String.format("%s%s", parentId.charAt(0), child.getId()));
+                jPayload.put("notification", jNotification);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            final String messageResponse = Utils.fcmHttpConnection(jPayload);
+            Log.d(TAG, "notification sent to" + String.format("%s%s", parentId.charAt(0), child.getId()));
             Log.d(TAG, messageResponse);
         }).start();
     }

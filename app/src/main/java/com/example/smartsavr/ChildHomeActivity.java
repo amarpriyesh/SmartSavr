@@ -159,7 +159,7 @@ public class ChildHomeActivity extends AppCompatActivity {
 
     public void createNotificationChannel(String channelTopic) {
         NotificationChannel channel = new NotificationChannel
-                (getString(R.string.channel_id), channelTopic, NotificationManager.IMPORTANCE_DEFAULT);
+                (getString(R.string.channel_id), "fcm", NotificationManager.IMPORTANCE_DEFAULT);
         channel.setDescription("Notifications for "+ channelTopic);
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
         notificationManager.createNotificationChannel(channel);
