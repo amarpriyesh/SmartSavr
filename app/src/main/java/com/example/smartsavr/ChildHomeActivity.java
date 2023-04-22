@@ -2,39 +2,25 @@ package com.example.smartsavr;
 
 import static com.example.smartsavr.Utils.centsToDollarString;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-
-import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.smartsavr.databinding.ActivityChildHomeBinding;
-
 import com.google.firebase.firestore.CollectionReference;
-
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import com.google.firebase.firestore.Query;
-import com.google.firebase.messaging.FirebaseMessaging;
-
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +33,8 @@ public class ChildHomeActivity extends AppCompatActivity {
 
     static DBReference choresCompletedDBReference;
     static DBReference toDoCompletedDBReference;
+
+    static MyFirebaseMessagingService fcmService;
 
     ChoresPoller poller;
 
@@ -108,8 +96,12 @@ public class ChildHomeActivity extends AppCompatActivity {
         setFragment(R.id.fragmentCompletedActivities, completedActivityFragmnet);
         setFragment(R.id.fragmentUpcomingActivities, toDoActivityFragmnet);
         setListeners();
-        createNotificationChannel();
-        checkToSendNotification();
+
+        fcmService = new MyFirebaseMessagingService();
+        createNotificationChannel(childId);
+        fcmService.checkNotificationPermissions(this);
+        fcmService.checkToSendAddChoreNotification(childId);
+        fcmService.checkToSendApprovedChoreNotification(childId);
     }
 
     private void setFragment(int id, Fragment fragment) {
@@ -153,72 +145,12 @@ public class ChildHomeActivity extends AppCompatActivity {
         }
     }
 
-
-    public void checkNotificationPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
-        }
-    }
-
-    // Create notification channel and subscribe user to their channel
-    public void createNotificationChannel() {
+    public void createNotificationChannel(String channelTopic) {
         NotificationChannel channel = new NotificationChannel
-                (getString(R.string.channel_id), childId, NotificationManager.IMPORTANCE_DEFAULT);
-        channel.setDescription("Notifications for "+ childId);
+                (getString(R.string.channel_id), channelTopic, NotificationManager.IMPORTANCE_DEFAULT);
+        channel.setDescription("Notifications for "+ channelTopic);
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
         notificationManager.createNotificationChannel(channel);
-        subscribeToNotifications();
-        checkNotificationPermissions();
-    }
-
-    public void subscribeToNotifications() {
-        FirebaseMessaging.getInstance().subscribeToTopic(childId)
-                .addOnCompleteListener(task -> {
-                    String msg = "Done";
-                    if (!task.isSuccessful()) {
-                        msg = "Failed";
-                    }
-                    Log.d(TAG, "Subscribe to notifications " + msg);
-                });
-    }
-
-    public void checkToSendNotification() {
-        Query queryChoreLastAdded = collectionReference.whereEqualTo("childID", childId).orderBy("assignedTimestamp", Query.Direction.DESCENDING);
-        queryChoreLastAdded.addSnapshotListener((snapshots, error) -> {
-            if (error != null) {
-                System.err.println("Listen failed:" + error);
-                return;
-            }
-
-            if (snapshots != null && snapshots.getDocuments().get(0) != null) {
-                Chore lastAddedChore = snapshots.getDocuments().get(0).toObject(Chore.class);
-                if (lastAddedChore != null && lastAddedChore.getAssignedTimestamp() > System.currentTimeMillis() - 10000) {
-                    sendAddChoreNotification(lastAddedChore);
-                }
-            }
-        });
-    }
-
-    public void sendAddChoreNotification(Chore chore) {
-        new Thread(() -> {
-            JSONObject jPayload = new JSONObject();
-            JSONObject jNotification = new JSONObject();
-            try {
-                jNotification.put("title", "Chore " + chore.getTaskName() + " has been added or edited!");
-                jNotification.put("body", "View in the app for more details.");
-
-                // Populate the Payload object with our notification information
-                // sent to topic of the user we're sending to
-                jPayload.put("to", "/topics/" + childId);
-                jPayload.put("notification", jNotification);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            final String messageResponse = Utils.fcmHttpConnection(jPayload);
-            Log.d(TAG, "notification sent to" + childId);
-            Log.d(TAG, messageResponse);
-        }).start();
     }
 }
 
