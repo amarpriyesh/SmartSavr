@@ -118,26 +118,26 @@ public class ChildSummaryActivity extends AppCompatActivity {
     }
 
 
-    public float calculateWeeklyEarnings() {
+    public String calculateWeeklyEarnings() {
         long ts = System.currentTimeMillis();
-        float earnings = 0;
+        int earnings = 0;
         for (Chore chore : listApprovedChores) {
             if (checkDaysOfSameWeek(ts, chore.getCompletedTimestamp())) {
                 earnings += chore.getRewardCents();
             }
         }
-        return earnings/CENTS;
+        return Utils.centsToDollarString(earnings, false);
     }
 
-    public float calculateMonthlyEarnings() {
+    public String calculateMonthlyEarnings() {
         long ts = System.currentTimeMillis();
-        float earnings = 0;
+        int earnings = 0;
         for (Chore chore : listApprovedChores) {
             if (checkDaysOfSameMonth(ts, chore.getCompletedTimestamp())) {
                 earnings += chore.getRewardCents();
             }
         }
-        return earnings/CENTS;
+        return Utils.centsToDollarString(earnings, false);
     }
 
     public boolean checkDaysOfSameWeek(long timestamp1, long timestamp2) {
