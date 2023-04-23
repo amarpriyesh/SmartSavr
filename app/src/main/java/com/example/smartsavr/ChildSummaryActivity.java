@@ -3,6 +3,8 @@ package com.example.smartsavr;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
@@ -23,24 +25,34 @@ import java.util.List;
 
 public class ChildSummaryActivity extends AppCompatActivity {
     static final long CENTS = 100;
-    static List<Chore> listApprovedChores = new ArrayList<>();
-    static List<String> xAxisBottomLabels = new ArrayList<>();
+    List<Chore> listApprovedChores = new ArrayList<>();
+    List<String> xAxisBottomLabels = new ArrayList<>();
     ArrayList<Entry> values = new ArrayList<>();
     TextView weekly_earnings;
     TextView monthly_earnings;
     ChildChartData child;
-
+    String childId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_child_summary);
 
         Intent intent = getIntent();
-        String childId = intent.getStringExtra(Utils.CHILD_ID);
+        childId = intent.getStringExtra(Utils.CHILD_ID);
+        Child childUser = (Child) intent.getSerializableExtra(Utils.CHILD);
+
+        listApprovedChores.clear();
+        values.clear();
+        xAxisBottomLabels.clear();
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle(childId + "'s Earning Summary");
+            if (childUser != null) {
+                actionBar.setTitle(childUser.getName() + "'s Earning Summary");
+                childId = childUser.getId();
+            } else {
+                actionBar.setTitle("Earning Summary");
+            }
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
@@ -75,6 +87,7 @@ public class ChildSummaryActivity extends AppCompatActivity {
         XAxisBottom.setGranularityEnabled(true);
         XAxisBottom.setGranularity(1f);
         XAxisBottom.setLabelCount(values.size(), false);
+        XAxisBottom.setAxisMaximum(values.size());
         XAxisBottom.setValueFormatter(new IndexAxisValueFormatter(xAxisBottomLabels));
 
 
@@ -153,5 +166,14 @@ public class ChildSummaryActivity extends AppCompatActivity {
         int cal2_month = cal2.get(Calendar.MONTH);
 
         return (cal1_year == cal2_year && cal1_month == cal2_month);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

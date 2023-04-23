@@ -25,7 +25,7 @@ public class ChildChartData {
     static final long startingAxisTimestamp = System.currentTimeMillis() - (30 * DAY_INCREMENT); // a month ago
     private List<Chore> listApprovedChores = new ArrayList<>();
     private final List<String> xAxisBottomLabels = new ArrayList<>();
-    static ArrayList<Entry> values = new ArrayList<>();
+    private ArrayList<Entry> values = new ArrayList<>();
     private float xValue = 0;
     FirebaseFirestore db;
     CollectionReference chores;
@@ -144,7 +144,7 @@ public class ChildChartData {
     }
 
     public void populateXAxisLabels() {
-        xAxisBottomLabels.clear();
+        xAxisBottomLabels.add(convertTimestampToDate(startingAxisTimestamp));
         int i = 0;
         int gap_days = compareTwoDates(startingAxisTimestamp, System.currentTimeMillis());
         long nextDayTimestamp = startingAxisTimestamp + DAY_INCREMENT;
