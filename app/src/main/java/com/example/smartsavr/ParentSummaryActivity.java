@@ -3,6 +3,7 @@ package com.example.smartsavr;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -147,7 +148,7 @@ public class ParentSummaryActivity extends AppCompatActivity {
                 for (PieEntry entry : pieEntryList) {
                     sum += entry.getValue();
                 }
-                pieChart.setCenterText("Total Balance: \n $" + sum);
+                pieChart.setCenterText("Total Account Balance \n For All Kids: \n$" + sum);
 
                 pieChart.setBackgroundColor(Color.WHITE);
                 pieChart.getDescription().setEnabled(false);
@@ -169,8 +170,14 @@ public class ParentSummaryActivity extends AppCompatActivity {
 
         });
 
+    }
 
-
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

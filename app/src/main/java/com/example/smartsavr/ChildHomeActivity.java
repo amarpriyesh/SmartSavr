@@ -143,8 +143,10 @@ public class ChildHomeActivity extends AppCompatActivity {
             Intent intent = new Intent(this, ChildHomeChoresUpcomingActivity.class);
             startActivity(intent);
         });
-        //TODO For Graphs
         binding.linkSeeGraphs.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ChildSummaryActivity.class);
+            intent.putExtra(Utils.CHILD_ID, childId);
+            startActivity(intent);
         });
     }
 
