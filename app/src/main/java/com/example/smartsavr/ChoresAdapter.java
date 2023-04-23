@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -154,9 +156,15 @@ public class ChoresAdapter extends RecyclerView.Adapter<ChoresViewHolder> {
                     holder.taskCompleted.setVisibility((View.VISIBLE));
                     holder.undo.setVisibility(View.VISIBLE);
                     holder.taskCompleted.setOnClickListener(v -> {
-                        chore.setApproved(true);
-                        chore.setApprovedTimestamp(System.currentTimeMillis());
-                        dbReference.getCollectionReference().document(chore.getId()).set(chore);
+                        Snackbar.make(context,v, "Do you want to approve the chore?", Snackbar.LENGTH_LONG)
+                                .setAction("APPROVE", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        chore.setApproved(true);
+                                        chore.setApprovedTimestamp(System.currentTimeMillis());
+                                        dbReference.getCollectionReference().document(chore.getId()).set(chore);
+                                    }}).setActionTextColor(v.getResources().getColor(android.R.color.holo_green_light ))
+                                .show();;
                     });
 
                     holder.undo.setOnClickListener(v -> {

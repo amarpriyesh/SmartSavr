@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.smartsavr.databinding.ActivityChildHomeBinding;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -62,7 +63,7 @@ public class ChildHomeActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         childId = intent.getStringExtra(Utils.CHILD_ID);
-        Log.d(TAG, String.format("Child ID is %s", childId));
+        Log.d(TAG, String.format("Child ID IS %s", childId));
 
         listChoresCompleted.clear();
         listChoresToDo.clear();
@@ -82,8 +83,18 @@ public class ChildHomeActivity extends AppCompatActivity {
         choresCompletedDBReference.setChoresListenerSeeTextUpcoming(queryChoresToDoAll, binding);
         choresCompletedDBReference.setQuery(queryChoresCompleted);
         choresCompletedDBReference.setQueryComplete(queryChoresApproved);
-        choresCompletedDBReference.setApprovedListener((total, sumWeekly, sumMonthly) -> {
-            binding.textTotal.setText(centsToDollarString(total));
+        choresCompletedDBReference.setApprovedListener((totalBalance, sumWeekly, sumMonthly) -> {
+            this.firebaseFirestore.collection("children").document(childId).get().addOnCompleteListener(response->{
+                        if(response.isComplete()){
+                            DocumentSnapshot result = response.getResult();
+                            binding.textTotal.setText(centsToDollarString(result.toObject(Child.class).getAccountBalanceCents()));
+
+                        }
+                    }
+
+            );
+
+
             binding.textWeekly.setText(getResources().getString(R.string.weekly_earnings, centsToDollarString(sumWeekly)));
             binding.textMonthly.setText(getResources().getString(R.string.monthly_earnings, centsToDollarString(sumMonthly)));
         });
