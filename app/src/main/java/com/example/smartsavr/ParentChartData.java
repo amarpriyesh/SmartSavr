@@ -48,7 +48,9 @@ public class ParentChartData {
                     Child child = document.toObject(Child.class);
                     allowance.add(new Entry(i, (float) child.getWeeklyAllowanceCents() / CENTS));
                     balanceBar.add(new BarEntry(i, (float) child.getAccountBalanceCents() / CENTS));
-                    balancePie.add(new PieEntry((float) child.getAccountBalanceCents() / CENTS, child.getName()));
+                    if (child.getAccountBalanceCents() > 0) {
+                        balancePie.add(new PieEntry((float) child.getAccountBalanceCents() / CENTS, child.getName()));
+                    }
                     children_names.add(child.getName());
                     i++;
                 }
