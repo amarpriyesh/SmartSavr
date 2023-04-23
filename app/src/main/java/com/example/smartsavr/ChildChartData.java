@@ -84,6 +84,7 @@ public class ChildChartData {
         values.clear();
         if (listApprovedChores.size() == 0) {
             populateDataBetweenDateGaps(startingAxisTimestamp, System.currentTimeMillis());
+            values.add(new Entry(xValue, 0));
         } else {
             int earning = 0;
             long compareToTimestamp = startingAxisTimestamp;
@@ -147,7 +148,9 @@ public class ChildChartData {
     }
 
     public void populateXAxisLabels() {
-        xAxisBottomLabels.add(convertTimestampToDate(startingAxisTimestamp));
+        if (listApprovedChores.size() > 0) {
+            xAxisBottomLabels.add(convertTimestampToDate(startingAxisTimestamp));
+        }
         int i = 0;
         int gap_days = compareTwoDates(startingAxisTimestamp, System.currentTimeMillis());
         long nextDayTimestamp = startingAxisTimestamp + DAY_INCREMENT;

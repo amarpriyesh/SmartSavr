@@ -74,7 +74,7 @@ public class ChildSummaryActivity extends AppCompatActivity {
     public void populateGraph() {
         LineChart lineChart = findViewById(R.id.barChart);
 
-        if (values.size() == 0) {
+        if (values == null || values.size() == 0) {
             lineChart.setData(null);
             lineChart.setNoDataText("There is currently no graph data to display.");
             lineChart.invalidate();
@@ -114,6 +114,7 @@ public class ChildSummaryActivity extends AppCompatActivity {
         lineChart.getXAxis().setDrawGridLines(false);
         lineChart.setDoubleTapToZoomEnabled(false);
         lineChart.getLegend().setEnabled(false);
+        lineChart.getDescription().setEnabled(false);
         lineChart.invalidate();
     }
 
