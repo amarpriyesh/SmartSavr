@@ -1,6 +1,7 @@
 package com.example.smartsavr;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -32,6 +34,8 @@ public class ParentChildDetailActivity extends AppCompatActivity implements Modi
     static CollectionReference collectionReference;
 
     private Child child;
+
+
 
     public static final long WEEK_IN_MILLIS = 604800000;
 
@@ -57,26 +61,10 @@ public class ParentChildDetailActivity extends AppCompatActivity implements Modi
         firebaseFirestore = FirebaseFirestore.getInstance();
         collectionReference = firebaseFirestore.collection("children");
         childDBReference = new DBReference(collectionReference,firebaseFirestore);
+        setListners();
 
-        giveAllowance();
 
-        ImageView logo = findViewById(R.id.logo);
-        logo.setImageResource(Utils.getImageResource(child.getProfilePicture()));
 
-        //Having an issue with string resources here
-        TextView choresCompletedTV = findViewById(R.id.chores_completed);
-        choresCompletedTV.setText("Chores Completed: "  + child.getChoresCompleted());
-
-        TextView currentBalanceTV = findViewById(R.id.current_balance);
-        currentBalanceTV.setText("Account Balance: " + Utils.centsToDollarString(child.getAccountBalanceCents()));
-
-        TextView allowanceTV = findViewById(R.id.allowance);
-        allowanceTV.setText("Allowance: " + Utils.centsToDollarString(child.getWeeklyAllowanceCents()) + " per week*");
-
-        TextView nameTV = findViewById(R.id.child_name);
-        nameTV.setText(child.getName());
-
-        setClickListeners(child);
     }
 
     private void giveAllowance() {
@@ -92,6 +80,7 @@ public class ParentChildDetailActivity extends AppCompatActivity implements Modi
             ZonedDateTime zonedDateTime = localDate.atZone(ZoneId.of("America/New_York"));
             child.setLastAllowanceTime(zonedDateTime.toInstant().toEpochMilli());
         }
+
         childDBReference.collectionReference.whereEqualTo("username", child.getUsername()).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 QuerySnapshot querySnapshot = task.getResult();
@@ -167,5 +156,66 @@ public class ParentChildDetailActivity extends AppCompatActivity implements Modi
         child.setAccountBalanceCents(balanceCents);
         TextView currentBalanceTV = findViewById(R.id.current_balance);
         currentBalanceTV.setText("Account Balance: " + Utils.centsToDollarString(child.getAccountBalanceCents()));
+    }
+
+    private void setListners() {
+        firebaseFirestore.collection("chores").whereEqualTo("childID",child.getId()).whereEqualTo("approved",true).addSnapshotListener(
+                (value, error) -> {
+                    if (error != null) {
+
+                        System.err.println("Listen failed: " + error);
+                        return;
+                    }
+                   int  earningCents = 0;
+                    for (DocumentSnapshot ds : value.getDocuments()) {
+                        //TODO handle exception
+                        Chore obj = ds.toObject(Chore.class);
+                        earningCents += obj.getRewardCents();
+
+                    }
+                    Log.d("EARNING CENTS",Integer.toString(earningCents));
+                    child.setAccountBalanceCents(child.getWeeklyAllowanceCents()+earningCents);
+
+                    setListner2();
+                }
+        );
+
+
+
+    }
+
+    private void setListner2(){
+        firebaseFirestore.collection("chores").whereEqualTo("childID",child.getId()).whereEqualTo("complete",true).whereEqualTo("approved",false).addSnapshotListener(
+                (value, error) -> {
+                    if (error != null) {
+
+                        System.err.println("Listen failed: " + error);
+                        return;
+                    }
+                  int   tasksCompleted = value.getDocuments().size();
+                    child.setChoresCompleted(tasksCompleted);
+                    giveAllowance();
+
+
+                    ImageView logo = findViewById(R.id.logo);
+                    logo.setImageResource(Utils.getImageResource(child.getProfilePicture()));
+
+                    //Having an issue with string resources here
+                    TextView choresCompletedTV = findViewById(R.id.chores_completed);
+                    choresCompletedTV.setText("Chores Completed: "  + child.getChoresCompleted());
+
+                    TextView currentBalanceTV = findViewById(R.id.current_balance);
+                    currentBalanceTV.setText("Account Balance: " + Utils.centsToDollarString(child.getAccountBalanceCents()));
+
+                    TextView allowanceTV = findViewById(R.id.allowance);
+                    allowanceTV.setText("Allowance: " + Utils.centsToDollarString(child.getWeeklyAllowanceCents()) + " per week*");
+
+                    TextView nameTV = findViewById(R.id.child_name);
+                    nameTV.setText(child.getName());
+
+                    setClickListeners(child);
+
+                }
+        );
     }
 }

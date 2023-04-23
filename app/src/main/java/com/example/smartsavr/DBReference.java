@@ -17,6 +17,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class DBReference {
 
@@ -165,7 +166,9 @@ public class DBReference {
 
             int sumMonthly = 0;
             int sumWeekly = 0;
-            int totalBalance = 0;
+          AtomicInteger totalBalance = new AtomicInteger();
+
+
 
             for (DocumentSnapshot ds : value.getDocuments()) {
                 //TODO handle exception
@@ -179,12 +182,18 @@ public class DBReference {
                     if (obj.isApproved() && obj.getApprovedTimestamp() > cal.calMillisMonth()) {
                         sumMonthly += obj.getRewardCents();
                     }
-                    if (obj.isApproved()) {
-                        totalBalance += obj.getRewardCents();
-                    }
+
                 }
             }
-            earningsBalanceConsumer.accept(totalBalance, sumWeekly, sumMonthly);
+
+
+
+
+
+
+            earningsBalanceConsumer.accept(totalBalance.get(),sumWeekly, sumMonthly);
+
+
 
         });
 
