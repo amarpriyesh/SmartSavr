@@ -22,7 +22,7 @@ public class ChildChartData {
     static final long DAY_INCREMENT = 1000 * 60 * 60 * 24;
     static final long CENTS = 100;
 
-    static final long startingAxisTimestamp = System.currentTimeMillis() - (30 * DAY_INCREMENT); // a month ago
+    static final long startingAxisTimestamp = System.currentTimeMillis() - (7 * DAY_INCREMENT); // a week ago
     private List<Chore> listApprovedChores = new ArrayList<>();
     private final List<String> xAxisBottomLabels = new ArrayList<>();
     private ArrayList<Entry> values = new ArrayList<>();
@@ -47,16 +47,19 @@ public class ChildChartData {
         chores = db.collection("chores");
 
         //TODO change query back to correct conditions
-        Query query = chores.whereEqualTo("childID",childId).whereEqualTo("complete",true).orderBy("completedTimestamp", Query.Direction.ASCENDING);
+        Query query = chores.whereEqualTo("childID",childId).whereEqualTo("complete",true).whereEqualTo("approved", true).orderBy("completedTimestamp", Query.Direction.ASCENDING);
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 QuerySnapshot snapshot = task.getResult();
                 for (QueryDocumentSnapshot document : snapshot) {
                     Chore chore = document.toObject(Chore.class);
                     listApprovedChores.add(chore);
+                }
                     calculateDailyEarnings();
                     populateXAxisLabels();
-                }
+                    Log.e(TAG, "Approved chores list: " + listApprovedChores.toString());
+                    Log.e(TAG, "Earnings list: " + values.toString());
+                    Log.e(TAG, "xAxis Labels: " + xAxisBottomLabels);
                 dbCallback.onCallback(listApprovedChores);
             } else {
                 listApprovedChores = null;

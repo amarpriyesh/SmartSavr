@@ -162,9 +162,7 @@ public class ParentSummaryActivity extends AppCompatActivity {
                 pieChart.setData(data);
                 pieChart.animateY(1400, Easing.EaseInOutQuad);
                 Legend l = pieChart.getLegend();
-                l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-                l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-                l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+                l.setEnabled(false);
                 pieChart.invalidate();
             }
 
