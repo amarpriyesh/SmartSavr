@@ -7,52 +7,21 @@
     android:padding="10dp"
     tools:context=".ParentSummaryActivity">
 
-    <Switch
-        android:id="@+id/switch4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Child4"
-        android:visibility="gone"
-        android:checked="true"
-        app:layout_constraintEnd_toEndOf="@+id/switch3"
-        app:layout_constraintTop_toBottomOf="@+id/switch3" />
-
-    <Switch
-        android:id="@+id/switch3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Child3"
-        android:visibility="gone"
-        android:checked="true"
-        app:layout_constraintEnd_toEndOf="@+id/switch2"
-        app:layout_constraintTop_toBottomOf="@+id/switch2" />
-
-    <Switch
-        android:id="@+id/switch2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Child2"
-        android:visibility="gone"
-        android:checked="true"
-        app:layout_constraintEnd_toEndOf="@+id/switch1"
-        app:layout_constraintTop_toBottomOf="@+id/switch1" />
-
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/lineChartParent"
+    <com.github.mikephil.charting.charts.CombinedChart
+        android:id="@+id/lineBarChartParent"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="350dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Child1"
-        android:visibility="gone"
-        android:checked="true"
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/pieChartParent"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lineChartParent" />
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

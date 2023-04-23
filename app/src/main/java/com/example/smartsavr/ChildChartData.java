@@ -24,7 +24,7 @@ public class ChildChartData {
 
     static final long startingAxisTimestamp = System.currentTimeMillis() - (30 * DAY_INCREMENT); // a month ago
     private List<Chore> listApprovedChores = new ArrayList<>();
-    private List<String> xAxisBottomLabels = new ArrayList<>();
+    private final List<String> xAxisBottomLabels = new ArrayList<>();
     static ArrayList<Entry> values = new ArrayList<>();
     private float xValue = 0;
     FirebaseFirestore db;
