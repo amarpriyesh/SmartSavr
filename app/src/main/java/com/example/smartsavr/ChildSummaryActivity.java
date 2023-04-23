@@ -1,16 +1,14 @@
 package com.example.smartsavr;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -18,6 +16,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -27,7 +26,6 @@ public class ChildSummaryActivity extends AppCompatActivity {
     static List<Chore> listApprovedChores = new ArrayList<>();
     static List<String> xAxisBottomLabels = new ArrayList<>();
     ArrayList<Entry> values = new ArrayList<>();
-    static String childId;
     TextView weekly_earnings;
     TextView monthly_earnings;
     ChildChartData child;
@@ -38,25 +36,23 @@ public class ChildSummaryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_child_summary);
 
         Intent intent = getIntent();
-        Child childUser = (Child) intent.getSerializableExtra(Utils.CHILD);
+        String childId = intent.getStringExtra(Utils.CHILD_ID);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle(childUser.getName() + "'s Earning Summary");
+            actionBar.setTitle(childId + "'s Earning Summary");
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        child = new ChildChartData(childUser.getId());
+        child = new ChildChartData(childId);
         child.setChoresList(chores -> {
             listApprovedChores = child.getListApprovedChores();
-            child.calculateDailyEarnings();
             values = child.getValues();
             xAxisBottomLabels = child.getXAxisLabels();
             populateGraph();
 
             //Set earning stats
             weekly_earnings = findViewById(R.id.weekly_amt);
-            //TODO: fix string literal
             weekly_earnings.setText(String.format("%s%s", getString(R.string.weekly_earning), calculateWeeklyEarnings()));
             monthly_earnings = findViewById(R.id.monthly_amt);
             monthly_earnings.setText(String.format("%s%s", getString(R.string.monthly_earning), calculateMonthlyEarnings()));
@@ -65,6 +61,13 @@ public class ChildSummaryActivity extends AppCompatActivity {
 
     public void populateGraph() {
         LineChart lineChart = findViewById(R.id.barChart);
+
+        if (values.size() == 0) {
+            lineChart.setData(null);
+            lineChart.setNoDataText("There is currently no graph data to display.");
+            lineChart.invalidate();
+            return;
+        }
 
         //configure graph settings
         XAxis XAxisBottom = lineChart.getXAxis();

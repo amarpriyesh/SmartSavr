@@ -80,7 +80,9 @@ public class ParentHomeActivity extends AppCompatActivity {
 
         final Button allowanceSummaryButton = findViewById(R.id.allowance_summary);
         allowanceSummaryButton.setOnClickListener(v -> {
-            //TODO: link to Lily's allowance summary page
+            Intent intent = new Intent(this, ParentSummaryActivity.class);
+            intent.putExtra(Utils.PARENT_ID, parentID);
+            startActivity(intent);
         });
 
         Log.d(TAG, String.format("Adding Firebase snapshot listener to collection `children` where parent ID is equal to %s", parentID));
@@ -157,7 +159,7 @@ public class ParentHomeActivity extends AppCompatActivity {
                 fcmService = new MyFirebaseMessagingService();
                 fcmService.checkNotificationPermissions(this);
                 for (Child child : childList) {
-                    createNotificationChannel(String.format("%s%s", parentID.charAt(0), child.getId()));
+                    createNotificationChannel(String.format("%s%s", Objects.requireNonNull(parentID).charAt(0), child.getId()));
                     fcmService.checkToSendCompletedChoreNotification(parentID, child);
                 }
             }
