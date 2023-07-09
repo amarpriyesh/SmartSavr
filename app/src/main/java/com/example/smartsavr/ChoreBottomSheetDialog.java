@@ -1,6 +1,7 @@
 package com.example.smartsavr;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,9 +21,10 @@ import com.example.smartsavr.databinding.FragmentChoreBottomSheetBinding;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements DatePickerDialog.OnDateSetListener {
+public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     // todo: perform input validation (date must be in the future, chore name must be non-empty, reward must be a valid dollar amount (2 decimal places) with a max of like $1000 or something
 
     public static final String TAG = "ChoreBottomSheetDialog";
@@ -32,6 +35,9 @@ public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements
     private int year;
     private int month;
     private int dayOfMonth;
+
+    private int hour;
+    private int minute;
     private String childId;
 
     private Chore chore;
@@ -64,14 +70,22 @@ public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements
         }
 
         Calendar calendar = Calendar.getInstance();
+        long timeMilli2 = calendar.getTimeInMillis();
+
 
         this.year = calendar.get(Calendar.YEAR);
         this.month = calendar.get(Calendar.MONTH);
         this.dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        this.hour = 23;
+        this.minute = 59;
+        calendar.set(year,month,dayOfMonth,hour,minute);
 
         // TODO: do either add chore or edit chore depending on the screen
         binding.choreTitleTextView.setText(R.string.add_chore_title);
         binding.pickDateButton.setText(getDateString(calendar));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        String strDate = dateFormat.format(calendar.getTime());
+        binding.pickTimeButton.setText(strDate);
 
         setClickListeners();
 
@@ -85,10 +99,10 @@ public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        calendar.set(Calendar.HOUR_OF_DAY, 23);
-        calendar.set(Calendar.MINUTE, 59);
-        calendar.set(Calendar.SECOND, 59);
-        calendar.set(Calendar.MILLISECOND, 999);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         return calendar;
 
     }
@@ -161,6 +175,11 @@ public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements
                     this, year, month, dayOfMonth);
             datePickerDialog.show();
         });
+
+        binding.pickTimeButton.setOnClickListener(view -> {
+            TimePickerDialog timePickerDialog = new TimePickerDialog(requireActivity(),this,hour,minute,true);
+            timePickerDialog.show();
+        });
     }
 
     @Override
@@ -177,7 +196,31 @@ public class ChoreBottomSheetDialog extends BottomSheetDialogFragment implements
         binding.pickDateButton.setText(getDateString(calendar));
     }
 
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, this.year);
+        calendar.set(Calendar.MONTH, this.month);
+        calendar.set(Calendar.DAY_OF_MONTH,  this.dayOfMonth);
+        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        calendar.set(Calendar.MINUTE, minute);
+
+        this.hour = hourOfDay;
+        this.minute = minute;
+
+        binding.pickTimeButton.setText(getTImeString(calendar));
+
+    }
+
+
+
     private static CharSequence getDateString(Calendar calendar) {
         return DateFormat.format("MM/dd/yyyy", calendar.getTime());
     }
+
+    private static CharSequence getTImeString(Calendar calendar) {
+        return DateFormat.format("HH:mm", calendar.getTime());
+    }
+
+
 }
