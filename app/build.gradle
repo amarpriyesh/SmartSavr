@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.smartsavr'
+    namespace 'com.northeasternproject.smartsavr'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.smartsavr"
+        applicationId "com.northeasternproject.smartsavr"
         minSdk 26
         targetSdk 33
         versionCode 1

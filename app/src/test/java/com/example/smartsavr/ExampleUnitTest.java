@@ -1,4 +1,4 @@
-package com.example.smartsavr;
+package com.northeasternproject.smartsavr;
 
 import org.junit.Test;
 

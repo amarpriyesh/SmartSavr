@@ -12,35 +12,35 @@
         android:theme="@style/Theme.Smartsavr"
         tools:targetApi="31">
         <activity
-            android:name=".ChildHomeChoresUpcomingActivity"
+            android:name="com.northeasternproject.smartsavr.ChildHomeChoresUpcomingActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ChildHomeChoresCompletedActivity"
+            android:name="com.northeasternproject.smartsavr.ChildHomeChoresCompletedActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ChildLoginActivity"
-            android:exported="false"
-            android:launchMode="singleTask"
-            android:parentActivityName=".WelcomeActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ParentChildDetailActivity"
+            android:name="com.northeasternproject.smartsavr.ChildLoginActivity"
             android:exported="false"
             android:launchMode="singleTask"
+            android:parentActivityName="com.northeasternproject.smartsavr.WelcomeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ParentHomeActivity"
+            android:name="com.northeasternproject.smartsavr.ParentChildDetailActivity"
             android:exported="false"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ChildHomeActivity"
+            android:name="com.northeasternproject.smartsavr.ParentHomeActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.northeasternproject.smartsavr.ChildHomeActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".WelcomeActivity"
+            android:name="com.northeasternproject.smartsavr.WelcomeActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -50,36 +50,36 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ParentChildChoresActivity"
+            android:name="com.northeasternproject.smartsavr.ParentChildChoresActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ChildSummaryActivity"
+            android:name="com.northeasternproject.smartsavr.ChildSummaryActivity"
             android:configChanges="keyboardHidden|screenSize"
             android:exported="true" />
         <activity
-            android:name=".ParentSummaryActivity"
+            android:name="com.northeasternproject.smartsavr.ParentSummaryActivity"
             android:exported="true" />
         <activity
-            android:name=".ParentLoginActivity"
+            android:name="com.northeasternproject.smartsavr.ParentLoginActivity"
             android:exported="false"
             android:launchMode="singleTask"
-            android:parentActivityName=".WelcomeActivity"
+            android:parentActivityName="com.northeasternproject.smartsavr.WelcomeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SignUpActivity"
+            android:name="com.northeasternproject.smartsavr.SignUpActivity"
             android:exported="false"
-            android:parentActivityName=".ParentLoginActivity"
+            android:parentActivityName="com.northeasternproject.smartsavr.ParentLoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".SettingsActivity"
+            android:name="com.northeasternproject.smartsavr.SettingsActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".AddChildActivity"
+            android:name="com.northeasternproject.smartsavr.AddChildActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-        <service android:name=".MyFirebaseMessagingService"
+        <service android:name="com.northeasternproject.smartsavr.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
